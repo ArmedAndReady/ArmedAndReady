@@ -3,7 +3,9 @@
 
 #include <iostream>
 //#include <GL/glx.h>
+extern "C" {
 #include "fonts.h"
+}
 
 using namespace std;
 
@@ -13,7 +15,8 @@ void show_menu()
 	r.bot = 400;
 	r.left = 400;
 	r.center = 0;
-	ggprint8b(&r, 16, 0x00ff0000, "Start Menu");	
+	ggprint8b(&r, 16, 0x00ff0000, "Start Menu-Prototype");	
+	ggprint8b(&r, 16, 0x00ff0000, "Press S to start");	
 }
 
 void show_help()
@@ -22,5 +25,7 @@ void show_help()
 	r.bot = 400;
 	r.left = 400;
 	r.center = 0;
-	ggprint8b(&r, 16, 0x00ff0000, "Help Screen");	
+	ggprint8b(&r, 16, 0x00ff0000, "Help Screen-Prototype");
+	//longer than 80 characters needs fixing	
+	ggprint8b(&r, 16, 0x00ff0000, "Press H to toggle");	
 }
