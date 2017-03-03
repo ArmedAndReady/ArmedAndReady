@@ -40,6 +40,7 @@
 using namespace std;
 
 extern void print_esteban();
+extern void render_floor();
 extern void print_Ana();
 extern void print_Mark();
 extern void print_Adam();
@@ -789,6 +790,8 @@ void render(Game *g)
 		glVertex2f(b->pos[0]+1.0f, b->pos[1]+1.0f);
 		glEnd();
 	}
+	//Draw the floor EL
+	render_floor();
 }
 
 
