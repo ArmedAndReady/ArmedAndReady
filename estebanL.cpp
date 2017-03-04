@@ -52,18 +52,25 @@ void render_floor()
 		}
 		floor_set = 1;
 	}
-#endif //RTH
-/*	string filename = "level1.txt";
+#endif //RT
+	string filename = "level1.txt";
 	ifstream ifs;
+	int number;
 	char c;
 	int i = 0;
 	ifs.open(filename.c_str());
-	while (!ifs.eof()) {
-		ifs.get(c);
-		arr[i] >> c;
+	//while (!ifs.eof()) {
+	while (ifs >> number && !ifs.eof()) {
+	//for (int i = 0; i < 25; i++) {
+		//ifs.get(c);
+		//arr[i] << c;
+		//c >> arr[i];
+		arr[i] = number; 
 		i++;	
 	}
-	ifs.close();*/
+	ifs.close();
+	//for (int i = 0; i < 25; i++)
+		//cout << "INDEX " << i << " = " << arr[i] << endl;
 
 	//read_by_char(filename);
 
@@ -77,9 +84,9 @@ void render_floor()
 		else 
 			glColor3ub(0,255,0);
 		int j = 0;
-		#ifdef RTH
+		//#ifdef RTH
 		for (j = 0 ; j < arr[i]; j++) {
-			#endif //RTH
+			//#endif //RTH
 			glPushMatrix();
 			glBegin(GL_QUADS);
 			glVertex2i(w*i,h*j);
@@ -88,9 +95,9 @@ void render_floor()
 			glVertex2i(w*i+50,h*j);
 			glEnd();
 			glPopMatrix();
-			#ifdef RTH
+			//#ifdef RTH
 		}
-		#endif //RTH
+		//#endif //RTH
 	}
 }
 
