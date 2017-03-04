@@ -7,11 +7,14 @@
 #include <GL/glx.h>
 #include <cstdlib> /*srand, rand*/
 #include <ctime>
+#include <fstream>
 
 extern int xres;
 extern int yres;
 
 int floor_set = 0;
+
+//void read_by_char(string);
 
 using namespace std;
 
@@ -39,29 +42,45 @@ void render_floor()
 	//idea: use sea stories like moby dick and 10,000 leagues under the sea
 	//to create world blocks after doing a frequency analysis
 	//this if statement causes game to freeze somehow
-//#define RTH //Random Tile Height
+	//#define RTH //Random Tile Height
 #ifdef RTH
+	//trying to fill in array once
+	//this destroys the program, must learn to use a text file
 	if (!floor_set) {
 		for (int i = 0; i < num_blocks_wide ; i++) {
-			arr[i] = rand() % max_block_height +1; 
+			arr[i] = rand() % max_block_height + 1; 
 		}
 		floor_set = 1;
 	}
 #endif //RTH
+/*	string filename = "level1.txt";
+	ifstream ifs;
+	char c;
+	int i = 0;
+	ifs.open(filename.c_str());
+	while (!ifs.eof()) {
+		ifs.get(c);
+		arr[i] >> c;
+		i++;	
+	}
+	ifs.close();*/
+
+	//read_by_char(filename);
 
 	for (int i = 0; i < num_blocks_wide; i++) {
-		glPushMatrix();
+		//glPushMatrix();
 		//coordinate with Mark to see how he wants to put image
 		//tiles in the world
 		//also coordinate with Adam to work out collision detection
-		if (i%2 == 0)
+		if (i%2 == 0) 
 			glColor3ub(255,0,0);
 		else 
 			glColor3ub(0,255,0);
 		int j = 0;
-#ifdef RTH
-		for(j = 0 ; j < arr[i]; j++){
-#endif //RTH
+		#ifdef RTH
+		for (j = 0 ; j < arr[i]; j++) {
+			#endif //RTH
+			glPushMatrix();
 			glBegin(GL_QUADS);
 			glVertex2i(w*i,h*j);
 			glVertex2i(w*i,h*j+50);
@@ -69,9 +88,10 @@ void render_floor()
 			glVertex2i(w*i+50,h*j);
 			glEnd();
 			glPopMatrix();
-#ifdef RTH
+			#ifdef RTH
 		}
-#endif //RTH
+		#endif //RTH
 	}
-
 }
+
+//void read_by_char(string filename)
