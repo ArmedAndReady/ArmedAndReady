@@ -33,9 +33,9 @@ void render_floor()
 	w=50;
 	h=50;
 	int num_blocks_wide = xres/50;
-	int num_blocks_high = yres/50;
+	//int num_blocks_high = yres/50;
 	//max_block_height may be too high depending on physics of octopus
-	int max_block_height = num_blocks_high/3;
+	//int max_block_height = num_blocks_high/3;
 
 	int arr[num_blocks_wide];
 
@@ -56,7 +56,7 @@ void render_floor()
 	string filename = "level1.txt";
 	ifstream ifs;
 	int number;
-	char c;
+	//char c;
 	int i = 0;
 	ifs.open(filename.c_str());
 	//while (!ifs.eof()) {

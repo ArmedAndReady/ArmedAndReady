@@ -182,6 +182,14 @@ struct Game {
 	}
 };
 
+//EL trying to test how image files will work with world obstacle creation
+//bringing elements from rainforest to study this portion
+//#define IMAGE
+#ifdef IMAGE
+Ppmimage *floorImage=NULL;
+GLuint floorTexture;
+#endif //IMAGE 
+ 
 int keys[65536];
 
 //function prototypes
@@ -390,6 +398,14 @@ void init_opengl(void)
 	//Do this to allow fonts
 	glEnable(GL_TEXTURE_2D);
 	initialize_fonts();
+	#ifdef IMAGE
+	//ppm6SaveImage("Bricks_1.png", "Bricks_1.ppm");
+	//need to figure out how these work
+	ppm6SaveImage("Bricks_1.ppm", "Bricks_1.png");
+	floorImage = ppm6GetImage("Bricks_1.ppm");
+	//floorImage = ppm6GetImage("Bricks_1.png");
+	glGenTextures(1, &floorTexture);
+	#endif //IMAGE
 }
 
 void check_resize(XEvent *e)
