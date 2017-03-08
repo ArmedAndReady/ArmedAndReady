@@ -184,7 +184,7 @@ struct Game {
 
 //EL trying to test how image files will work with world obstacle creation
 //bringing elements from rainforest to study this portion
-//#define IMAGE
+#define IMAGE
 #ifdef IMAGE
 Ppmimage *floorImage=NULL;
 GLuint floorTexture;
@@ -401,10 +401,15 @@ void init_opengl(void)
 	#ifdef IMAGE
 	//ppm6SaveImage("Bricks_1.png", "Bricks_1.ppm");
 	//need to figure out how these work
-	ppm6SaveImage("Bricks_1.ppm", "Bricks_1.png");
+	//ppm6SaveImage("Bricks_1.ppm", "Bricks_1.png");
 	floorImage = ppm6GetImage("Bricks_1.ppm");
 	//floorImage = ppm6GetImage("Bricks_1.png");
 	glGenTextures(1, &floorTexture);
+
+	glBindTexture(GL_TEXTURE_2D, floorTexture);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, 3, floorImage->width, floorImage->height, 0, GL_RGB, GL_UNSIGNED_BYTE, floorImage->data);
 	#endif //IMAGE
 }
 
@@ -421,7 +426,8 @@ void check_resize(XEvent *e)
 	}
 }
 
-void init(Game *g) {
+void init(Game *g)
+{
 	//build 10 asteroids...
 	for (int j=0; j<10; j++) {
 		Asteroid *a = new Asteroid;

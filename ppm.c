@@ -335,8 +335,9 @@ void ppm3Setpixel(Ppmimage *image, int x, int y, int channel, unsigned char val)
 //
 //
 //
-
-Ppmimage *ppm6GetImage(char *filename)
+//EL warning and error correction change char to const char
+//Ppmimage *ppm6GetImage(char *filename)
+Ppmimage *ppm6GetImage(const char *filename)
 {
 	int i, j, width, height, size, maxval, ntries;
 	char ts[4096];
@@ -444,7 +445,9 @@ Ppmimage *ppm6CreateImage(int width, int height)
 	return image;
 }  
 
-void ppm6SaveImage(Ppmimage *image, char *filename)
+//EL changed from char to const char
+//void ppm6SaveImage(Ppmimage *image, char *filename)
+void ppm6SaveImage(Ppmimage *image, const char *filename)
 {
 	int i,j;
 	//int size = image->width * image->height * 3;

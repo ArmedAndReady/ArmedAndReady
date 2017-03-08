@@ -8,9 +8,12 @@
 #include <cstdlib> /*srand, rand*/
 #include <ctime>
 #include <fstream>
+#include "ppm.h"
 
 extern int xres;
 extern int yres;
+extern Ppmimage *floorImage;
+extern GLuint floorTexture; 
 
 int floor_set = 0;
 
@@ -79,20 +82,21 @@ void render_floor()
 		//coordinate with Mark to see how he wants to put image
 		//tiles in the world
 		//also coordinate with Adam to work out collision detection
-		if (i%2 == 0) 
+		/*if (i%2 == 0) 
 			glColor3ub(255,0,0);
 		else 
-			glColor3ub(0,255,0);
+			glColor3ub(0,255,0);*/
+		glBindTexture(GL_TEXTURE_2D, floorTexture);
 		int j = 0;
 		//#ifdef RTH
 		for (j = 0 ; j < arr[i]; j++) {
 			//#endif //RTH
 			glPushMatrix();
 			glBegin(GL_QUADS);
-			glVertex2i(w*i,h*j);
-			glVertex2i(w*i,h*j+50);
-			glVertex2i(w*i+50,h*j+50);
-			glVertex2i(w*i+50,h*j);
+			glTexCoord2f(0.0, 1.0); glVertex2i(w*i,h*j);
+			glTexCoord2f(0.0, 0.0); glVertex2i(w*i,h*j+50);
+			glTexCoord2f(1.0, 0.0); glVertex2i(w*i+50,h*j+50);
+			glTexCoord2f(1.0, 1.0); glVertex2i(w*i+50,h*j);
 			glEnd();
 			glPopMatrix();
 			//#ifdef RTH
