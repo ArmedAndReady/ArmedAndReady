@@ -5,7 +5,9 @@
 #include <iostream>
 #include <cstring>
 #include <stdlib.h>
-
+extern"C"{
+#include "fonts.h"
+}
 using namespace std;
 void print_Ana()
 {
@@ -14,31 +16,15 @@ void print_Ana()
 
 }
 
-/*void checkKeys(XEvent *e)
+void ana_show_help()
 {
-    //keyboard input 
-    static int shift = 0;
-    int key=XLookupKeyssym(&e->xkey,0);
-    if (e->type == KeyRealease){
-	if (key == XK_Shift_L || key == XK_shift_R)
-	    shift =0;
-	return 0;
-    }
-    if (e->type == KeyPress){
-	if (key ==XK_Shift_l || key == XK_Shift_R){
-	    shift=1;
-	    return ;
-	}
-    }else{
-	return;
-    }
-    switch(key){
-	case XK_`:
-	    state_help ^=1;
-	    break;
-    }
-}
-void render(void)
-{
+    Rect r;
+    r.bot = 400;
+    r.left = 400;
+    r.center = 0;
+    ggprint8b(&r,16,0x00ff0000, "Help Screen- Prototype");
+    //
+    ggprint8b(&r, 16,0x00ff000,"Press Hto toggle");
 
-*/
+}
+

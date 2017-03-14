@@ -51,7 +51,7 @@ using namespace std;
 extern void print_esteban();
 extern void render_floor();
 extern void print_Ana();
-extern void show_help();
+extern void ana_show_help();
 extern void print_Mark();
 extern void print_Adam();
 extern void print_Analy();
@@ -833,7 +833,7 @@ void render(Game *g)
 		Analy_show_menu();
 	//AB
 	if (state_help)
-		show_help();
+		ana_show_help();
 
 	if (!state_menu && !state_help) {
 		//Draw the ship
