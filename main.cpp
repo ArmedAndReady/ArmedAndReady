@@ -55,7 +55,7 @@ extern void show_help();
 extern void print_Mark();
 extern void print_Adam();
 extern void print_Analy();
-extern void show_menu();
+extern void Analy_show_menu();
 extern "C" {
 #include "fonts.h"
 }
@@ -830,7 +830,7 @@ void render(Game *g)
 	//-------------------------------------------------------------------------
 	//AV
 	if (state_menu)
-		show_menu();
+		Analy_show_menu();
 	//AB
 	if (state_help)
 		show_help();
