@@ -53,9 +53,12 @@ extern void render_floor();
 extern void print_Ana();
 extern void ana_show_help();
 extern void print_Mark();
+extern void initCharMark();
 extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu();
+
+
 extern "C" {
 #include "fonts.h"
 }
@@ -886,21 +889,32 @@ void render(Game *g)
 	glTranslatef(g->ship.pos[0], g->ship.pos[1], g->ship.pos[2]);
 	//float angle = atan2(ship.dir[1], ship.dir[0]);
 	glRotatef(g->ship.angle, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_TRIANGLES);
+//	glBegin(GL_TRIANGLES);
+	glBegin(GL_QUADS);	
 	//glVertex2f(-10.0f, -10.0f);
 	//glVertex2f(  0.0f, 20.0f);
 	//glVertex2f( 10.0f, -10.0f);
-	glVertex2f(-12.0f, -10.0f);
+	
+	/*glVertex2f(-12.0f, -10.0f);
 	glVertex2f(  0.0f,  20.0f);
 	glVertex2f(  0.0f,  -6.0f);
 	glVertex2f(  0.0f,  -6.0f);
-	glVertex2f(  0.0f,  20.0f);
-	glVertex2f( 12.0f, -10.0f);
+	glVertex2f(  0.0f, -20.0f);
+	glVertex2f( 12.0f, -10.0f);*/
+
+	glVertex2f(-64.0f, -64.0f);
+	glVertex2f(-64.0f,   0.0f);
+	glVertex2f(  0.0f,   0.0f);
+	glVertex2f(  0.0f, -64.0f);
+	void initCharMark();
+
 	glEnd();
-	glColor3f(1.0f, 0.0f, 0.0f);
+	glColor3f(1.0f, 0.0f, 0.0f);	
 	glBegin(GL_POINTS);
 	glVertex2f(0.0f, 0.0f);
 	glEnd();
+
+
 	glPopMatrix();
 	if (keys[XK_Up]) {
 	    int i;
