@@ -795,6 +795,7 @@ void physics(Game *g)
 #ifdef EL_PHYSICS
 	/*g->ship.pos[0] += g->ship.vel[0];
 	  g->ship.pos[1] += g->ship.vel[1];*/
+	g->ship.angle = 0.0f;
 	g->ship.pos[0] -= 4.0f;
 #endif //EL_PHYSICS
     }
@@ -805,6 +806,7 @@ void physics(Game *g)
 	    g->ship.angle += 360.0f;
 #endif //ORIG_PHYSICS
 #ifdef EL_PHYSICS
+	g->ship.angle = 0.0f;
 	g->ship.pos[0] += 4.0f;
 #endif //EL_PHYSICS
     }
