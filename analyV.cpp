@@ -30,8 +30,9 @@ typedef Flt Matrix [4][4];
 
 #define rnd() (((double)rand())/(double)RAND_MAX)
 #define random(b) (rand()%b)
+const float gravity = -0.2f;
 #define PI 3.141592653589793
-
+const double physicsRate = 1.0 / 60.0;
 
 struct Bubbles {
     Vec pos;
@@ -50,6 +51,15 @@ struct Bubbles {
     }
 };
 
+struct Bgame{
+    int nbubbles;
+    Bubbles *ahead;
+    Bgame () {
+	ahead = NULL;
+    }
+};
+void init(Bgame *g);
+
 void print_Analy() 
 {
     string analy= "analy";
@@ -58,7 +68,7 @@ void print_Analy()
 void Analy_show_menu()
 {
     Rect r;
-    /*
+    
     //this will be the background (vertix have to be in order
     //(0,0), (0,y), (x,y), (x,0)
     glColor3ub(0, 204, 204);
@@ -70,7 +80,7 @@ void Analy_show_menu()
     glVertex2i(xres, 0);
     glEnd();
     glPopMatrix();
-    */
+    
 
     //glColor3ub(0, 204, 204);
     glBindTexture(GL_TEXTURE_2D, name_texture);
@@ -83,7 +93,6 @@ void Analy_show_menu()
     glEnd();
     glPopMatrix();
 
-
     r.bot = 400;
     r.left = 400;
     r.center = 0;
@@ -95,19 +104,24 @@ void Analy_show_menu()
     ggprint8b(&r, 16, 0x00ff0000, "Press S to start");
 
 
-
-    for (int i=0; i<15; i++) {
+  
 	Bubbles *b = new Bubbles;
+//	b->nverts=100;
+    for (int i=0; i<15; i++) {
+//	Bubbles *b =new Bubbles;
 	b->nverts=8;
-	b->radius = rnd()*80.0f + 40.0f;
-	Flt r2 = b->radius / 2.0f;
+	//b->radius = 8.0f + 4.0f;
+//	b->nverts=100;
+	b->radius = 100;
+//	Flt r2 = b->radius / 2.0f;
 	Flt angle = 0.0f;    
 	Flt inc = (PI * 2.0f) / (Flt)b->nverts;
 	for (int j=0; j<b->nverts; j++) {
-	    b->vert[j][0] = sin(angle) * (r2 + rnd() * b->radius);
-	    b->vert[j][1] = cos(angle) * (r2 + rnd() * b->radius);
+	    b->vert[j][0] = cos(angle) * ( b->radius);
+	    b->vert[j][1] = sin(angle) * ( b->radius);
 	    angle += inc;
 	}
+
 	b->pos[0] = (Flt)(rand() % xres);
 	b->pos[1] = (Flt)(rand() % yres);
 	b->pos[2] = 0.0f;
@@ -116,13 +130,13 @@ void Analy_show_menu()
 	b->color[0] = 0.8f;
 	b->color[1] = 0.8f;
 	b->color[2] = 0.7f;
-	b->vel[0] = (Flt)(rnd() * 2.0f-1.0f);
-	b->vel[1] = (Flt)(rnd() * 2.0f-1.0f);
+	b->vel[0] = rnd() * 0.5 - 0.25; 
+	b->vel[1] = rnd() * 0.5 - 0.25;
 	std::cout << "bubbles" << std::endl;
-    }
-
-
-    Bubbles *b = g->ahead;
+}
+   
+   // Bubbles *b = g->ahead;
+    //b=g->ahead;
     while(b) {
 	glColor3fv(b->color); 
 	glPushMatrix();
@@ -141,6 +155,7 @@ void Analy_show_menu()
 	glEnd();
 	b=b->next;
 
+
+    
     }
 }
-
