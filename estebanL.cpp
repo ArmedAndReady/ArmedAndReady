@@ -14,7 +14,10 @@ extern int xres;
 extern int yres;
 extern Ppmimage *floorImage;
 extern GLuint floorTexture; 
-
+//extern const float octogravity;
+extern struct Ship ship;
+extern struct Game game;
+const float octogravity = -0.0006f;
 int floor_set = 0;
 
 //void read_by_char(string);
@@ -103,6 +106,11 @@ void render_floor()
 		}
 		//#endif //RTH
 	}
+}
+
+//float el_gravity(Game *g){
+float el_gravity(){
+	return octogravity;
 }
 
 //void read_by_char(string filename)

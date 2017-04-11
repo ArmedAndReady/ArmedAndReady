@@ -50,6 +50,7 @@ using namespace std;
 
 extern void print_esteban();
 extern void render_floor();
+//extern void el_gravity(XEvent *, Game *);
 extern void print_Ana();
 extern void ana_show_help();
 extern void print_Mark();
@@ -84,6 +85,12 @@ const float gravity = -0.2f;
 #define PI 3.141592653589793
 #define ALPHA 1
 
+#define COLLISION
+#ifdef COLLISION
+//EL
+//const float octogravity = -0.0005f;
+
+#endif //COLLISION
 //AV
 int state_menu = 1; 
 //AB
@@ -183,7 +190,7 @@ struct Game {
 	nasteroids = 0;
 	nbullets = 0;
     }
-};
+}game;
 
 //EL trying to test how image files will work with world obstacle creation
 //bringing elements from rainforest to study this portion
@@ -224,6 +231,9 @@ void cleanupSound(Game *g);
 void playSound(ALuint source);
 int sound = 0;
 #endif //SOUND
+//extern void el_gravity(XEvent *e, Game *g);
+//extern float el_gravity(Game *g);
+extern float el_gravity();
 
 
 int main(void)
@@ -240,7 +250,8 @@ int main(void)
     //#ifdef SOUND
     //	initSound();
     //#endif //SOUND
-    Game game;
+    //EL made Game game global to be able to access from files
+    //Game game;
     init(&game);
     srand(time(NULL));
     clock_gettime(CLOCK_REALTIME, &timePause);
@@ -509,6 +520,11 @@ void check_mouse(XEvent *e, Game *g)
     static int savey = 0;
     //
     if (e->type == ButtonRelease) {
+	#ifdef COLLISION
+	//el_gravity(&e, &g);
+	el_gravity();
+	//g->ship.pos[1] += octogravity;
+	#endif //COLLISION
 	return;
     }
     if (e->type == ButtonPress) {
@@ -649,6 +665,10 @@ void physics(Game *g)
     //Update ship position
     g->ship.pos[0] += g->ship.vel[0];
     g->ship.pos[1] += g->ship.vel[1];
+    #ifdef COLLISION
+    g->ship.vel[1] += el_gravity();
+    
+    #endif //COLLISION
     //Check for collision with window edges
     if (g->ship.pos[0] < 0.0f) {
 	g->ship.pos[0] += (float)xres;
