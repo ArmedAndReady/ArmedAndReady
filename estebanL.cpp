@@ -113,4 +113,11 @@ float el_gravity(){
 	return octogravity;
 }
 
+void el_gravity_f(Game *g){
+	if (g){};
+	cout<<"DEBUG: nasteroids = "<< g->nasteroids << endl;
+	//g->ship.vel[1] += octogravity;
+	//g->ship.vel[1] += octogravity;
+}
+
 //void read_by_char(string filename)
