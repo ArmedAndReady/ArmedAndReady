@@ -9,14 +9,18 @@
 #include <ctime>
 #include <fstream>
 #include "ppm.h"
+#include "global.h"
+
 
 extern int xres;
 extern int yres;
 extern Ppmimage *floorImage;
 extern GLuint floorTexture; 
 //extern const float octogravity;
-extern struct Ship ship;
-extern struct Game game;
+//extern struct game->ship.vec;
+//extern struct Game game;
+//extern Game game;
+//extern int game->nasteroids;
 const float octogravity = -0.0006f;
 int floor_set = 0;
 
@@ -115,7 +119,7 @@ float el_gravity(){
 
 void el_gravity_f(Game *g){
 	if (g){};
-	cout<<"DEBUG: nasteroids = "<< g->nasteroids << endl;
+	//cout<<"DEBUG: nasteroids = "<< g->nasteroids << endl;
 	//g->ship.vel[1] += octogravity;
 	//g->ship.vel[1] += octogravity;
 }

@@ -39,6 +39,7 @@
 #include <GL/glx.h>
 #include "ppm.h"
 #include "log.h"
+#include "global.h"
 
 #define SOUND //EL trying to incorporate openAL sound
 #ifdef SOUND
