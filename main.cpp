@@ -66,6 +66,7 @@ extern "C" {
 }
 
 //defined types
+#ifndef GLOBAL_H
 typedef float Flt;
 typedef float Vec[3];
 typedef Flt	Matrix[4][4];
@@ -85,6 +86,7 @@ const float timeslice = 1.0f;
 const float gravity = -0.2f;
 #define PI 3.141592653589793
 #define ALPHA 1
+#endif //GLOBAL_H
 
 #define COLLISION
 #ifdef COLLISION
@@ -102,7 +104,7 @@ Display *dpy;
 Window win;
 GLXContext glc;
 
-
+//#ifndef GLOBAL_H
 //=======================================================================
 //Setup timers
 const double physicsRate = 1.0 / 60.0;
@@ -120,9 +122,11 @@ void timeCopy(struct timespec *dest, struct timespec *source) {
     memcpy(dest, source, sizeof(struct timespec));
 }
 //=======================================================================
+//#endif //GLOBAL_H
+
 
 int xres=1250, yres=900;
-
+#ifndef GLOBAL_H
 struct Ship {
     Vec dir;
     Vec pos;
@@ -191,7 +195,12 @@ struct Game {
 	nasteroids = 0;
 	nbullets = 0;
     }
-}game;
+};
+
+//Game game;
+#endif //GLOBAL_H
+Game game;
+
 
 //EL trying to test how image files will work with world obstacle creation
 //bringing elements from rainforest to study this portion
@@ -524,7 +533,8 @@ void check_mouse(XEvent *e, Game *g)
     if (e->type == ButtonRelease) {
 	#ifdef COLLISION
 	//el_gravity(&e, &g);
-	el_gravity();
+	//el_gravity();
+	el_gravity_f(g);
 	//g->ship.pos[1] += octogravity;
 	#endif //COLLISION
 	return;
@@ -668,8 +678,8 @@ void physics(Game *g)
     g->ship.pos[0] += g->ship.vel[0];
     g->ship.pos[1] += g->ship.vel[1];
     #ifdef COLLISION
-    g->ship.vel[1] += el_gravity();
-    //el_gravity_f(g); 
+    //g->ship.vel[1] += el_gravity();
+    el_gravity_f(g); 
     #endif //COLLISION
     //Check for collision with window edges
     if (g->ship.pos[0] < 0.0f) {

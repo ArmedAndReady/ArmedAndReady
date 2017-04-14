@@ -12,8 +12,8 @@
 #include "global.h"
 
 
-extern int xres;
-extern int yres;
+//extern int xres;
+//extern int yres;
 extern Ppmimage *floorImage;
 extern GLuint floorTexture; 
 //extern const float octogravity;
@@ -119,8 +119,8 @@ float el_gravity(){
 
 void el_gravity_f(Game *g){
 	if (g){};
-	//cout<<"DEBUG: nasteroids = "<< g->nasteroids << endl;
-	//g->ship.vel[1] += octogravity;
+	cout<<"DEBUG: nasteroids = "<< g->nasteroids << endl;
+	g->ship.vel[1] += octogravity;
 	//g->ship.vel[1] += octogravity;
 }
 
