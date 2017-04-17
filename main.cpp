@@ -245,6 +245,7 @@ int sound = 0;
 //extern float el_gravity(Game *g);
 extern float el_gravity();
 extern void el_gravity_f(Game *g);
+extern void el_platform_collision(Game *g);
 
 
 int main(void)
@@ -679,7 +680,8 @@ void physics(Game *g)
     g->ship.pos[1] += g->ship.vel[1];
     #ifdef COLLISION
     //g->ship.vel[1] += el_gravity();
-    el_gravity_f(g); 
+    el_gravity_f(g);
+    el_platform_collision(g); 
     #endif //COLLISION
     //Check for collision with window edges
     if (g->ship.pos[0] < 0.0f) {

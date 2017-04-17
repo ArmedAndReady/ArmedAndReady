@@ -11,7 +11,11 @@
 #include "ppm.h"
 #include "global.h"
 
+#define MAX_BLOCKS 1000
+#define PIXEL_WIDTH 64
 
+int total_boxes = 0;
+int num_blocks_wide = 0;
 //extern int xres;
 //extern int yres;
 extern Ppmimage *floorImage;
@@ -26,6 +30,23 @@ int floor_set = 0;
 
 //void read_by_char(string);
 
+//struct Vec{
+//	float x, y, z;
+//};
+
+struct Shape {
+	float width, height;
+	float radius;
+	float x,y,z;
+	Vec center;
+	Shape(){
+		width = PIXEL_WIDTH;
+		height = PIXEL_WIDTH;
+	};
+};
+
+Shape platform_boxes[MAX_BLOCKS];
+
 using namespace std;
 
 void print_esteban()
@@ -37,17 +58,21 @@ void print_esteban()
 void render_floor()
 {
 	float w, h;
+	//try to make a brick size a factor of the pixel size
+	//32 is the size
+	float pixels = 64;
 	//eventually I want this to read from a text file
 	//this is just a test first
 	//glClear(GL_COLOR_BUFFER_BIT);
-	w=50;
-	h=50;
-	int num_blocks_wide = xres/50;
-	//int num_blocks_high = yres/50;
-	//max_block_height may be too high depending on physics of octopus
-	//int max_block_height = num_blocks_high/3;
-
-	int arr[num_blocks_wide];
+	w=pixels;
+	h=pixels;
+	//probably should count the number of boxes as I fill the array
+	//for now just trying to get collision detections bw octopus
+	//and world floor
+	num_blocks_wide = xres/50;
+	//int arr[num_blocks_wide];
+	int arr[MAX_BLOCKS];
+	float pix_center = PIXEL_WIDTH/2;
 
 	//idea: use sea stories like moby dick and 10,000 leagues under the sea
 	//to create world blocks after doing a frequency analysis
@@ -66,6 +91,7 @@ void render_floor()
 	string filename = "level1.txt";
 	ifstream ifs;
 	int number;
+	//int total_boxes = 0;
 	//char c;
 	int i = 0;
 	ifs.open(filename.c_str());
@@ -75,16 +101,19 @@ void render_floor()
 		//ifs.get(c);
 		//arr[i] << c;
 		//c >> arr[i];
-		arr[i] = number; 
+		arr[i] = number;
+		total_boxes += number; 
 		i++;	
 	}
+	num_blocks_wide = i;
 	ifs.close();
 	//for (int i = 0; i < 25; i++)
 		//cout << "INDEX " << i << " = " << arr[i] << endl;
 
 	//read_by_char(filename);
-
+	int box_num=0;
 	for (int i = 0; i < num_blocks_wide; i++) {
+		platform_boxes[box_num].x = pix_center + (i*PIXEL_WIDTH);
 		//glPushMatrix();
 		//coordinate with Mark to see how he wants to put image
 		//tiles in the world
@@ -95,33 +124,52 @@ void render_floor()
 			glColor3ub(0,255,0);*/
 		glBindTexture(GL_TEXTURE_2D, floorTexture);
 		int j = 0;
+		float position;
 		//#ifdef RTH
 		for (j = 0 ; j < arr[i]; j++) {
+			//Need this variable for K&R line length
+			position = pix_center + (j*PIXEL_WIDTH) ;
+			platform_boxes[box_num].y = position; 
 			//#endif //RTH
 			glPushMatrix();
 			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 1.0); glVertex2i(w*i,h*j);
-			glTexCoord2f(0.0, 0.0); glVertex2i(w*i,h*j+50);
-			glTexCoord2f(1.0, 0.0); glVertex2i(w*i+50,h*j+50);
-			glTexCoord2f(1.0, 1.0); glVertex2i(w*i+50,h*j);
+			glTexCoord2f(0.0, 1.0);
+			glVertex2i(w*i,h*j);
+			glTexCoord2f(0.0, 0.0); 
+			glVertex2i(w*i,h*j+pixels);
+			glTexCoord2f(1.0, 0.0);
+			glVertex2i(w*i+pixels,h*j+pixels);
+			glTexCoord2f(1.0, 1.0);
+		  	glVertex2i(w*i+pixels,h*j);
 			glEnd();
 			glPopMatrix();
 			//#ifdef RTH
+			box_num++;
 		}
 		//#endif //RTH
 	}
 }
 
+//checks collision between octopus and platforms
+void el_platform_collision(Game *g)
+{
+	if (g){};
+	for (int i = 0 ; i < num_blocks_wide; i++){};	
+
+
+};
+
 //float el_gravity(Game *g){
-float el_gravity(){
+float el_gravity()
+{
 	return octogravity;
 }
 
-void el_gravity_f(Game *g){
+void el_gravity_f(Game *g)
+{
 	if (g){};
 	cout<<"DEBUG: nasteroids = "<< g->nasteroids << endl;
 	g->ship.vel[1] += octogravity;
-	//g->ship.vel[1] += octogravity;
 }
 
 //void read_by_char(string filename)
