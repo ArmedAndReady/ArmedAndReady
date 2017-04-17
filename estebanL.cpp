@@ -42,7 +42,7 @@ struct Shape {
 	Shape(){
 		width = PIXEL_WIDTH;
 		height = PIXEL_WIDTH;
-	};
+	}
 };
 
 Shape platform_boxes[MAX_BLOCKS];
@@ -97,7 +97,7 @@ void render_floor()
 	ifs.open(filename.c_str());
 	//while (!ifs.eof()) {
 	while (ifs >> number && !ifs.eof()) {
-	//for (int i = 0; i < 25; i++) {
+		//for (int i = 0; i < 25; i++) {
 		//ifs.get(c);
 		//arr[i] << c;
 		//c >> arr[i];
@@ -108,7 +108,7 @@ void render_floor()
 	num_blocks_wide = i;
 	ifs.close();
 	//for (int i = 0; i < 25; i++)
-		//cout << "INDEX " << i << " = " << arr[i] << endl;
+	//cout << "INDEX " << i << " = " << arr[i] << endl;
 
 	//read_by_char(filename);
 	int box_num=0;
@@ -119,14 +119,14 @@ void render_floor()
 		//tiles in the world
 		//also coordinate with Adam to work out collision detection
 		/*if (i%2 == 0) 
-			glColor3ub(255,0,0);
-		else 
-			glColor3ub(0,255,0);*/
+		  glColor3ub(255,0,0);
+		  else 
+		  glColor3ub(0,255,0);*/
 		glBindTexture(GL_TEXTURE_2D, floorTexture);
-		int j = 0;
+		//int j = 0;
 		float position;
 		//#ifdef RTH
-		for (j = 0 ; j < arr[i]; j++) {
+		for (int j = 0 ; j < arr[i]; j++) {
 			//Need this variable for K&R line length
 			position = pix_center + (j*PIXEL_WIDTH) ;
 			platform_boxes[box_num].y = position; 
@@ -140,7 +140,7 @@ void render_floor()
 			glTexCoord2f(1.0, 0.0);
 			glVertex2i(w*i+pixels,h*j+pixels);
 			glTexCoord2f(1.0, 1.0);
-		  	glVertex2i(w*i+pixels,h*j);
+			glVertex2i(w*i+pixels,h*j);
 			glEnd();
 			glPopMatrix();
 			//#ifdef RTH
@@ -148,28 +148,40 @@ void render_floor()
 		}
 		//#endif //RTH
 	}
-}
+	}
 
-//checks collision between octopus and platforms
-void el_platform_collision(Game *g)
-{
-	if (g){};
-	for (int i = 0 ; i < num_blocks_wide; i++){};	
+	//checks collision between octopus and platforms
+	void el_platform_collision(Game *g)
+	{
+		//if (g){};
+		for (int i = 0 ; i < total_boxes; i++) {
+			if(g->ship.pos[0] <= platform_boxes[i].x +
+					platform_boxes[i].width && 
+					g->ship.pos[0] >= platform_boxes[i].x -
+					platform_boxes[i].width &&
+					g->ship.pos[1] < platform_boxes[i].y +
+					platform_boxes[1].height &&
+					g->ship.pos[1] > platform_boxes[i].y -	
+					platform_boxes[1].height) {
+			/*	g->ship.pos[0] = platform_boxes[i].x +
+					platform_boxes[i].width;
+				g->ship.pos[1] = platform_boxes[i].y +
+					platform_boxes[i].height*/;
+			}
+		}	
+	}
 
+	//float el_gravity(Game *g){
+	float el_gravity()
+	{
+		return octogravity;
+	}
 
-};
+	void el_gravity_f(Game *g)
+	{
+		//if (g){};
+		cout<<"DEBUG: nasteroids = "<< g->nasteroids << endl;
+		g->ship.vel[1] += octogravity;
+	}
 
-//float el_gravity(Game *g){
-float el_gravity()
-{
-	return octogravity;
-}
-
-void el_gravity_f(Game *g)
-{
-	if (g){};
-	cout<<"DEBUG: nasteroids = "<< g->nasteroids << endl;
-	g->ship.vel[1] += octogravity;
-}
-
-//void read_by_char(string filename)
+	//void read_by_char(string filename)
