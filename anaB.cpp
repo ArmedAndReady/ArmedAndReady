@@ -81,7 +81,7 @@ void ana_show_help()
     //ggprint12(&r,0,0x00000000,"About");
 }
 
-
+#ifdef BUTTONS
 void mouse_click(int ibutton, int action, int x, int y)
 {
     int con;
@@ -198,7 +198,7 @@ void mouse_click(int ibutton, int action, int x, int y)
 		mouse_click(2, 1,x,y);
 	}
 
-
+#endif
 	//boxes and add menu options are in the game need.
 	//need to link each box to a link and make it click-able.  
 	//link to a webpage
