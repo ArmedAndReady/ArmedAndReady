@@ -53,29 +53,34 @@ void ana_show_help()
     int offset =105;
     int offsetx =150;
     int offsety = 200;
-    for (int i=0;i<5;i++){
-    glColor3f(0.0,0,1.0/i);
+    for (int i=0;i<4;i++){
+    glColor3f(0.0,1.0/(2*i),2.0);
     glBegin(GL_QUADS);
     glVertex2i((xres-offsetx),((offsety)*3)- i*offset);
     glVertex2i((xres-offsetx),(yres-offsety)-i*offset);
     glVertex2i((offsetx),(yres-offsety)-i*offset);
     glVertex2i((offsetx),((offsety)*3)-i*offset);	    
     glEnd();
+    
     }
 
     r.bot= box[0].center.y+190;
     r.left =box[0].center. x;
-    ggprint12(&r,0,0x00000099,"Controls");
-    r.bot= box[0].center.y+100;
+    ggprint12(&r,0,0x00000000,"Controls");
+    r.bot= box[0].center.y+90;
     r.left =box[0].center. x;
-    ggprint12(&r,0,0x00000099,"How to ");
-    r.bot= box[0].center.y+190;
+    ggprint12(&r,0,0x00000000,"How to play");
+    r.bot= box[0].center.y-15;
     r.left =box[0].center. x;
-    ggprint12(&r,0,0x00000099,"option 3");
-    r.bot= box[0].center.y+190;
+    ggprint12(&r,0,0x00000000,"Release Notes");
+    r.bot= box[0].center.y-120;
     r.left =box[0].center. x;
-    ggprint12(&r,0,0x00000099,"option 4");
+    ggprint12(&r,0,0x00000000,"About");
+    //r.bot= box[0].center.y-120;
+    //r.left=box[0].center.x;
+    //ggprint12(&r,0,0x00000000,"About");
 }
-//need to draw boxes and add menu options. 
+//boxes and add menu options are in the game need.
+//need to link each box to a link and make it click-able.  
 //link to a webpage
 //http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php
