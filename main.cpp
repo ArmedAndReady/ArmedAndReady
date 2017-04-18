@@ -140,7 +140,7 @@ struct Ship {
 	pos[2] = 0.0f;
 	VecZero(vel);
 	angle = 0.0;
-	color[0] = 1.0;
+	color[0] = 0.0;//1.0;
 	color[1] = 1.0;
 	color[2] = 1.0;
     }
@@ -924,9 +924,10 @@ void render(Game *g)
 	glPushMatrix();
 	glTranslatef(g->ship.pos[0], g->ship.pos[1], g->ship.pos[2]);
 	//float angle = atan2(ship.dir[1], ship.dir[0]);
-	glRotatef(g->ship.angle, 0.0f, 0.0f, 1.0f);
+	glRotatef(g->ship.angle, 0.0f, 0.0f, 0.0f);// MF set to (0.0f, 0.0f, 0.0f) to straighten
 //	glBegin(GL_TRIANGLES);
-	glBegin(GL_QUADS);	
+//	glEnable(GL_TEXTURE_2D);
+//	glBegin(GL_QUADS);	
 	//glVertex2f(-10.0f, -10.0f);
 	//glVertex2f(  0.0f, 20.0f);
 	//glVertex2f( 10.0f, -10.0f);
@@ -938,13 +939,10 @@ void render(Game *g)
 	glVertex2f(  0.0f, -20.0f);
 	glVertex2f( 12.0f, -10.0f);*/
 
-	glVertex2f(-64.0f, -64.0f);
-	glVertex2f(-64.0f,   0.0f);
-	glVertex2f(  0.0f,   0.0f);
-	glVertex2f(  0.0f, -64.0f);
-	void initCharMark();
+	initCharMark();
+	
 
-	glEnd();
+	//glEnd();
 	glColor3f(1.0f, 0.0f, 0.0f);	
 	glBegin(GL_POINTS);
 	glVertex2f(0.0f, 0.0f);
