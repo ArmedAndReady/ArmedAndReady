@@ -79,8 +79,9 @@ void render_floor()
 	ifstream ifs;
 	int number;
 	int i = 0;
-	if(!floor_set) {
+	//if(!floor_set) {
 	ifs.open(filename.c_str());
+	total_boxes = 0;
 	while (ifs >> number && !ifs.eof()) {
 		arr[i] = number;
 		total_boxes += number; 
@@ -90,7 +91,7 @@ void render_floor()
 	num_blocks_wide = i;
 	floor_set = 1;
 	ifs.close();
-}
+//}
 
 	int box_num=0;
 	for (int i = 0; i < num_blocks_wide; i++) {
