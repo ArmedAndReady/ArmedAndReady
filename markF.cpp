@@ -54,6 +54,7 @@ void initCharMark()
     // 04/18 (11:52am): does image conversion, draws character tile, 
     // but does not put texture on tile  
     // 04/18 (13:06): tile textured 
+    // comment
 }
 
 void print_Mark()
