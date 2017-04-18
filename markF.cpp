@@ -54,7 +54,9 @@ void initCharMark()
     // 04/18 (11:52am): does image conversion, draws character tile, 
     // but does not put texture on tile  
     // 04/18 (13:06): tile textured 
-    // comment
+    // comment: I've worked on this but github hasn't been
+    // recording my pushes to origin master. You can check the logs. 
+    // Mark Felisilda has pushed/committed multiple times
 }
 
 void print_Mark()
