@@ -246,6 +246,7 @@ int sound = 0;
 extern float el_gravity();
 extern void el_gravity_f(Game *g);
 extern void el_platform_collision(Game *g);
+extern void el_jump(Game *g);
 
 
 int main(void)
@@ -845,6 +846,7 @@ void physics(Game *g)
 #endif //EL_PHYSICS
     }
     if (keys[XK_Up]) {
+	el_jump(g);
 #ifdef ORIG_PHYSICS
 	//apply thrust
 	//convert ship angle to radians
