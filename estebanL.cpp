@@ -12,7 +12,7 @@
 #include "global.h"
 
 #define MAX_BLOCKS 1000
-#define PIXEL_WIDTH 64
+#define PIXEL_WIDTH 128
 
 int total_boxes = 0;
 int num_blocks_wide = 0;
@@ -58,7 +58,7 @@ void print_esteban()
 void render_floor()
 {
 	float w, h;
-	float pixels = 64;
+	float pixels = PIXEL_WIDTH;
 	w=pixels;
 	h=pixels;
 	num_blocks_wide = xres/50;
@@ -87,7 +87,7 @@ void render_floor()
 		total_boxes += number; 
 		i++;	
 	}
-	cout << "DEBUG: total_boxes = " << total_boxes << endl;
+	//cout << "DEBUG: total_boxes = " << total_boxes << endl;
 	num_blocks_wide = i;
 	floor_set = 1;
 	ifs.close();
@@ -128,15 +128,16 @@ void el_platform_collision(Game *g)
 				platform_boxes[i].width && 
 				g->ship.pos[0] >= platform_boxes[i].x -
 				platform_boxes[i].width &&
-				g->ship.pos[1] < platform_boxes[i].y +
+				g->ship.pos[1] <= platform_boxes[i].y +
 				platform_boxes[1].height &&
-				g->ship.pos[1] > platform_boxes[i].y -	
+				g->ship.pos[1] >= platform_boxes[i].y -	
 				platform_boxes[1].height) {
 		//	cout << "DEBUG: boxes\n";
 			g->ship.pos[0] = platform_boxes[i].x +
 			  platform_boxes[i].width;
 			  g->ship.pos[1] = platform_boxes[i].y +
-			  platform_boxes[i].height;
+			  platform_boxes[i].height * 1.01;
+			  //g->ship.vel[1] = 0;
 		}
 	}	
 }
