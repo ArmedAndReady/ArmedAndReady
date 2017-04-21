@@ -208,10 +208,15 @@ Game game;
 #ifdef IMAGE
 Ppmimage *floorImage=NULL;
 GLuint floorTexture;
-//Analy Image for menu
 
+//Analy Image for menu
 Ppmimage *name_image=NULL;
 GLuint name_texture;
+
+//Analy menu
+Ppmimage *name_image2=NULL;
+GLuint name_texture2;
+
 #endif //IMAGE
 
 //EL trying to mess with physics in case
@@ -441,16 +446,12 @@ void init_opengl(void)
     //need to figure out how these work
     //ppm6SaveImage("Bricks_1.ppm", "Bricks_1.png");
     floorImage = ppm6GetImage("Bricks_1.ppm");
-
     //floorImage = ppm6GetImage("Bricks_1.png");
     glGenTextures(1, &floorTexture);
-
     glBindTexture(GL_TEXTURE_2D, floorTexture);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, floorImage->width, floorImage->height, 0, GL_RGB, GL_UNSIGNED_BYTE, floorImage->data);
-
-
 
     //analy logo for menu
     glClearColor(0.0, 0.0, 0.0, 1.0);
@@ -460,6 +461,22 @@ void init_opengl(void)
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, name_image->width, name_image->height, 0, GL_RGB, GL_UNSIGNED_BYTE, name_image->data);
+    //Analy menu background
+    //here we converted cool.jpg to sea1.ppm and
+    //then unlink gets rid of the image once its done
+    glClearColor(0.0, 0.0, 0.0, 1.0);
+    system("convert cool.jpg to sea1.ppm");
+    name_image2 = ppm6GetImage("sea1.ppm");	
+    glGenTextures(1, &name_texture2);
+    glBindTexture(GL_TEXTURE_2D, name_texture2);	
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, name_image2->width, name_image2->height, 0, GL_RGB, GL_UNSIGNED_BYTE, name_image2->data);
+unlink("sea1.ppm");
+
+
+
+
 #endif //IMAGE
 }
 

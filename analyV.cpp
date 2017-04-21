@@ -22,6 +22,8 @@ extern int yres;
 extern Ppmimage *name_image;
 extern GLuint name_texture;
 
+extern Ppmimage *name_image2;
+extern GLuint name_texture2;
 using namespace std;
 
 typedef float Flt;
@@ -80,7 +82,29 @@ void Analy_show_menu()
     glVertex2i(xres, 0);
     glEnd();
     glPopMatrix();
-    
+     
+
+    //glColor3ub(0, 204, 204);
+    glBindTexture(GL_TEXTURE_2D, name_texture2);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    //the original image had the dimensions 725x433 
+    //then we used a canvas to set it up and new dimensions are 1024x512
+    //we always want to use a power of 2
+    float w = (725.0/1024.0);
+    float h = (433.0/512.0);
+    glTexCoord2f(0.0, h); glVertex2i(0, 0);
+    glTexCoord2f(0.0, 0.0); glVertex2i(0, yres);
+    glTexCoord2f(w, 0.0); glVertex2i(xres, yres);
+    glTexCoord2f(w, h); glVertex2i(xres, 0);
+ 
+/*glTexCoord2f(0.0, 1.0); glVertex2i(0, 0);
+    glTexCoord2f(0.0, 0.0); glVertex2i(0, yres);
+    glTexCoord2f(1.0, 0.0); glVertex2i(xres, yres);
+    glTexCoord2f(1.0, 1.0); glVertex2i(xres, 0);
+   */
+ glEnd();
+    glPopMatrix();
 
     //glColor3ub(0, 204, 204);
     glBindTexture(GL_TEXTURE_2D, name_texture);
@@ -92,6 +116,7 @@ void Analy_show_menu()
     glTexCoord2f(1.0, 1.0); glVertex2i(xres-190, 385);
     glEnd();
     glPopMatrix();
+
 
     r.bot = 400;
     r.left = 400;
