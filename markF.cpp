@@ -51,12 +51,19 @@ void initCharMark()
     glTexCoord2f(1.0f, 1.0f); glVertex2i( wid, -wid);
     glEnd();
 
-    // 04/18 (11:52am): does image conversion, draws character tile, 
+    // 04/18 (11:52): does image conversion, draws character tile, 
     // but does not put texture on tile  
     // 04/18 (13:06): tile textured 
     // comment: I've worked on this but github hasn't been
     // recording my pushes to origin master. You can check the logs. 
     // Mark Felisilda has pushed/committed multiple times
+    // 4/24 (08:26): tabs should be fixed
+    // in case:
+    // 		shift+V (enters visual line)
+    // 		scroll down to bottom to highlight everything
+    // 		"<" to remove indents
+    // 		"." to repeat in case
+    // 		"gg=G"
 }
 
 void print_Mark()
