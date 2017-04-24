@@ -106,7 +106,7 @@ void ana_show_help()
     r.left =box[0].center. x;
     ggprint12(&r,0,0x00000000,"About");
     //r.bot= box[0].center.y-120;
-    //r.left=box[0].center.x;
+    //r.leffil://github.com/ArmedAndReady/ArmedAndReadyt=box[0].center.x;
     //ggprint12(&r,0,0x00000000,"About");
 }
 
@@ -120,26 +120,37 @@ void mouse_click(int ibutton, int action, int x, int y)
     if(y){};
     int nbuttons =4;
     if (action == 1) {
-//	int i,j,k,m=0;
+	//	int i,j,k,m=0;
 
 	//center of a grid
-//	int cent[2];
+	//	int cent[2];
 	//buttons?                                                         
 	for (int i=0; i<nbuttons; i++) {
 	    if (button[i].over) {                                                           
 		button[i].down = 1;
 		button[i].click = 1;                         
-		if (i==0) {
-		    //user clicked QUIT		                                                  
-		    //  done = 1;
+	    if (i==0) {
+		   // system();
+			//user clicked QUIT		                                                  
+			//  done = 1;
 		}
 	    }
 	    if (i==1) {
+		//system();
 		//user clicked button 0
 		//reset_grids();
 	    }
 
-
+	    if (i==2) {
+		//system();
+		//user clicked button 0
+		//reset_grids();
+	    }
+	    if (i==3) {
+		//sysytem();
+		//user clicked button 0
+		//reset_grids();
+	    }
 	}
     }
 }
@@ -151,7 +162,7 @@ void check_mouse(XEvent *e)
     //Log("check_mouse()...\n");
     int x,y;
     //int i,j,k;
-   
+
     //int cent[2];
     int lbutton=0;
     int rbutton=0;
@@ -162,18 +173,21 @@ void check_mouse(XEvent *e)
     if (e->type == ButtonPress) {
 	if (e->xbutton.button==1){                                                                   
 	    //Left button is down    
-	    lbutton=1;                                                                                                    }
+	    lbutton=1;                                                                      }
 	if (e->xbutton.button==3) {                    
 	    //Right button is down
 	    rbutton=1;
 	}                           
 	//Log("e->xbutton.x: %i e->xbutton.y: %i\n",e->xbutton.x,e->xbutton.y);            
 	x = e->xbutton.x;
-	y = e->xbutton.y;                                                                                                //reverse the y position      
-	y = yres - y;                                                                                                        if (savex != e->xbutton.x || savey != e->xbutton.y) {
+	y = e->xbutton.y;
+	//reverse the y position      
+	y = yres - y;
+	if (savex != e->xbutton.x || savey != e->xbutton.y) {
 	    //Mouse moved 
 	    savex = e->xbutton.x; 
-	    savey = e->xbutton.y;}                                                                                          //Log("xy: %i %i\n",x,y);     
+	    savey = e->xbutton.y;}                
+	//Log("xy: %i %i\n",x,y);     
 	if (x == savex && y == savey)                                   
 	    return;             
 	savex=x;	
@@ -181,36 +195,36 @@ void check_mouse(XEvent *e)
 	//is the mouse over any grid squares?
 	//
 	/*for (i=0; i<grid_dim; i++) {
-	    for (j=0; j<grid_dim; j++) {
-		grid1[i][j].over=0;
-		grid2[i][j].over=0;
-	    }
-	}
-	for (i=0; i<grid_dim; i++) {
-	    for (j=0; j<grid_dim; j++) {
-		if (gamemode == MODE_PLACE_SHIPS) {
-		    get_grid_center(1,i,j,cent);
-		    if (x >= cent[0]-qsize &&
-			    x <= cent[0]+qsize &&
-			    y >= cent[1]-qsize &&
-			    y <= cent[1]+qsize) {
-			break;
-		    }
-		}
-		if (gamemode == MODE_FIND_SHIPS) {
-		    get_grid_center(2,i,j,cent);
-		    if (x >= cent[0]-qsize &&
-			    x <= cent[0]+qsize &&
-			    y >= cent[1]-qsize &&
-			    y <= cent[1]+qsize) {
-			grid2[i][j].over=1;
-			break;
-		    }
-		}
-	    }
-	    if (grid1[i][j].over) break;
-	    if (grid2[i][j].over) break;
-	}*/
+	  for (j=0; j<grid_dim; j++) {
+	  grid1[i][j].over=0;
+	  grid2[i][j].over=0;
+	  }
+	  }
+	  for (i=0; i<grid_dim; i++) {
+	  for (j=0; j<grid_dim; j++) {
+	  if (gamemode == MODE_PLACE_SHIPS) {
+	  get_grid_center(1,i,j,cent);
+	  if (x >= cent[0]-qsize &&
+	  x <= cent[0]+qsize &&
+	  y >= cent[1]-qsize &&
+	  y <= cent[1]+qsize) {
+	  break;
+	  ://github.com/ArmedAndReady/ArmedAndRead://github.com/ArmedAndReady/ArmedAndReady
+	  }
+	  if (gamemode == MODE_FIND_SHIPS) {
+	  get_grid_center(2,i,j,cent);
+	  if (x >= cent[0]-qsize &&
+	  x <= cent[0]+qsize &&
+	  y >= cent[1]-qsize &&
+	  y <= cent[1]+qsize) {
+	  grid2[i][j].over=1;
+	  break;
+	  }
+	  }
+	  }
+	  if (grid1[i][j].over) break;
+	  if (grid2[i][j].over) break;
+	  }*/
 	//
 	//is the mouse over any buttons?
 	//
@@ -234,10 +248,10 @@ void check_mouse(XEvent *e)
 	    mouse_click(2, 1,x,y);
     }
 
-}
-//#endif
-//boxes and add menu options are in the game need.
-//need to link each box to a link and make it click-able.  
-//link to a webpage
-//system("picture")
-//http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php
+    }
+    //#endif
+    //boxes and add menu options are in the game need.
+    //need to link each box to a link and make it click-able.  
+    //link to a webpage
+    //system("picture")
+    //http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php
