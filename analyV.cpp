@@ -157,7 +157,7 @@ void Analy_show_menu()
 	b->color[2] = 0.7f;
 	b->vel[0] = rnd() * 0.5 - 0.25; 
 	b->vel[1] = rnd() * 0.5 - 0.25;
-	std::cout << "bubbles" << std::endl;
+	//std::cout << "bubbles" << std::endl;
 }
    
    // Bubbles *b = g->ahead;
