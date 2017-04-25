@@ -56,6 +56,7 @@ extern void print_Ana();
 extern void ana_show_help();
 extern void print_Mark();
 extern void initCharMark();
+extern void mark_show_charsel();
 extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu();
@@ -98,6 +99,8 @@ const float gravity = -0.2f;
 int state_menu = 1; 
 //AB
 int state_help = 0;
+//MF
+int state_charsel = 0;
 
 //X Windows variables
 Display *dpy;
@@ -620,7 +623,11 @@ int check_keys(XEvent *e)
 	case XK_m: 
 	    state_menu=1;
 	    Analy_show_menu();
-	    break;	
+	    break;
+    	case XK_c:
+	    //MF to toggle character select screen
+	    state_charsel ^=1;
+	    mark_show_charsel();		
 	case XK_Down:
 	    break;
 	case XK_equal:
@@ -936,8 +943,11 @@ void render(Game *g)
     //AB
     if (state_help)
 	ana_show_help();
+    //MF
+    if(state_charsel && !state_menu && !state_help)
+	mark_show_charsel();
 
-    if (!state_menu && !state_help) {
+    if (!state_menu && !state_help && !state_charsel) {
 	//Draw the ship
 	glColor3fv(g->ship.color);
 	glPushMatrix();

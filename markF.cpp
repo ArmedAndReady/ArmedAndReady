@@ -18,10 +18,54 @@
 #include "log.h"
 #include "global.h"
 #include "fonts.h"
+
 using namespace std;
 
 Ppmimage *octoImage=NULL;
 GLuint octoTexture;
+
+extern int xres;
+extern int yres;
+
+void mark_show_charsel();
+void check_keys(XEvent *e);
+void initCharMark();
+void blueOcto();
+
+void mark_show_charsel()
+{
+    //Rect r;
+    glColor3ub(0,255,0);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2i(0,0);
+    glVertex2i(0,yres);
+    glVertex2i(xres, yres);
+    glVertex2i(xres, 0);
+    glEnd();
+    glPopMatrix();
+    //r.bot = 400;
+    //r.left = 400;
+    //r.center = 0;
+}
+    //ggprint16(&r, 16, 0x0000ff, "Testing");
+    /*XEvent e;
+    check_keys(XEvent *e);
+}
+
+int check_keys(XEvent *e)
+{
+    int key = XLookupKeysym(&e->xkey, 0);
+    switch(key) {
+	case XK_1:
+	    initCharMark();
+	    break;
+	case XK_2:
+	    blueOcto();
+	    break;
+    }
+    return 0;
+}*/
 
 void initCharMark()
 {
@@ -64,6 +108,35 @@ void initCharMark()
     // 		"<" to remove indents
     // 		"." to repeat in case
     // 		"gg=G"
+}
+
+void blueOcto()
+{
+    //    string debug = "Printing character to screen...\n";
+    //    cout << debug;
+
+    system("convert ./Game_Tiles/octopus.png ./Game_Tiles/octopus.ppm");
+    octoImage = ppm6GetImage("./Game_Tiles/octopus.ppm");
+    glGenTextures(1, &octoTexture);
+
+    int w = octoImage->width;
+    int h = octoImage->height;
+    float wid = 64.0f;
+    glColor3f(0.0f, 1.0f, 1.0f);
+
+    glEnable(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, octoTexture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, octoImage->data);
+
+    glBegin(GL_QUADS); 
+    glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid, -wid);
+    glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid,  wid);
+    glTexCoord2f(1.0f, 0.0f); glVertex2i( wid,  wid);
+    glTexCoord2f(1.0f, 1.0f); glVertex2i( wid, -wid);
+    glEnd();
 }
 
 void print_Mark()
