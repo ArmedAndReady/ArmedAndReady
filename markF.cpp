@@ -25,8 +25,10 @@ using namespace std;
 
 Ppmimage *octoImage=NULL;
 Ppmimage *redImage=NULL;
+Ppmimage *AtkImage=NULL;
 GLuint octoTexture;
 GLuint rOTex;
+GLuint AtkTex;
 
 extern int xres;
 extern int yres;
@@ -34,7 +36,8 @@ extern int yres;
 void mark_show_charsel();
 void check_keys(XEvent *e);
 void initCharMark();
-void redOctober();//use this to draw enemy
+void redOctober();	//use this to draw enemy
+void projectileTex();	//use this to draw projectiles
 void texGen();
 
 void mark_show_charsel()
@@ -55,7 +58,7 @@ void mark_show_charsel()
     ggprint8b(&r, 16, 0x0000ff, "Testing");
     /*XEvent e;
       check_keys(XEvent *e);*/
-    }
+}
 /*
    int check_keys(XEvent *e)
    {
@@ -137,6 +140,26 @@ void redOctober()
     glEnd();
 }
 
+void projectileTex()
+{
+    int w = AtkImage->width;
+    int h = AtkImage->width;
+    float wid = 32.0f;
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, AtkTex);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, AtkImage->data);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid, -wid);
+    glTexCoord2f(0.0f, 0.0f); glVertex2i(-wid,  wid);
+    glTexCoord2f(1.0f, 0.0f); glVertex2i( wid,  wid);
+    glTexCoord2f(1.0f, 1.0f); glVertex2i( wid, -wid);
+    glEnd();
+
+}
+
 void texGen()
 {
     //Player character ppm creation
@@ -150,6 +173,12 @@ void texGen()
     redImage = ppm6GetImage("./Game_Tiles/redOctober.ppm");
     glGenTextures(1, &rOTex);
     unlink("./Game_Tiles/redOctober.ppm");
+
+    //Attack projectile texture creation
+    system("convert ./Game_Tiles/Dirt_1.png ./Game_Tiles/Atk.ppm");
+    AtkImage = ppm6GetImage("./Game_Tiles/Atk.ppm");
+    glGenTextures(1, &AtkTex);
+    unlink("./Game_Tiles/Atk.ppm");
 }
 
 void print_Mark()

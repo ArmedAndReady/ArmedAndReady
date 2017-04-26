@@ -58,6 +58,7 @@ extern void print_Mark();
 extern void initCharMark();
 extern void mark_show_charsel();
 extern void redOctober();//MF
+extern void projectileTex();
 extern void texGen();//MF
 extern void print_Adam();
 extern void print_Analy();
@@ -818,14 +819,14 @@ void physics(Game *g)
 		    int r = rand() % 10 + 5;
 		    for (int k=0; k<r; k++) {
 			//get the next asteroid position in the array
-			Asteroid *ta = new Asteroid;
-			buildAsteroidFragment(ta, a);
+			//Asteroid *ta = new Asteroid;
+			//buildAsteroidFragment(ta, a);
 			//add to front of asteroid linked list
-			ta->next = g->ahead;
-			if (g->ahead != NULL)
-			    g->ahead->prev = ta;
-			g->ahead = ta;
-			g->nasteroids++;
+			//ta->next = g->ahead;
+			//if (g->ahead != NULL)
+			    //g->ahead->prev = ta;
+			//g->ahead = ta;
+			//g->nasteroids++;
 		    }
 		} else {
 		    a->color[0] = 1.0f;
@@ -1053,7 +1054,8 @@ void render(Game *g)
 	    Bullet *b = &g->barr[i];
 	    //Log("draw bullet...\n");
 	    glColor3f(1.0f, 1.0f, 1.0f);
-	    glBegin(GL_POINTS);
+	    projectileTex();
+	    glBegin(GL_POINTS);//originally 1.0f
 	    glVertex2f(b->pos[0],      b->pos[1]);
 	    glVertex2f(b->pos[0]-1.0f, b->pos[1]);
 	    glVertex2f(b->pos[0]+1.0f, b->pos[1]);
