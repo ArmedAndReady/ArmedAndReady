@@ -60,7 +60,7 @@ extern void mark_show_charsel();
 extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu();
-
+//int showRain=0;
 
 extern "C" {
 #include "fonts.h"
@@ -621,6 +621,10 @@ int check_keys(XEvent *e)
 	    state_menu = 0;
 	    break;
 	case XK_m: 
+	    state_menu=1;
+	    Analy_show_menu();
+	    break;
+	case XK_r:
 	    state_menu=1;
 	    Analy_show_menu();
 	    break;
