@@ -296,9 +296,19 @@ int main(void)
 	timeCopy(&timeStart, &timeCurrent);
 	physicsCountdown += timeSpan;
 	while (physicsCountdown >= physicsRate) {
-	    physics(&game);
+/*	    //#define BUBBLES
+#ifdef BUBBLES
+            physicsB();
+#endif //BUBBLES
+*/
+		physics(&game);
 	    physicsCountdown -= physicsRate;
 	}
+	/*
+#ifdef BUBBLES
+            renderB();
+#endif //BUBBLES
+*/
 	render(&game);
 	glXSwapBuffers(dpy, win);
     }
