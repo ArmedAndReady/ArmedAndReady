@@ -17,7 +17,9 @@
 #include "ppm.h"
 #include "log.h"
 #include "global.h"
+extern "C" {
 #include "fonts.h"
+}
 
 using namespace std;
 
@@ -34,7 +36,7 @@ void blueOcto();
 
 void mark_show_charsel()
 {
-    //Rect r;
+    Rect r;
     glColor3ub(0,255,0);
     glPushMatrix();
     glBegin(GL_QUADS);
@@ -44,15 +46,15 @@ void mark_show_charsel()
     glVertex2i(xres, 0);
     glEnd();
     glPopMatrix();
-    //r.bot = 400;
-    //r.left = 400;
-    //r.center = 0;
-}
-    //ggprint16(&r, 16, 0x0000ff, "Testing");
+    r.bot = 400;
+    r.left = 400;
+    r.center = 0;
+//}
+    ggprint8b(&r, 16, 0x0000ff, "Testing");
     /*XEvent e;
-    check_keys(XEvent *e);
+    check_keys(XEvent *e);*/
 }
-
+/*
 int check_keys(XEvent *e)
 {
     int key = XLookupKeysym(&e->xkey, 0);
