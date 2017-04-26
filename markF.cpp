@@ -24,7 +24,9 @@ extern "C" {
 using namespace std;
 
 Ppmimage *octoImage=NULL;
+Ppmimage *redImage=NULL;
 GLuint octoTexture;
+GLuint rOTex;
 
 extern int xres;
 extern int yres;
@@ -32,7 +34,8 @@ extern int yres;
 void mark_show_charsel();
 void check_keys(XEvent *e);
 void initCharMark();
-void blueOcto();
+void redOctober();//use this to draw enemy
+void texGen();
 
 void mark_show_charsel()
 {
@@ -49,34 +52,30 @@ void mark_show_charsel()
     r.bot = 400;
     r.left = 400;
     r.center = 0;
-//}
     ggprint8b(&r, 16, 0x0000ff, "Testing");
     /*XEvent e;
-    check_keys(XEvent *e);*/
-}
-/*
-int check_keys(XEvent *e)
-{
-    int key = XLookupKeysym(&e->xkey, 0);
-    switch(key) {
-	case XK_1:
-	    initCharMark();
-	    break;
-	case XK_2:
-	    blueOcto();
-	    break;
+      check_keys(XEvent *e);*/
     }
-    return 0;
-}*/
+/*
+   int check_keys(XEvent *e)
+   {
+   int key = XLookupKeysym(&e->xkey, 0);
+   switch(key) {
+   case XK_1:
+   initCharMark();
+   break;
+   case XK_2:
+   blueOcto();
+   break;
+   }
+   return 0;
+   }*/
 
 void initCharMark()
 {
     //    string debug = "Printing character to screen...\n";
     //    cout << debug;
 
-    system("convert ./Game_Tiles/octopus.png ./Game_Tiles/octopus.ppm");
-    octoImage = ppm6GetImage("./Game_Tiles/octopus.ppm");
-    glGenTextures(1, &octoTexture);
 
     int w = octoImage->width;
     int h = octoImage->height;
@@ -110,28 +109,25 @@ void initCharMark()
     // 		"<" to remove indents
     // 		"." to repeat in case
     // 		"gg=G"
+    //	unlink("./Game_Tiles/octopus.ppm");
 }
 
-void blueOcto()
+void redOctober()
 {
     //    string debug = "Printing character to screen...\n";
     //    cout << debug;
 
-    system("convert ./Game_Tiles/octopus.png ./Game_Tiles/octopus.ppm");
-    octoImage = ppm6GetImage("./Game_Tiles/octopus.ppm");
-    glGenTextures(1, &octoTexture);
-
-    int w = octoImage->width;
-    int h = octoImage->height;
-    float wid = 64.0f;
-    glColor3f(0.0f, 1.0f, 1.0f);
+    int w = redImage->width;
+    int h = redImage->height;
+    float wid = 32.0f;
+    glColor3f(1.0f, 0.0f, 0.0f);
 
     glEnable(GL_TEXTURE_2D);
 
-    glBindTexture(GL_TEXTURE_2D, octoTexture);
+    glBindTexture(GL_TEXTURE_2D, rOTex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, octoImage->data);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, redImage->data);
 
     glBegin(GL_QUADS); 
     glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid, -wid);
@@ -139,6 +135,21 @@ void blueOcto()
     glTexCoord2f(1.0f, 0.0f); glVertex2i( wid,  wid);
     glTexCoord2f(1.0f, 1.0f); glVertex2i( wid, -wid);
     glEnd();
+}
+
+void texGen()
+{
+    //Player character ppm creation
+    system("convert ./Game_Tiles/octopus.png ./Game_Tiles/octopus.ppm");
+    octoImage = ppm6GetImage("./Game_Tiles/octopus.ppm");
+    glGenTextures(1, &octoTexture);
+    unlink("./Game_Tiles/octopus.ppm");
+
+    //Enemy character ppm creation
+    system("convert ./Game_Tiles/octopus.png ./Game_Tiles/redOctober.ppm");
+    redImage = ppm6GetImage("./Game_Tiles/redOctober.ppm");
+    glGenTextures(1, &rOTex);
+    unlink("./Game_Tiles/redOctober.ppm");
 }
 
 void print_Mark()

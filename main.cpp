@@ -57,6 +57,8 @@ extern void ana_show_help();
 extern void print_Mark();
 extern void initCharMark();
 extern void mark_show_charsel();
+extern void redOctober();//MF
+extern void texGen();//MF
 extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu();
@@ -476,6 +478,8 @@ void init_opengl(void)
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, name_image2->width, name_image2->height, 0, GL_RGB, GL_UNSIGNED_BYTE, name_image2->data);
 unlink("sea1.ppm");
+
+	texGen();
 
 
 
@@ -1005,6 +1009,8 @@ void render(Game *g)
 	    glEnd();
 	}
 	//-------------------------------------------------------------------------
+
+
 	//Draw the asteroids
 	Asteroid *a = g->ahead;
 	while (a) {
@@ -1013,6 +1019,7 @@ void render(Game *g)
 	    glPushMatrix();
 	    glTranslatef(a->pos[0], a->pos[1], a->pos[2]);
 	    glRotatef(a->angle, 0.0f, 0.0f, 1.0f);
+	    redOctober();
 	    glBegin(GL_LINE_LOOP);
 	    //Log("%i verts\n",a->nverts);
 	    for (int j=0; j<a->nverts; j++) {
