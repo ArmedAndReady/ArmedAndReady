@@ -22,6 +22,7 @@ extern "C" {
 #include "ppm.h"
 #include "log.h"
 
+
 extern int xres;
 extern int yres;
 extern Ppmimage *name_image;
@@ -71,7 +72,7 @@ struct Bgame{
 void init(Bgame *g);
 */
 
-void physics(void);
+void physicsB(void);
 
 
 void print_Analy() 
@@ -79,7 +80,7 @@ void print_Analy()
     string analy= "analy";
     cout << analy << endl;
 }
-
+/*
 int showRain=0;
 typedef struct t_raindrop {
     int type;
@@ -102,6 +103,22 @@ int maxrain=0;
 void deleteRain(Raindrop *node);
 void cleanupRaindrops(void);
 void drawRaindrops(void);
+*/
+
+typedef struct Bubble {
+    Vec pos;
+    Vec lastpos;
+    Vec vel;
+    Vec maxvel;
+    Vec force;
+    float radius;
+    float color[3];
+} Bubble;
+const int MAX_BUBBLES = 1000;
+Bubble bubble[MAX_BUBBLES];
+int nbubbles=0;
+
+
 
 void Analy_show_menu()
 {
@@ -156,7 +173,7 @@ void Analy_show_menu()
     glTexCoord2f(0.0, 1.0); glVertex2i(190, 385);
     glEnd();
     glPopMatrix();
-
+/*
     glDisable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
@@ -166,7 +183,7 @@ void Analy_show_menu()
     glEnable(GL_TEXTURE_2D);
 glBindTexture(GL_TEXTURE_2D, 0);
     drawRaindrops();
-
+*/
     r.bot = 400;
     r.left = 400;
     r.center = 0;
@@ -176,91 +193,140 @@ glBindTexture(GL_TEXTURE_2D, 0);
     ggprint16(&r, 16, 0x00ff0000, "Help");
     ggprint16(&r, 16, 0x00ff0000, "Rules");
     ggprint8b(&r, 16, 0x00ff0000, "Press S to start");
+}
 
-    const int n=0;
-    int i;
-    for (i=0; i<n; i++) {
-	Raindrop *node = (Raindrop *)malloc(sizeof(Raindrop));
-	if (node == NULL) {
-	    Log("error allocating node.\n");
-	    exit(EXIT_FAILURE);
+
+void physicsB(void) {
+    //create a bubble
+    if (nbubbles < MAX_BUBBLES) {
+	bubble[nbubbles].pos[0] = rnd() * (xres-80.0) + 40.0;
+	bubble[nbubbles].pos[1] = (float)yres/2.0 - 40.0;
+//	VecZero(bubble[nbubbles].vel);
+//	VecZero(bubble[nbubbles].force);
+	//bubble radius
+	bubble[nbubbles].radius = rnd() * 12.0 + 2.0;
+	bubble[nbubbles].color[0] = 1.0;
+	bubble[nbubbles].color[1] = 1.0;
+	bubble[nbubbles].color[2] = 1.0;
+	++nbubbles;
+    }
+    //move bubbles
+    for (int i=0; i<nbubbles; i++) {
+	bubble[i].force[0] = rnd() * 0.5 - 0.25;
+	bubble[i].force[1] = 0.01 + bubble[i].radius*0.005;
+	bubble[i].vel[0] += bubble[i].force[0];
+	bubble[i].vel[1] += bubble[i].force[1];
+	//constrain the x-movement of a bubble.
+	if (bubble[i].vel[0] > 1.0)
+	    bubble[i].vel[0] = 1.0;
+	if (bubble[i].vel[0] < -1.0)
+	    bubble[i].vel[0] = -1.0;
+	bubble[i].pos[0] += bubble[i].vel[0];
+	bubble[i].pos[1] += bubble[i].vel[1];
+	bubble[i].radius *= 1.002;
+	if (bubble[i].pos[1] > yres+20) {
+	    --nbubbles;
+	    bubble[i] = bubble[nbubbles];
 	}
-	node->prev = NULL;
-	node->next = NULL;
-	node->sound=0;
-	node->pos[0] = rnd() * (float)xres;
-	node->pos[1] = rnd() * 100.0f + (float)yres;
-	VecCopy(node->pos, node->lastpos);
-	node->vel[0] = node->vel[1] = 0.0f;
-	node->color[0] = rnd() * 0.2f + 0.8f;
-	node->color[1] = rnd() * 0.2f + 0.8f;
-	node->color[2] = rnd() * 0.2f + 0.8f;
-	node->color[3] = rnd() * 0.5f + 0.3f; //alpha
-	node->linewidth = random(8)+1;	//larger linewidth = faster speed
-	    node->maxvel[1] = (float)(node->linewidth*16);
-	node->length = node->maxvel[1] * 0.2f + rnd();
-	//put raindrop into linked list
-	    node->next = ihead;
-	if (ihead != NULL)
-	    ihead->prev = node;
-	ihead = node;
-	++totrain;
+	if (rand() < 1000000) {
+	int bnum = rand() % nbubbles;
+	--nbubbles;
+	bubble[bnum] = bubble[nbubbles];
     }
+}
+}
 
 
-    Raindrop *node = ihead;
-    while (node) {
-	glPushMatrix();
-	glTranslated(node->pos[0],node->pos[1],node->pos[2]);
-	glColor4fv(node->color);
-	glLineWidth(node->linewidth);
-	glBegin(GL_LINES);
-	glVertex2f(0.0f, 0.0f);
-	glVertex2f(0.0f, node->length);
-	glEnd();
-	glPopMatrix();
-	node = node->next;
-    }
-    glLineWidth(1);
+
+
+
+
+
+/*
+   const int n=0;
+   int i;
+   for (i=0; i<n; i++) {
+   Raindrop *node = (Raindrop *)malloc(sizeof(Raindrop));
+   if (node == NULL) {
+   Log("error allocating node.\n");
+   exit(EXIT_FAILURE);
+   }
+   node->prev = NULL;
+   node->next = NULL;
+   node->sound=0;
+   node->pos[0] = rnd() * (float)xres;
+   node->pos[1] = rnd() * 100.0f + (float)yres;
+   VecCopy(node->pos, node->lastpos);
+   node->vel[0] = node->vel[1] = 0.0f;
+   node->color[0] = rnd() * 0.2f + 0.8f;
+   node->color[1] = rnd() * 0.2f + 0.8f;
+   node->color[2] = rnd() * 0.2f + 0.8f;
+   node->color[3] = rnd() * 0.5f + 0.3f; //alpha
+   node->linewidth = random(8)+1;	//larger linewidth = faster speed
+   node->maxvel[1] = (float)(node->linewidth*16);
+   node->length = node->maxvel[1] * 0.2f + rnd();
+//put raindrop into linked list
+node->next = ihead;
+if (ihead != NULL)
+ihead->prev = node;
+ihead = node;
+++totrain;
+}
+
+
+Raindrop *node = ihead;
+while (node) {
+glPushMatrix();
+glTranslated(node->pos[0],node->pos[1],node->pos[2]);
+glColor4fv(node->color);
+glLineWidth(node->linewidth);
+glBegin(GL_LINES);
+glVertex2f(0.0f, 0.0f);
+glVertex2f(0.0f, node->length);
+glEnd();
+glPopMatrix();
+node = node->next;
+}
+glLineWidth(1);
 
 
 } //deleted if umcommenting bubbles
 void cleanupRaindrops(void)
 {
-    Raindrop *s;
-    while (ihead) {
-	s = ihead->next;
-	free(ihead);
-	ihead = s;
-    }
-    ihead=NULL;
+Raindrop *s;
+while (ihead) {
+s = ihead->next;
+free(ihead);
+ihead = s;
+}
+ihead=NULL;
 }
 
 void deleteRain(Raindrop *node)
 {
-    //remove a node from linked list
-    //log("deleteRain()...\n");
-    if (node->prev == NULL) {
-	if (node->next == NULL) {
-	    //Log("only 1 item in list.\n");
-	    ihead = NULL;
-	} else {
-	    //Log("at beginning of list.\n");
-	    node->next->prev = NULL;
-	    ihead = node->next;
-	}
+//remove a node from linked list
+//log("deleteRain()...\n");
+if (node->prev == NULL) {
+if (node->next == NULL) {
+//Log("only 1 item in list.\n");
+ihead = NULL;
+} else {
+//Log("at beginning of list.\n");
+node->next->prev = NULL;
+ihead = node->next;
+}
+} else {
+    if (node->next == NULL) {
+	//Log("at end of list.\n");
+	node->prev->next = NULL;
     } else {
-	if (node->next == NULL) {
-	    //Log("at end of list.\n");
-	    node->prev->next = NULL;
-	} else {
-	    //Log("in middle of list.\n");
-	    node->prev->next = node->next;
-	    node->next->prev = node->prev;
-	}
+	//Log("in middle of list.\n");
+	node->prev->next = node->next;
+	node->next->prev = node->prev;
     }
-    free(node);
-    node = NULL;
+}
+free(node);
+node = NULL;
 }
 
 
@@ -286,10 +352,10 @@ void createRaindrop(const int n)
 	node->color[2] = rnd() * 0.2f + 0.8f;
 	node->color[3] = rnd() * 0.5f + 0.3f; //alpha
 	node->linewidth = random(8)+1;	//larger linewidth = faster speed
-	    node->maxvel[1] = (float)(node->linewidth*16);
+	node->maxvel[1] = (float)(node->linewidth*16);
 	node->length = node->maxvel[1] * 0.2f + rnd();
 	//put raindrop into linked list
-	    node->next = ihead;
+	node->next = ihead;
 	if (ihead != NULL)
 	    ihead->prev = node;
 	ihead = node;
@@ -325,17 +391,17 @@ void checkRaindrops()
 	Raindrop *savenode = node->next;
 	deleteRain(node);
 	node = savenode;
-//	continue;
+	//	continue;
     }
     node = node->next;
 
-if (maxrain < n)
-    maxrain = n;
+    if (maxrain < n)
+	maxrain = n;
 }
 
 void physics(void)
 {
-   if (showRain)
+    if (showRain)
 	checkRaindrops();
 }
 
@@ -358,61 +424,61 @@ void drawRaindrops(void)
     glLineWidth(1);
 }
 
-
+*/
 
 /*
-	Bubbles *b = new Bubbles;
+   Bubbles *b = new Bubbles;
 //	b->nverts=100;
-    for (int i=0; i<15; i++) {
+for (int i=0; i<15; i++) {
 //	Bubbles *b =new Bubbles;
-	b->nverts=8;
-	//b->radius = 8.0f + 4.0f;
+b->nverts=8;
+//b->radius = 8.0f + 4.0f;
 //	b->nverts=100;
-	b->radius = 100;
+b->radius = 100;
 //	Flt r2 = b->radius / 2.0f;
-	Flt angle = 0.0f;    
-	Flt inc = (PI * 2.0f) / (Flt)b->nverts;
-	for (int j=0; j<b->nverts; j++) {
-	    b->vert[j][0] = cos(angle) * ( b->radius);
-	    b->vert[j][1] = sin(angle) * ( b->radius);
-	    angle += inc;
-	}
-
-	b->pos[0] = (Flt)(rand() % xres);
-	b->pos[1] = (Flt)(rand() % yres);
-	b->pos[2] = 0.0f;
-	b->angle = 0.0f;
-	b->rotate = rnd() * 4.0f - 2.0f;
-	b->color[0] = 0.8f;
-	b->color[1] = 0.8f;
-	b->color[2] = 0.7f;
-	b->vel[0] = rnd() * 0.5 - 0.25; 
-	b->vel[1] = rnd() * 0.5 - 0.25;
-	
-	//std::cout << "bubbles" << std::endl;
+Flt angle = 0.0f;    
+Flt inc = (PI * 2.0f) / (Flt)b->nverts;
+for (int j=0; j<b->nverts; j++) {
+b->vert[j][0] = cos(angle) * ( b->radius);
+b->vert[j][1] = sin(angle) * ( b->radius);
+angle += inc;
 }
-   
-   // Bubbles *b = g->ahead;
-    //b=g->ahead;
-    while(b) {
-	glColor3fv(b->color); 
-	glPushMatrix();
-	glTranslatef(b->pos[0], b->pos[1], b->pos[2]);
-	glRotatef(b->angle, 0.0f, 0.0f, 1.0f);
-	glBegin(GL_LINE_LOOP);
-	for (int j=0; j<b->nverts; j++) {
-	    glVertex2f(b->vert[j][0], b->vert[j][1]);
-	}
-	glEnd();
 
-	glPopMatrix();
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glBegin(GL_POINTS);
-	glVertex2f(b->pos[0], b->pos[1]);
-	glEnd();
-	b=b->next;
- 
-    }
-    }
+b->pos[0] = (Flt)(rand() % xres);
+b->pos[1] = (Flt)(rand() % yres);
+b->pos[2] = 0.0f;
+b->angle = 0.0f;
+b->rotate = rnd() * 4.0f - 2.0f;
+b->color[0] = 0.8f;
+b->color[1] = 0.8f;
+b->color[2] = 0.7f;
+b->vel[0] = rnd() * 0.5 - 0.25; 
+b->vel[1] = rnd() * 0.5 - 0.25;
+
+//std::cout << "bubbles" << std::endl;
+}
+
+// Bubbles *b = g->ahead;
+//b=g->ahead;
+while(b) {
+glColor3fv(b->color); 
+glPushMatrix();
+glTranslatef(b->pos[0], b->pos[1], b->pos[2]);
+glRotatef(b->angle, 0.0f, 0.0f, 1.0f);
+glBegin(GL_LINE_LOOP);
+for (int j=0; j<b->nverts; j++) {
+glVertex2f(b->vert[j][0], b->vert[j][1]);
+}
+glEnd();
+
+glPopMatrix();
+glColor3f(1.0f, 0.0f, 0.0f);
+glBegin(GL_POINTS);
+glVertex2f(b->pos[0], b->pos[1]);
+glEnd();
+b=b->next;
+
+}
+}
 */
 
