@@ -56,6 +56,9 @@ int set_from_text[MAX_BLOCKS_WIDE];
 
 void read_from_text();
 void set_platform_boxes();
+void draw_boxes();
+//Have Mark use if images are set and set to 1
+bool image_set = 0;
 
 using namespace std;
 
@@ -161,6 +164,11 @@ void el_platform_collision(Game *g)
 void render_floor(){
 	read_from_text();
 	set_platform_boxes();
+	if(!image_set){
+		draw_boxes();
+	}
+	//void draw_boxes();
+	//bool image_set = 0;
 }
 
 void read_from_text(){
@@ -209,12 +217,47 @@ void set_platform_boxes()
 	h = halved;
 	if (w || h) {};
 	for (int i = 0 ; i < total_boxes; i++) {
-			platform_boxes[num].center[0]= w+(PIXEL_WIDTH*i); 
+		platform_boxes[num].center[0]= w+(PIXEL_WIDTH*i); 
 		for (int j = 0; j < set_from_text[i]; j++) {
-					
+
 			platform_boxes[num].center[1]=h+(PIXEL_WIDTH*j); 
 		}
 	}
+}
+
+void draw_boxes()
+{
+	float w, h;
+	float pixels = PIXEL_WIDTH;
+	w=pixels;
+	h=pixels;
+	float pix_center = PIXEL_WIDTH/2;
+	int arr[MAX_BLOCKS];
+	int box_num=0;
+	for (int i = 0; i < num_blocks_wide; i++) {
+		platform_boxes[box_num].center[0] = pix_center + (i*PIXEL_WIDTH);
+		glBindTexture(GL_TEXTURE_2D, floorTexture);
+		float position;
+		for (int j = 0 ; j < arr[i]; j++) {
+			//Need this variable for K&R line length
+			position = pix_center + (j*PIXEL_WIDTH) ;
+			platform_boxes[box_num].center[1] = position; 
+			glPushMatrix();
+			glBegin(GL_QUADS);
+			glTexCoord2f(0.0, 1.0);
+			glVertex2i(w*i,h*j);
+			glTexCoord2f(0.0, 0.0); 
+			glVertex2i(w*i,h*j+pixels);
+			glTexCoord2f(1.0, 0.0);
+			glVertex2i(w*i+pixels,h*j+pixels);
+			glTexCoord2f(1.0, 1.0);
+			glVertex2i(w*i+pixels,h*j);
+			glEnd();
+			glPopMatrix();
+			box_num++;
+		}
+	}
+
 }
 
 void el_platform_collision(Game *g){ if (g) {};}
