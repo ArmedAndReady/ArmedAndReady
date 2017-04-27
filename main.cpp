@@ -55,11 +55,13 @@ extern void render_floor();
 extern void print_Ana();
 extern void ana_show_help();
 extern void print_Mark();
-extern void initCharMark();
-extern void mark_show_charsel();
+extern void initCharMark();//MF
+extern int mcheck_keys(XEvent *e);//MF
+extern void mark_show_charsel();//MF
 extern void redOctober();//MF
-extern void projectileTex();
+extern void projectileTex();//MF
 extern void texGen();//MF
+extern void characterSelect();
 extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu();
@@ -174,7 +176,6 @@ struct Asteroid {
     Flt radius;
     Vec vert[8];
     float angle;
-    float rotate;
     float color[3];
     struct Asteroid *prev;
     struct Asteroid *next;
@@ -261,7 +262,7 @@ extern void el_gravity_f(Game *g);
 extern void el_platform_collision(Game *g);
 extern void el_jump(Game *g);
 
-
+extern int mdone;
 int main(void)
 {
     print_esteban();
@@ -293,6 +294,7 @@ int main(void)
 	    check_resize(&e);
 	    check_mouse(&e, &game);
 	    done = check_keys(&e);
+	    mdone = mcheck_keys(&e);
 	}
 	clock_gettime(CLOCK_REALTIME, &timeCurrent);
 	timeSpan = timeDiff(&timeStart, &timeCurrent);
@@ -643,6 +645,7 @@ int check_keys(XEvent *e)
 	    //MF to toggle character select screen
 	    state_charsel ^=1;
 	    mark_show_charsel();		
+	    mcheck_keys(e);
 	case XK_Down:
 	    break;
 	case XK_equal:
@@ -986,7 +989,8 @@ void render(Game *g)
 	glVertex2f(  0.0f, -20.0f);
 	glVertex2f( 12.0f, -10.0f);*/
 
-	initCharMark();
+	//initCharMark();
+	characterSelect();
 	
 
 	//glEnd();
