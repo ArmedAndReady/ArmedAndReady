@@ -32,16 +32,20 @@ GLuint AtkTex;
 
 extern int xres;
 extern int yres;
-
+static int charsel = 0;
+int mdone = 0;
+extern int keys[];
 void mark_show_charsel();
-void check_keys(XEvent *e);
-void initCharMark();
+int mcheck_keys(XEvent *e);
+void initCharMark();	//draw default charcter
 void redOctober();	//use this to draw enemy
 void projectileTex();	//use this to draw projectiles
-void texGen();
+void texGen();		//generates all textures
+void characterSelect(); //select character sprite
 
 void mark_show_charsel()
 {
+    //cout << "Showing character select. . .\n";
     Rect r;
     glColor3ub(0,255,0);
     glPushMatrix();
@@ -55,30 +59,47 @@ void mark_show_charsel()
     r.bot = 400;
     r.left = 400;
     r.center = 0;
-    ggprint8b(&r, 16, 0x0000ff, "Testing");
-    /*XEvent e;
-      check_keys(XEvent *e);*/
+    ggprint8b(&r, 48, 0x0000ff, "CHARACTER SELECT");
 }
-/*
-   int check_keys(XEvent *e)
-   {
-   int key = XLookupKeysym(&e->xkey, 0);
-   switch(key) {
-   case XK_1:
-   initCharMark();
-   break;
-   case XK_2:
-   blueOcto();
-   break;
-   }
-   return 0;
-   }*/
+
+int mcheck_keys(XEvent *e)
+{
+    //cout << "Set done to 1\n";
+    mdone = 1;
+    //cout << "Checking keys. . .\n";
+    int mkey = XLookupKeysym(&e->xkey, 0);
+    //cout << "int key initialized...\n";
+
+    //cout << "Right before switch...\n";
+    switch(mkey) {
+	case XK_0:
+		charsel = 0;
+		break;
+	case XK_1:
+		//cout << "Set charsel to 1\n";
+	    charsel = 1;
+	    break;
+	case XK_2:
+	    charsel = 2;
+	    break;
+    }
+    characterSelect();
+    return 0;
+}
+
+void characterSelect()
+{
+//        cout << charsel;
+    if(charsel == 0)
+	initCharMark();
+    else if(charsel == 1)
+	redOctober();
+}
 
 void initCharMark()
 {
     //    string debug = "Printing character to screen...\n";
     //    cout << debug;
-
 
     int w = octoImage->width;
     int h = octoImage->height;
@@ -122,7 +143,7 @@ void redOctober()
 
     int w = redImage->width;
     int h = redImage->height;
-    float wid = 32.0f;
+    float wid = 64.0f;
     glColor3f(1.0f, 0.0f, 0.0f);
 
     glEnable(GL_TEXTURE_2D);

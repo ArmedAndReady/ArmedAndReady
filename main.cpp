@@ -57,9 +57,11 @@ extern void ana_show_help();
 extern void print_Mark();
 extern void initCharMark();
 extern void mark_show_charsel();
+extern int mcheck_keys(XEvent *e);
 extern void redOctober();//MF
-extern void projectileTex();
+extern void projectileTex();//MF
 extern void texGen();//MF
+extern void characterSelect();
 extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu();
@@ -172,7 +174,7 @@ struct Asteroid {
     Flt radius;
     Vec vert[8];
     float angle;
-    float rotate;
+    //float rotate;
     float color[3];
     struct Asteroid *prev;
     struct Asteroid *next;
@@ -259,7 +261,7 @@ extern void el_gravity_f(Game *g);
 extern void el_platform_collision(Game *g);
 extern void el_jump(Game *g);
 
-
+extern int mdone;
 int main(void)
 {
     print_esteban();
@@ -286,11 +288,12 @@ int main(void)
     int done=0;
     while (!done) {
 	while (XPending(dpy)) {
-	    XEvent e;
+	  XEvent e;
 	    XNextEvent(dpy, &e);
 	    check_resize(&e);
 	    check_mouse(&e, &game);
 	    done = check_keys(&e);
+	    mdone = mcheck_keys(&e);
 	}
 	clock_gettime(CLOCK_REALTIME, &timeCurrent);
 	timeSpan = timeDiff(&timeStart, &timeCurrent);
@@ -646,7 +649,8 @@ int check_keys(XEvent *e)
     	case XK_c:
 	    //MF to toggle character select screen
 	    state_charsel ^=1;
-	    mark_show_charsel();		
+	    mark_show_charsel();	    
+	    mcheck_keys(e);
 	case XK_Down:
 	    break;
 	case XK_equal:
@@ -701,7 +705,7 @@ void buildAsteroidFragment(Asteroid *ta, Asteroid *a)
     ta->pos[1] = a->pos[1] + rnd()*10.0f-5.0f;
     ta->pos[2] = 0.0f;
     ta->angle = 0.0f;
-    ta->rotate = a->rotate + (rnd() * 4.0f - 2.0f);
+    //ta->rotate = a->rotate + (rnd() * 4.0f - 2.0f);
     ta->color[0] = 0.8f;
     ta->color[1] = 0.8f;
     ta->color[2] = 0.7f;
@@ -792,7 +796,7 @@ void physics(Game *g)
 	else if (a->pos[1] > (float)yres+100.0f) {
 	    a->pos[1] -= (float)yres+200.0f;
 	}
-	a->angle += a->rotate;
+	//a->angle += a->rotate;
 	a = a->next;
     }
     //
@@ -816,8 +820,8 @@ void physics(Game *g)
 		    //break it into pieces.
 		    Asteroid *ta = a;
 		    buildAsteroidFragment(ta, a);
-		    int r = rand() % 10 + 5;
-		    for (int k=0; k<r; k++) {
+		    //int r = rand() % 10 + 5;
+		    //for (int k=0; k<r; k++) {
 			//get the next asteroid position in the array
 			//Asteroid *ta = new Asteroid;
 			//buildAsteroidFragment(ta, a);
@@ -827,7 +831,8 @@ void physics(Game *g)
 			    //g->ahead->prev = ta;
 			//g->ahead = ta;
 			//g->nasteroids++;
-		    }
+		    //}
+		    g->nbullets--;
 		} else {
 		    a->color[0] = 1.0f;
 		    a->color[1] = 0.1f;
@@ -987,8 +992,8 @@ void render(Game *g)
 	glVertex2f(  0.0f, -20.0f);
 	glVertex2f( 12.0f, -10.0f);*/
 
-	initCharMark();
-	
+	//initCharMark();
+	characterSelect();
 
 	//glEnd();
 	glColor3f(1.0f, 0.0f, 0.0f);	
@@ -1031,12 +1036,12 @@ void render(Game *g)
 	    glTranslatef(a->pos[0], a->pos[1], a->pos[2]);
 	    glRotatef(a->angle, 0.0f, 0.0f, 1.0f);
 	    redOctober();
-	    glBegin(GL_LINE_LOOP);
+	    //glBegin(GL_LINE_LOOP);
 	    //Log("%i verts\n",a->nverts);
-	    for (int j=0; j<a->nverts; j++) {
-		glVertex2f(a->vert[j][0], a->vert[j][1]);
-	    }
-	    glEnd();
+	    //for (int j=0; j<a->nverts; j++) {
+		//glVertex2f(a->vert[j][0], a->vert[j][1]);
+	    //}
+	    //glEnd();
 	    //glBegin(GL_LINES);
 	    //	glVertex2f(0,   0);
 	    //	glVertex2f(a->radius, 0);
