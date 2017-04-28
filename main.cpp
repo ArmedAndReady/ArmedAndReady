@@ -1032,20 +1032,21 @@ void render(Game *g)
 	    glColor3fv(a->color);
 	    glPushMatrix();
 	    glTranslatef(a->pos[0], a->pos[1], a->pos[2]);
-	    glRotatef(a->angle, 0.0f, 0.0f, 1.0f);
+	    //glRotatef(a->angle, 0.0f, 0.0f, 1.0f);
 	    redOctober();
-	    glBegin(GL_LINE_LOOP);
+	    //initCharMark();
+	    //glBegin(GL_LINE_LOOP);
 	    //Log("%i verts\n",a->nverts);
-	    for (int j=0; j<a->nverts; j++) {
-		glVertex2f(a->vert[j][0], a->vert[j][1]);
-	    }
-	    glEnd();
+	    //for (int j=0; j<a->nverts; j++) {
+		//glVertex2f(a->vert[j][0], a->vert[j][1]);
+	    //}
+	    //glEnd();
 	    //glBegin(GL_LINES);
 	    //	glVertex2f(0,   0);
 	    //	glVertex2f(a->radius, 0);
 	    //glEnd();
 	    glPopMatrix();
-	    glColor3f(1.0f, 0.0f, 0.0f);
+	    //glColor3f(1.0f, 0.0f, 0.0f);
 	    glBegin(GL_POINTS);
 	    glVertex2f(a->pos[0], a->pos[1]);
 	    glEnd();

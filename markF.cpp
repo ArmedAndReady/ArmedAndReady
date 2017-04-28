@@ -47,7 +47,7 @@ void mark_show_charsel()
 {
     //cout << "Showing character select. . .\n";
     Rect r;
-    glColor3ub(0,255,0);
+    glColor3ub(0,255,255);
     glPushMatrix();
     glBegin(GL_QUADS);
     glVertex2i(0,0);
@@ -59,7 +59,10 @@ void mark_show_charsel()
     r.bot = 400;
     r.left = 400;
     r.center = 0;
-    ggprint8b(&r, 48, 0x0000ff, "CHARACTER SELECT");
+    ggprint8b(&r, 96, 0x0000ff, "CHARACTER SELECT");
+    ggprint8b(&r, 48, 0x0000ff, "1 - Red October");
+    ggprint8b(&r, 48, 0x0000ff, "2 - Dirt Texture");
+    ggprint8b(&r, 48, 0x0000ff, "0 - Default Texture");
 }
 
 int mcheck_keys(XEvent *e)
@@ -73,10 +76,10 @@ int mcheck_keys(XEvent *e)
     //cout << "Right before switch...\n";
     switch(mkey) {
 	case XK_0:
-		charsel = 0;
-		break;
+	    charsel = 0;
+	    break;
 	case XK_1:
-		//cout << "Set charsel to 1\n";
+	    //cout << "Set charsel to 1\n";
 	    charsel = 1;
 	    break;
 	case XK_2:
@@ -89,11 +92,13 @@ int mcheck_keys(XEvent *e)
 
 void characterSelect()
 {
-//        cout << charsel;
+    //        cout << charsel;
     if(charsel == 0)
 	initCharMark();
     else if(charsel == 1)
 	redOctober();
+    else if(charsel == 2)
+	projectileTex();
 }
 
 void initCharMark()
