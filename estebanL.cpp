@@ -204,21 +204,36 @@ void el_render_floor(){
 
 void el_render_background()
 {
-	set_background();
-	draw_background();
+		set_background();
+		draw_background();
 }
 
 void set_background()
 {
-//extern Ppmimage * parallaxImage;
-//extern GLuint parallaxTexture;
+		//extern Ppmimage * parallaxImage;
+		//extern GLuint parallaxTexture;
 
 
 }
 
 void draw_background()
 {
-
+		float w, h;
+		w = xres;
+		h = yres;
+		glBindTexture(GL_TEXTURE_2D, parallaxTexture);
+		glPushMatrix();
+		glBegin(GL_QUADS);
+		glTexCoord2f(0.0, 1.0);
+		glVertex2i(0,0);
+		glTexCoord2f(0.0, 0.0); 
+		glVertex2i(0,h);
+		glTexCoord2f(1.0, 0.0);
+		glVertex2i(w,h);
+		glTexCoord2f(1.0, 1.0);
+		glVertex2i(w,0);
+		glEnd();
+		glPopMatrix();
 }
 
 void read_from_text(){
