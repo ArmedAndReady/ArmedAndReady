@@ -410,8 +410,14 @@ void initXWindows(void)
     } 
     Colormap cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
     swa.colormap = cmap;
-    swa.event_mask = ExposureMask | KeyPressMask | KeyReleaseMask |
-	StructureNotifyMask | SubstructureNotifyMask;
+    swa.event_mask = ExposureMask |
+		KeyPressMask |
+		KeyReleaseMask |
+		ButtonPressMask |
+		ButtonReleaseMask |
+		PointerMotionMask |
+		StructureNotifyMask |
+		SubstructureNotifyMask;
     win = XCreateWindow(dpy, root, 0, 0, xres, yres, 0,
 	    vi->depth, InputOutput, vi->visual,
 	    CWColormap | CWEventMask, &swa);
@@ -542,6 +548,7 @@ void init(Game *g)
 	    g->ahead->prev = a;
 	g->ahead = a;
 	g->nasteroids++;
+	ab_init();
     }
     clock_gettime(CLOCK_REALTIME, &g->bulletTimer);
     memset(keys, 0, 65536);
@@ -595,6 +602,10 @@ void check_mouse(XEvent *e, Game *g)
 	    g->ship.angle -= 360.0f;
 	if (g->ship.angle < 0.0f)
 	    g->ship.angle += 360.0f;
+	    
+	extern void abcm(int x , int y);
+	cout<<"calling abcm"<<endl;
+	abcm(savex,savey);
     }
 }
 
@@ -629,6 +640,7 @@ int check_keys(XEvent *e)
 	case XK_h:
 	    //AB to toggle help menu
 	    state_help ^= 1;
+	    ana_show_help();
 	    break;
 	case XK_s:
 	    //AV to start the game
