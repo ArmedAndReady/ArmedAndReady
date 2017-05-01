@@ -261,6 +261,7 @@ extern float el_gravity();
 extern void el_gravity_f(Game *g);
 extern void el_platform_collision(Game *g);
 extern void el_jump(Game *g);
+extern void el_sidescroll(Game *g);
 
 extern int mdone;
 int main(void)
@@ -569,7 +570,7 @@ void check_mouse(XEvent *e, Game *g)
 	#ifdef COLLISION
 	//el_gravity(&e, &g);
 	//el_gravity();
-	el_gravity_f(g);
+	//el_gravity_f(g);
 	//g->ship.pos[1] += octogravity;
 	#endif //COLLISION
 	return;
@@ -885,6 +886,7 @@ void physics(Game *g)
 #ifdef EL_PHYSICS
 	g->ship.angle = 0.0f;
 	g->ship.pos[0] += 4.0f;
+	el_sidescroll(g);
 #endif //EL_PHYSICS
     }
     if (keys[XK_Up]) {

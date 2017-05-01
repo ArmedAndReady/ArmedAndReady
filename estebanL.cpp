@@ -62,6 +62,7 @@ void set_platform_boxes();
 void draw_boxes();
 void check_position();
 void reset_platforms();
+//void el_sidescroll();
 //Have Mark use if images are set and set to 1
 bool image_set = 0;
 float octo_position = 0.0;
@@ -464,15 +465,25 @@ void el_gravity_f(Game *g)
 		g->ship.vel[1] = 0;
 	}
 	//not a natural place for this, but use as a study
+	/*shift_platform = g->ship.pos[0];
+	if(g->ship.pos[0] > xres * 0.75) {
+		reset_boxes = 1;
+		reset_platforms(shift_platform);
+		reset_boxes = 0;*/
+		//g->ship.pos[0] -= shift_platform;
+		//reset_boxes = 1;
+		//cout <<"TEST: Octo past 75 percent on screen\n";
+		//reset_platforms(); move both octopus and platforms back and introduce new ones.
+	//}
+}
+
+void el_sidescroll(Game *g)
+{
 	shift_platform = g->ship.pos[0];
 	if(g->ship.pos[0] > xres * 0.75) {
 		reset_boxes = 1;
 		reset_platforms(shift_platform);
 		reset_boxes = 0;
-		//g->ship.pos[0] -= shift_platform;
-		//reset_boxes = 1;
-		//cout <<"TEST: Octo past 75 percent on screen\n";
-		//reset_platforms(); move both octopus and platforms back and introduce new ones.
 	}
 }
 
