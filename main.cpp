@@ -261,7 +261,7 @@ extern float el_gravity();
 extern void el_gravity_f(Game *g);
 extern void el_platform_collision(Game *g);
 extern void el_jump(Game *g);
-extern void el_sidescroll(Game *g);
+extern void el_sidescroll(Game *g, float scroll);
 
 extern int mdone;
 int main(void)
@@ -884,9 +884,16 @@ void physics(Game *g)
 	    g->ship.angle += 360.0f;
 #endif //ORIG_PHYSICS
 #ifdef EL_PHYSICS
+	float el_threshold = xres * .75;
+	float scroll = 0;
 	g->ship.angle = 0.0f;
-	g->ship.pos[0] += 4.0f;
-	el_sidescroll(g);
+	if (g->ship.pos[0] >= el_threshold) {
+		g->ship.pos[0] += 0.0f;
+		scroll = 4.0f;
+	} else {
+		g->ship.pos[0] += 4.0f;
+	}
+	el_sidescroll(g, scroll);
 #endif //EL_PHYSICS
     }
     if (keys[XK_Up]) {
