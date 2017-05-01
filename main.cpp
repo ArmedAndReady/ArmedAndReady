@@ -54,6 +54,7 @@ extern void render_floor();
 //extern void el_gravity(XEvent *, Game *);
 extern void print_Ana();
 extern void ana_show_help();
+extern void ab_init();
 extern void print_Mark();
 extern void initCharMark();//MF
 extern int mcheck_keys(XEvent *e);//MF
@@ -261,7 +262,7 @@ extern float el_gravity();
 extern void el_gravity_f(Game *g);
 extern void el_platform_collision(Game *g);
 extern void el_jump(Game *g);
-extern void el_sidescroll(Game *g, float scroll);
+extern void el_sidescroll(Game *g, float scroll, char dir);
 
 extern int mdone;
 int main(void)
@@ -885,8 +886,19 @@ void physics(Game *g)
 #ifdef EL_PHYSICS
 	/*g->ship.pos[0] += g->ship.vel[0];
 	  g->ship.pos[1] += g->ship.vel[1];*/
+	float el_threshold = xres * .25;
+	float scroll = 0;
+	char direction = 'l';
 	g->ship.angle = 0.0f;
-	g->ship.pos[0] -= 4.0f;
+	if (g->ship.pos[0] <= el_threshold) {
+		g->ship.pos[0] += 0.0f;
+		scroll = -4.0f;
+	} else {
+		g->ship.pos[0] -= 4.0f;
+	}
+	el_sidescroll(g, scroll,direction);
+	//g->ship.angle = 0.0f;
+	//g->ship.pos[0] -= 4.0f;
 #endif //EL_PHYSICS
     }
     if (keys[XK_Right]) {
@@ -898,6 +910,7 @@ void physics(Game *g)
 #ifdef EL_PHYSICS
 	float el_threshold = xres * .75;
 	float scroll = 0;
+	char direction = 'r';
 	g->ship.angle = 0.0f;
 	if (g->ship.pos[0] >= el_threshold) {
 		g->ship.pos[0] += 0.0f;
@@ -905,7 +918,7 @@ void physics(Game *g)
 	} else {
 		g->ship.pos[0] += 4.0f;
 	}
-	el_sidescroll(g, scroll);
+	el_sidescroll(g, scroll, direction);
 #endif //EL_PHYSICS
     }
     if (keys[XK_Up]) {

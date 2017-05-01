@@ -477,15 +477,27 @@ void el_gravity_f(Game *g)
 		//}
 }
 
-void el_sidescroll(Game *g, float scroll)
+void el_sidescroll(Game *g, float scroll, char dir)
 {
 		//shift_platform = g->ship.pos[0];
-		float threshold = xres * 0.75;
-		if(g->ship.pos[0] > threshold) {
-				reset_boxes = 1;
-				shift_platform += scroll;
-				reset_platforms(shift_platform);
-				reset_boxes = 0;
+		float threshold = 0.0f;
+		switch(dir) {
+				case 'l':
+						threshold =  xres * 0.25;
+						if(g->ship.pos[0] < threshold) {
+								reset_boxes = 1;
+								shift_platform += scroll;
+								reset_platforms(shift_platform);
+								reset_boxes = 0;
+						}
+				case 'r':
+						threshold =  xres * 0.75;
+						if(g->ship.pos[0] > threshold) {
+								reset_boxes = 1;
+								shift_platform += scroll;
+								reset_platforms(shift_platform);
+								reset_boxes = 0;
+						}
 		}
 }
 
