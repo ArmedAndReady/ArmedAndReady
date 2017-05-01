@@ -247,7 +247,7 @@ void initXWindows(void);
 void init_opengl(void);
 void cleanupXWindows(void);
 void check_resize(XEvent *e);
-void check_mouse(XEvent *e, Game *game);
+void check_mouse(XEvent *e);
 int check_keys(XEvent *e);
 void init(Game *g);
 void init_sounds(void);
@@ -268,7 +268,7 @@ extern void el_platform_collision(Game *g);
 extern void el_jump(Game *g);
 extern void el_sidescroll(Game *g, float scroll, char dir);
 extern void init_el_buttons();
-
+extern void abcm(XEvent *e);
 extern int mdone;
 int main(void)
 {
@@ -300,7 +300,10 @@ int main(void)
 			XEvent e;
 			XNextEvent(dpy, &e);
 			check_resize(&e);
-			check_mouse(&e, &game);
+			check_mouse(&e);
+			abcm(&e);
+			cout<<"calling abcm"<<endl;
+			abcm(&e);
 			done = check_keys(&e);
 			mdone = mcheck_keys(&e);
 		}
@@ -317,8 +320,12 @@ int main(void)
 	}
 #ifdef SOUND
 	//EL Error Correction add &game as parameter
+	
+	
 	cleanupSound(&game);
 #endif //SOUND
+
+
 	cleanupXWindows();
 	cleanup_fonts();
 	logClose();
@@ -584,13 +591,15 @@ void normalize(Vec v) {
 	v[1] *= len;
 }
 
-void check_mouse(XEvent *e, Game *g)
+void check_mouse(XEvent *e)
 {
 	//Did the mouse move?
 	//Was a mouse button clicked?
 	static int savex = 0;
 	static int savey = 0;
-	//
+	int lbutton=0;
+	int x,y;
+	int rbutton=0;
 	if (e->type == ButtonRelease) {
 #ifdef COLLISION
 		//el_gravity(&e, &g);
@@ -602,30 +611,40 @@ void check_mouse(XEvent *e, Game *g)
 	}
 	if (e->type == ButtonPress) {
 		if (e->xbutton.button==1) {
-			//Left button is down
+			//Left button is downi
+			lbutton=1;
 		}
 		if (e->xbutton.button==3) {
 			//Right button is down
+		rbutton=1;
+		if (rbutton){
+		}
 		}
 	}
+	x = e->xbutton.x;
+
+	    y = e->xbutton.y;
+
+	        y = yres - y;
+
 	if (savex != e->xbutton.x || savey != e->xbutton.y) {
 		//Mouse moved
-		int xdiff = savex - e->xbutton.x;
+		//int xdiff = savex - e->xbutton.x;
 		//int ydiff = savey - e->xbutton.y;
 		savex = e->xbutton.x;
 		savey = e->xbutton.y;
-
-		g->ship.angle += xdiff;
+	}
+	/*	g->ship.angle += xdiff;
 		if (g->ship.angle >= 360.0f)
 			g->ship.angle -= 360.0f;
 		if (g->ship.angle < 0.0f)
 			g->ship.angle += 360.0f;
-
-		extern void abcm(int x , int y);
+			*/
+		//extern void abcm(XEvent *e);
 		cout<<"calling abcm"<<endl;
-		abcm(savex,savey);
+		abcm(e);
 	}
-}
+
 
 int check_keys(XEvent *e)
 {
