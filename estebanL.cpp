@@ -26,6 +26,8 @@ extern int xres;
 extern int yres;
 extern Ppmimage *floorImage;
 extern GLuint floorTexture; 
+extern Ppmimage * parallaxImage;
+extern GLuint parallaxTexture;
 //extern const float octogravity;
 //extern struct game->ship.vec;
 //extern struct Game game;
@@ -62,6 +64,8 @@ void set_platform_boxes();
 void draw_boxes();
 void check_position();
 void reset_platforms();
+void set_background();
+void draw_background();
 //void el_sidescroll();
 //Have Mark use if images are set and set to 1
 bool image_set = 0;
@@ -77,7 +81,7 @@ void print_esteban()
 
 
 #ifdef FLOOR_STUDY
-void render_floor()
+void el_render_floor()
 {
 		float w, h;
 		float pixels = PIXEL_WIDTH;
@@ -142,6 +146,11 @@ void render_floor()
 		}
 }
 
+void el_render_background()
+{
+
+}
+
 void el_platform_collision(Game *g)
 {
 		//if (g){};
@@ -170,7 +179,7 @@ void el_platform_collision(Game *g)
 #ifndef FLOOR_STUDY
 int set = 0;
 
-void render_floor(){
+void el_render_floor(){
 		if (!set) {
 				read_from_text();
 				set_platform_boxes();
@@ -191,6 +200,25 @@ void render_floor(){
 #endif //CHECK_READ_IN
 		//void draw_boxes();
 		//bool image_set = 0;
+}
+
+void el_render_background()
+{
+	set_background();
+	draw_background();
+}
+
+void set_background()
+{
+//extern Ppmimage * parallaxImage;
+//extern GLuint parallaxTexture;
+
+
+}
+
+void draw_background()
+{
+
 }
 
 void read_from_text(){
