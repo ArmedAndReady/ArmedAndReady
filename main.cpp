@@ -267,6 +267,7 @@ extern void el_gravity_f(Game *g);
 extern void el_platform_collision(Game *g);
 extern void el_jump(Game *g);
 extern void el_sidescroll(Game *g, float scroll, char dir);
+extern void init_el_buttons();
 
 extern int mdone;
 int main(void)
@@ -286,6 +287,7 @@ int main(void)
 	//EL made Game game global to be able to access from files
 	//Game game;
 	init(&game);
+	//init_el_buttons();
 	srand(time(NULL));
 	clock_gettime(CLOCK_REALTIME, &timePause);
 	clock_gettime(CLOCK_REALTIME, &timeStart);
@@ -1125,6 +1127,7 @@ void render(Game *g)
 		}
 		//Draw the floor EL
 		el_render_floor();
+		//init_el_buttons();
 	}
 }
 

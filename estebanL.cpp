@@ -39,6 +39,10 @@ int floor_set = 0;
 int checked = 0;
 int reset_boxes = 0;
 float shift_platform = 0;
+
+extern "C" {
+#include "fonts.h"
+}
 //void read_by_char(string);
 
 //struct Vec{
@@ -72,6 +76,72 @@ bool image_set = 0;
 float octo_position = 0.0;
 
 using namespace std;
+
+typedef struct t_el_button {
+	Rect r;
+	char text[32];
+	int over;
+	int down;
+	int click;
+	float color[3];
+	float dcolor[3];
+	unsigned int text_color;
+} El_Button;
+
+El_Button el_button[2];
+
+void init_el_buttons()
+{
+	int nbuttons=0;
+	//size and position
+	el_button[nbuttons].r.width = 140;
+	el_button[nbuttons].r.height = 60;
+	el_button[nbuttons].r.left = 20;
+	el_button[nbuttons].r.bot = 320;
+	el_button[nbuttons].r.right =
+	   el_button[nbuttons].r.left + el_button[nbuttons].r.width;
+	el_button[nbuttons].r.top =
+	   el_button[nbuttons].r.bot + el_button[nbuttons].r.height;
+	el_button[nbuttons].r.centerx =
+	   (el_button[nbuttons].r.left + el_button[nbuttons].r.right) / 2;
+	el_button[nbuttons].r.centery =
+	   (el_button[nbuttons].r.bot + el_button[nbuttons].r.top) / 2;
+	strcpy(el_button[nbuttons].text, "Reset");
+	el_button[nbuttons].down = 0;
+	el_button[nbuttons].click = 0;
+	el_button[nbuttons].color[0] = 0.4f;
+	el_button[nbuttons].color[1] = 0.4f;
+	el_button[nbuttons].color[2] = 0.7f;
+	el_button[nbuttons].dcolor[0] = el_button[nbuttons].color[0] * 0.5f;
+	el_button[nbuttons].dcolor[1] = el_button[nbuttons].color[1] * 0.5f;
+	el_button[nbuttons].dcolor[2] = el_button[nbuttons].color[2] * 0.5f;
+	el_button[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	el_button[nbuttons].r.width = 140;
+	el_button[nbuttons].r.height = 60;
+	el_button[nbuttons].r.left = 20;
+	el_button[nbuttons].r.bot = 160;
+	el_button[nbuttons].r.right =
+	   el_button[nbuttons].r.left + el_button[nbuttons].r.width;
+	el_button[nbuttons].r.top = el_button[nbuttons].r.bot +
+	   el_button[nbuttons].r.height;
+	el_button[nbuttons].r.centerx = (el_button[nbuttons].r.left +
+	   el_button[nbuttons].r.right) / 2;
+	el_button[nbuttons].r.centery = (el_button[nbuttons].r.bot +
+	   el_button[nbuttons].r.top) / 2;
+	strcpy(el_button[nbuttons].text, "Quit");
+	el_button[nbuttons].down = 0;
+	el_button[nbuttons].click = 0;
+	el_button[nbuttons].color[0] = 0.3f;
+	el_button[nbuttons].color[1] = 0.3f;
+	el_button[nbuttons].color[2] = 0.6f;
+	el_button[nbuttons].dcolor[0] = el_button[nbuttons].color[0] * 0.5f;
+	el_button[nbuttons].dcolor[1] = el_button[nbuttons].color[1] * 0.5f;
+	el_button[nbuttons].dcolor[2] = el_button[nbuttons].color[2] * 0.5f;
+	el_button[nbuttons].text_color = 0x00ffffff;
+	nbuttons++;
+	
+}
 
 void print_esteban()
 {	
