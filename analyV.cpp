@@ -231,11 +231,20 @@ void Analy_show_menu()
     glEnd();
     glPopMatrix();
     }
-r.bot = 600;
-r.left = 400;
+r.bot = 475; 
+r.left =605 ;
 r.center = 0;
 ggprint16(&r, 16, 0x00ffffff, "Start");
+
+r.bot = 385;
+r.left =605 ;
+r.center = 0;
 ggprint16(&r, 16, 0x00ff0000, "Help");
+
+r.bot = 295; 
+r.left =605 ;
+r.center = 0;
+
 ggprint16(&r, 16, 0x00ff0000, "Rules");
 }
 
