@@ -149,7 +149,6 @@ void redOctober()
     int w = redImage->width;
     int h = redImage->height;
     float wid = 64.0f;
-    glColor3f(1.0f, 0.0f, 0.0f);
 
     glEnable(GL_TEXTURE_2D);
 
@@ -189,13 +188,15 @@ void projectileTex()
 void texGen()
 {
     //Player character ppm creation
-    system("convert ./Game_Tiles/octopus.png ./Game_Tiles/octopus.ppm");
+    //system("convert ./Game_Tiles/octopus.png ./Game_Tiles/octopus.ppm");
+    system("convert ./Game_Tiles/Octopus.png ./Game_Tiles/octopus.ppm");
+    //system("convert ./Game_Tiles/Tracer.png ./Game_Tiles/octopus.ppm");
     octoImage = ppm6GetImage("./Game_Tiles/octopus.ppm");
     glGenTextures(1, &octoTexture);
     unlink("./Game_Tiles/octopus.ppm");
 
     //Enemy character ppm creation
-    system("convert ./Game_Tiles/octopus.png ./Game_Tiles/redOctober.ppm");
+    system("convert ./Game_Tiles/RedOctober.png ./Game_Tiles/redOctober.ppm");
     redImage = ppm6GetImage("./Game_Tiles/redOctober.ppm");
     glGenTextures(1, &rOTex);
     unlink("./Game_Tiles/redOctober.ppm");
@@ -206,6 +207,8 @@ void texGen()
     glGenTextures(1, &AtkTex);
     unlink("./Game_Tiles/Atk.ppm");
 }
+
+//unsigned 
 
 void print_Mark()
 {

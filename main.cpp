@@ -476,14 +476,15 @@ void init_opengl(void)
 	//ppm6SaveImage("Bricks_1.png", "Bricks_1.ppm");
 	//need to figure out how these work
 	//ppm6SaveImage("Bricks_1.ppm", "Bricks_1.png");
-	floorImage = ppm6GetImage("Bricks_1.ppm");
+	system("convert ./Game_Tiles/Sand.png ./Game_Tiles/Sand.ppm");
+	floorImage = ppm6GetImage("./Game_Tiles/Sand.ppm"/*"Bricks_1.ppm"*/);
 	//floorImage = ppm6GetImage("Bricks_1.png");
 	glGenTextures(1, &floorTexture);
 	glBindTexture(GL_TEXTURE_2D, floorTexture);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, 3, floorImage->width, floorImage->height, 0, GL_RGB, GL_UNSIGNED_BYTE, floorImage->data);
-
+	unlink("./Game_Tiles/Sand.ppm");
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 
 	glClearColor(0.0, 0.0, 0.0, 1.0);
