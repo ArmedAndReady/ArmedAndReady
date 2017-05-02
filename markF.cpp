@@ -26,7 +26,7 @@ using namespace std;
 Ppmimage *octoImage=NULL;
 Ppmimage *redImage=NULL;
 Ppmimage *AtkImage=NULL;
-GLuint octoTexture;
+GLuint /*octoSil;// */octoTexture;
 GLuint rOTex;
 GLuint AtkTex;
 
@@ -42,6 +42,7 @@ void redOctober();	//use this to draw enemy
 void projectileTex();	//use this to draw projectiles
 void texGen();		//generates all textures
 void characterSelect(); //select character sprite
+unsigned char *buildAlphaData(Ppmimage *img, unsigned char trans_col[3]);
 
 void mark_show_charsel()
 {
@@ -109,6 +110,7 @@ void initCharMark()
     int w = octoImage->width;
     int h = octoImage->height;
     float wid = 64.0f;
+
     //    glColor3f(0.0f, 1.0f, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
@@ -116,7 +118,17 @@ void initCharMark()
     glBindTexture(GL_TEXTURE_2D, octoTexture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+
     glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, octoImage->data);
+/*
+    glBindTexture(GL_TEXTURE_2D, octoSil);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    unsigned char tc[3] = {180, 250, 188};
+    unsigned char *octoSil = buildAlphaData(octoImage, tc);
+    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, octoSil);
+    free(octoSil);*/
 
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid, -wid);
@@ -192,7 +204,7 @@ void texGen()
     system("convert ./Game_Tiles/Octopus.png ./Game_Tiles/octopus.ppm");
     //system("convert ./Game_Tiles/Tracer.png ./Game_Tiles/octopus.ppm");
     octoImage = ppm6GetImage("./Game_Tiles/octopus.ppm");
-    glGenTextures(1, &octoTexture);
+    glGenTextures(1, /*&octoSil);// */&octoTexture);
     unlink("./Game_Tiles/octopus.ppm");
 
     //Enemy character ppm creation
@@ -208,7 +220,34 @@ void texGen()
     unlink("./Game_Tiles/Atk.ppm");
 }
 
-//unsigned 
+/*unsigned char *buildAlphaData(Ppmimage *img, unsigned char trans_col[3])
+{
+    //Transparency color RGB value: (180, 250, 188)
+    int i;
+    int a, b, c;
+    unsigned char *newdata, *ptr;
+    unsigned char *data = (unsigned char *)img->data;
+    newdata = (unsigned char *)malloc(img->width * img->height * 4);
+    ptr = newdata;
+    for (i=0; i < (img->data) * (img->height) * 3; i+=3) {
+	a = *(data+0);
+	b = *(data+1);
+	c = *(data+2);
+	*(ptr+0) = a;
+	*(ptr+1) = b;
+	*(ptr+2) = c;
+	*(ptr+3) = 1;
+	if (a==trans_col[0] &&
+		b==trans_col[1] &&
+		c==trans_col[2]) {
+	    *(ptr+3) = 0;
+	}
+	ptr += 4;
+	data += 3;
+    }
+
+    return newdata;
+} */
 
 void print_Mark()
 {

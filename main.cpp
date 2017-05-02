@@ -349,8 +349,8 @@ void initSound(Game *g)
 
 	//EL-Error Correction: change from . to ->
 	//found free scuba wav on grsites.com
-	g->alBufferScuba = alutCreateBufferFromFile("water014.wav");
-
+	//g->alBufferScuba = alutCreateBufferFromFile("water014.wav");
+	g->alBufferScuba = alutCreateBufferFromFile("underthesea.wav");
 	alGenSources(1, &g->alSourceScuba);
 	alSourcei(g->alSourceScuba, AL_BUFFER, g->alBufferScuba);
 	alSourcef(g->alSourceScuba, AL_GAIN, 1.0f);
