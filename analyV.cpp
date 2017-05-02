@@ -54,6 +54,27 @@ void print_Analy()
     cout << analy << endl;
 }
 
+struct Vec1 {
+    float x, y, z;
+};
+
+struct Shape {
+    float width, height;
+    float radius;
+    Vec1 center;
+};
+
+struct Game1 {
+    //Shape Box;
+    Shape box[5];
+    // Shape circle;
+    //Particle particle[MAX_PARTICLES];
+    int n;
+    int bubbler;
+    int mouse[2];
+
+    Game1() { n = 0; bubbler = 0; }
+};
 typedef struct Bubble {
     Vec pos;
     Vec lastpos;
@@ -66,6 +87,8 @@ typedef struct Bubble {
 const int MAX_BUBBLES = 1000;
 Bubble bubble[MAX_BUBBLES];
 int nbubbles=0;
+
+
 
 
 void Analy_show_menu()
@@ -83,6 +106,8 @@ void Analy_show_menu()
     glVertex2i(xres, 0);
     glEnd();
     glPopMatrix();
+
+
 
     //glColor3ub(0, 204, 204);
     glBindTexture(GL_TEXTURE_2D, name_texture2);
@@ -104,10 +129,10 @@ void Analy_show_menu()
     glBindTexture(GL_TEXTURE_2D, name_texture);
     glPushMatrix();
     glBegin(GL_QUADS);
-    glTexCoord2f(0.0, 0.0); glVertex2i(190, yres-385);
-    glTexCoord2f(1.0, 0.0); glVertex2i(xres-190, yres-385);
-    glTexCoord2f(1.0, 1.0); glVertex2i(xres-190, 385);
-    glTexCoord2f(0.0, 1.0); glVertex2i(190, 385);
+    glTexCoord2f(0.0, 0.0); glVertex2i(190, yres-100);
+    glTexCoord2f(1.0, 0.0); glVertex2i(xres-190, yres-100);
+    glTexCoord2f(1.0, 1.0); glVertex2i(xres-190, 680);
+    glTexCoord2f(0.0, 1.0); glVertex2i(190, 680);
     glEnd();
     glPopMatrix();
 
@@ -121,7 +146,7 @@ void Analy_show_menu()
     ggprint16(&r, 16, 0x00ff0000, "Help");
     ggprint16(&r, 16, 0x00ff0000, "Rules");
     ggprint8b(&r, 16, 0x00ff0000, "Press S to start");
-    
+
     //physics function without being a function
     //create a bubble
     if (nbubbles < MAX_BUBBLES) {
@@ -164,7 +189,7 @@ void Analy_show_menu()
 	    bubble[bnum] = bubble[nbubbles];
 	}
     }
-//render function without being a function
+    //render function without being a function
     static int firsttime=1;
     const int npts=12;
     static float vert[npts][2];
@@ -201,6 +226,40 @@ void Analy_show_menu()
 	glEnd();
 	glPopMatrix();
     }
+
+    Game1 game1;
+    game1.n=0;
+   /* for(int i=0; i<3; i++) {
+	game1.box[i].width = 10;
+	game1.box[i].height = 10;
+	game1.box[i].center.x = (float)xres/2.0 - 2.0*i;
+	game1.box[i].center.y = yres/2.0 - 2.0*i;
+	 } */
+	//Shape *s;
+	 for(int i=0; i<3; i++){
+	glColor3ub(9, 60, 235);
+	glPushMatrix();
+//	int w = 400;
+//	int h= 700;
+	int offset=90;
+	int offsetx=500;
+	int offsety=200;
+	glBegin(GL_QUADS);
+
+/*	glVertex2i(-w,-h);
+		glVertex2i(-w, h);
+		glVertex2i( w, h);
+		glVertex2i( w, -h);  */
+
+	glVertex2i((xres-offsetx-25),((offsety)*3)- i*offset-150);
+	glVertex2i((xres-offsetx-25),(yres-offsety-30)-i*offset-150);
+	glVertex2i((offsetx+25),(yres-offsety-30)-i*offset-150);
+	glVertex2i((offsetx+25),((offsety)*3)-i*offset-150);
+
+
+
+	glEnd();
+	glPopMatrix();
 }
 
-
+}
