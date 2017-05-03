@@ -77,7 +77,7 @@ const int MAX_BUBBLES = 1000;
 Bubble bubble[MAX_BUBBLES];
 int nbubbles=0;
 
-typedef struct Button {
+typedef struct t_button {
     Rect r;
     char text[32];
     int over;
@@ -86,15 +86,15 @@ typedef struct Button {
     float color[3];
     float dcolor[3];
     unsigned int text_color;
-}; Button;
+}Button;
 
-Button button[4];
-
+Button button1[4];
+/*
 int offset=90;
 int offsetx=500;
 int offsety=200;
 
-
+*/
 
 
 void Analy_show_menu()
@@ -228,14 +228,14 @@ void Analy_show_menu()
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	int offset=90;
-	int offsetx=500;
-	int offsety=200;
+	int offset1=90;
+	int offsetx1=500;
+	int offsety1=200;
 	glBegin(GL_QUADS);
-	glVertex2i((xres-offsetx-25),((offsety)*3)- i*offset-150);
-	glVertex2i((xres-offsetx-25),(yres-offsety-30)-i*offset-150);
-	glVertex2i((offsetx+25),(yres-offsety-30)-i*offset-150);
-	glVertex2i((offsetx+25),((offsety)*3)-i*offset-150);
+	glVertex2i((xres-offsetx1-25),((offsety1)*3)- i*offset1-150);
+	glVertex2i((xres-offsetx1-25),(yres-offsety1-30)-i*offset1-150);
+	glVertex2i((offsetx1+25),(yres-offsety1-30)-i*offset1-150);
+	glVertex2i((offsetx1+25),((offsety1)*3)-i*offset1-150);
 	glEnd();
 	glPopMatrix();
     }
@@ -262,15 +262,15 @@ void Analy_show_menu()
     ggprint12(&r, 12, 0x00fffffff, "Created by: Ana Butanda,"\
 	    " Mark Felisilda,Esteban Lopez, Analy Velazquez -"\
 	    "CMPS 3350 [Software Engineering] Spring 2017");
+
 }
 
-void drawbuttons(g) 
+/*void drawbuttons(Game *g) 
 {
     Shape *s;
-    s = &game->
+//    s = &game->
 
 
 
-}
-
+}*/
 
