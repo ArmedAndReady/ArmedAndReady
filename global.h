@@ -106,6 +106,8 @@ struct Game {
 //#ifdef SOUND
     ALuint alBufferScuba;
     ALuint alSourceScuba;
+    ALuint alBufferShoot;
+    ALuint alSourceShoot;
 //#endif //SOUND
     Game() {
 	ahead = NULL;

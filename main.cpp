@@ -64,9 +64,11 @@ extern void redOctober();//MF
 extern void projectileTex();//MF
 extern void texGen();//MF
 extern void characterSelect();//MF
-//#ifdef SOUND
-//extern void attackSound();//MF
-//#endif 
+#ifdef SOUND
+extern int initattacksound(Game *g);//MF
+extern void attacksound(Game *g);//MF
+extern int soundcheck;//MF
+#endif 
 extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu();
@@ -202,6 +204,8 @@ struct Game {
 #ifdef SOUND
 	ALuint alBufferScuba;
 	ALuint alSourceScuba;
+	 ALuint alBufferShoot;
+	 ALuint alSourceShoot;
 #endif //SOUND
 	Game() {
 		ahead = NULL;
@@ -363,12 +367,15 @@ void initSound(Game *g)
 		//printf("ERROR: setting source\n");
 		return;
 	}
+	initattacksound(g);
 }
 
 void cleanupSound(Game *g)
 {
 	alDeleteSources(1, &g->alSourceScuba);
 	alDeleteBuffers(1, &g->alBufferScuba);
+	alDeleteSources(1, &g->alSourceShoot);
+	alDeleteSources(1, &g->alBufferShoot);
 	ALCcontext *Context = alcGetCurrentContext();
 	ALCdevice *Device = alcGetContextsDevice(Context);
 	alcMakeContextCurrent(NULL);
@@ -804,6 +811,10 @@ void physics(Game *g)
 	struct timespec bt;
 	clock_gettime(CLOCK_REALTIME, &bt);
 	for (int i=0; i<g->nbullets; i++) {
+
+	    	soundcheck ^=1;
+		attacksound(g);
+
 		Bullet *b = &g->barr[i];
 		//How long has bullet been alive?
 		double ts = timeDiff(&b->time, &bt);

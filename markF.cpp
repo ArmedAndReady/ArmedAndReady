@@ -34,6 +34,10 @@ Ppmimage *AtkImage=NULL;
 GLuint octoSil;// */octoTexture;
 GLuint rSil; // */rOTex;
 GLuint AtkTex;
+#ifdef SOUND
+extern ALuint alBufferShoot;
+extern ALuint alSourceShoot;
+#endif
 
 extern int xres;
 extern int yres;
@@ -55,7 +59,26 @@ extern void initSound(Game *g);
 extern void cleanupSound(Game *g);
 extern void playSound(ALuint source);
 extern int sound;
-void attacksound();
+void initattacksound(Game *g);
+void attacksound(Game *g);
+int soundcheck = 0;
+#endif
+
+#ifdef SOUND
+void initattacksound(Game *g)
+{
+    g->alBufferShoot = alutCreateBufferFromFile("attack.wav");
+    alGenSources(1, &g->alSourceShoot);
+    alSourcei(g->alSourceShoot, AL_BUFFER, g->alBufferShoot);
+    alSourcef(g->alSourceShoot, AL_GAIN, 1.0f);
+    alSourcef(g->alSourceShoot, AL_PITCH, 1.0f);
+    alSourcef(g->alSourceShoot, AL_LOOPING, AL_TRUE);
+}
+
+void attacksound(Game *g)
+{
+    cout << "In attack sound...\n";
+}
 #endif
 
 void mark_show_charsel()
