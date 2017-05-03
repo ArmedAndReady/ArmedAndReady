@@ -21,7 +21,7 @@ extern "C" {
 }
 #include "ppm.h"
 #include "log.h"
-
+#include "global.h"
 
 extern int xres;
 extern int yres;
@@ -37,11 +37,11 @@ typedef float Vec[3];
 typedef Flt Matrix [4][4];
 
 #define rnd() (((double)rand())/(double)RAND_MAX)
-#define VecZero(a) (a)[0]=0.0;(a)[1]=0.0;(a)[2]=0.0
-#define random(b) (rand()%b)
+//#define VecZero(a) (a)[0]=0.0;(a)[1]=0.0;(a)[2]=0.0
+//#define random(b) (rand()%b)
 #define VecCopy(a,b) (b)[0]=(a)[0];(b)[1]=(a)[1];(b)[2]=(a)[2]
-const float timeslice = 1.0f;
-const float gravity = -0.2f;
+//const float timeslice = 1.0f;
+//const float gravity = -0.2f;
 #define PI 3.141592653589793
 const double physicsRate = 1.0 / 30.0;
 
@@ -64,18 +64,6 @@ struct Shape {
     Vec1 center;
 };
 
-struct Game1 {
-    //Shape Box;
-    Shape box[5];
-    // Shape circle;
-    //Particle particle[MAX_PARTICLES];
-    int n;
-    int bubbler;
-    int mouse[2];
-
-    Game1() { n = 0; bubbler = 0; }
-};
-
 typedef struct Bubble {
     Vec pos;
     Vec lastpos;
@@ -89,13 +77,33 @@ const int MAX_BUBBLES = 1000;
 Bubble bubble[MAX_BUBBLES];
 int nbubbles=0;
 
+typedef struct Button {
+    Rect r;
+    char text[32];
+    int over;
+    int down;
+    int click;
+    float color[3];
+    float dcolor[3];
+    unsigned int text_color;
+}; Button;
+
+Button button[4];
+
+int offset=90;
+int offsetx=500;
+int offsety=200;
+
+
+
+
 void Analy_show_menu()
 {
     Rect r;
 
     //this will be the background (vertix have to be in order
     //(0,0), (0,y), (x,y), (x,0) 
-   // glColor3ub(0, 204, 204);
+    // glColor3ub(0, 204, 204);
     glPushMatrix();
     glBegin(GL_QUADS);
     glVertex2i(0, 0);
@@ -120,6 +128,7 @@ void Analy_show_menu()
     glTexCoord2f(w, h); glVertex2i(xres, 0);
     glEnd();
     glPopMatrix();
+
     //physics function without being a function
     //create a bubble
     if (nbubbles < MAX_BUBBLES) {
@@ -201,6 +210,7 @@ void Analy_show_menu()
 	glPopMatrix();
     }
 
+    //logo menu title is created here
     glColor3ub(0, 204, 204);
     glBindTexture(GL_TEXTURE_2D, name_texture);
     glPushMatrix();
@@ -212,39 +222,55 @@ void Analy_show_menu()
     glEnd();
     glPopMatrix();
 
-    //Game1 game1;
-    //game1.n=0;
-    //Shape *s;
+    //menu boxes are created here
     for(int i=0; i<3; i++){
 	glColor3ub(9, 60, 235);
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
-    
-    int offset=90;
-    int offsetx=500;
-    int offsety=200;
-    glBegin(GL_QUADS);
-    glVertex2i((xres-offsetx-25),((offsety)*3)- i*offset-150);
-    glVertex2i((xres-offsetx-25),(yres-offsety-30)-i*offset-150);
-    glVertex2i((offsetx+25),(yres-offsety-30)-i*offset-150);
-    glVertex2i((offsetx+25),((offsety)*3)-i*offset-150);
-    glEnd();
-    glPopMatrix();
+
+	int offset=90;
+	int offsetx=500;
+	int offsety=200;
+	glBegin(GL_QUADS);
+	glVertex2i((xres-offsetx-25),((offsety)*3)- i*offset-150);
+	glVertex2i((xres-offsetx-25),(yres-offsety-30)-i*offset-150);
+	glVertex2i((offsetx+25),(yres-offsety-30)-i*offset-150);
+	glVertex2i((offsetx+25),((offsety)*3)-i*offset-150);
+	glEnd();
+	glPopMatrix();
     }
-r.bot = 475; 
-r.left =605 ;
-r.center = 0;
-ggprint16(&r, 16, 0x00ffffff, "Start");
 
-r.bot = 385;
-r.left =605 ;
-r.center = 0;
-ggprint16(&r, 16, 0x00ff0000, "Help");
+    //menu boxes names are created here
+    r.bot = 475; 
+    r.left =605 ;
+    r.center = 0;
+    ggprint16(&r, 16, 0x00ffffff, "Start");
 
-r.bot = 295; 
-r.left =605 ;
-r.center = 0;
+    r.bot = 385;
+    r.left =605 ;
+    r.center = 0;
+    ggprint16(&r, 16, 0x00ff0000, "Help");
 
-ggprint16(&r, 16, 0x00ff0000, "Rules");
+    r.bot = 295; 
+    r.left =605 ;
+    r.center = 0;
+    ggprint16(&r, 16, 0x00ff0000, "Quit");
+
+    r.bot = 30;
+    r.left = 250;
+    r.center = 0;
+    ggprint12(&r, 12, 0x00fffffff, "Created by: Ana Butanda,"\
+	    " Mark Felisilda,Esteban Lopez, Analy Velazquez -"\
+	    "CMPS 3350 [Software Engineering] Spring 2017");
 }
+
+void drawbuttons(g) 
+{
+    Shape *s;
+    s = &game->
+
+
+
+}
+
 
