@@ -314,7 +314,7 @@ void ana_show_help(){
 			switch(i) {
 			    case 0:
 				cout << "Controls"<<endl;
-				system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
+				//system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
 				break;
 			    case 1:
 				cout << "How to play"<<endl;
