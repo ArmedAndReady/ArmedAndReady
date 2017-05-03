@@ -94,89 +94,92 @@ struct Global {
     }
 } g;
 
+    int offset =105;
+    int offsetx =150;
+    int offsety = 200;
 void ab_init(){
 //#define BUTTONS
-#ifdef BUTTONS
+//#ifdef BUTTONS
 	//button 1
-	button[i].r.width=475;
-	button[i].r.height=200;
-	//button[i].r.centerx =(float)xres/2.0-3.0*i;
-	//button[i].r.centery =yres/2.0-3.0*i;
-	button[i].r.centerx =(float)xres/2.0;
-	button[i].r.centery =(float)yres/2.0-50*i;
-	button[i].r.left = 150;
-	button[i].r.right = xres-150;
-	button[i].r.top = yres-200;
-	button[i].r.bot = yres-200-105;
-	button[i].click=0;
-	button[i].over=0;
-	button[i].down=0;
-	button[i].dcolor[0]=0.0f+(float)i/0.5;
-	button[i].dcolor[1]=0.4f;
-	button[i].dcolor[2]=0.7f;
-    }
+	int offsets[4];
+	int top[4];
+	int bottom[4];
+	for (int i=0;i<4;i++){
+	bottom[i]= offsety*3- i*offset;
+	top[i]=yres-offsety-i*offset;
+	offsets[i]=(top[i]+bottom[i])/2;
+	//glVertex2i((offsetx),(yres-offsety)-i*offset);
+	//glVertex2i((offsetx),((offsety)*3)-i*offset);
+	}
+	int nbuttons=0;
+	
+	button[nbuttons].r.width=475;
+	button[nbuttons].r.height=50;
+	button[nbuttons].r.centerx =(float)xres/2.0;
+	button[nbuttons].r.centery =200; 
+	    //offsets[nbuttons];
+	button[nbuttons].r.left = 150;
+	button[nbuttons].r.right = xres-150;
+	button[nbuttons].r.top = top[nbuttons];
+	button[nbuttons].r.bot = bottom[nbuttons];
+	button[nbuttons].click=0;
+	button[nbuttons].over=0;
+	button[nbuttons].down=0;
+	button[nbuttons].dcolor[0]=0.0f+0.5;
+	button[nbuttons].dcolor[1]=0.4f;
+	button[nbuttons].dcolor[2]=0.7f;
     //button 2
 
-	button[i].r.width=475;
-	button[i].r.height=200;
-	//button[i].r.centerx =(float)xres/2.0-3.0*i;
-	//button[i].r.centery =yres/2.0-3.0*i;
-	button[i].r.centerx =(float)xres/2.0;
-	button[i].r.centery =(float)yres/2.0-50*i;
-	button[i].r.left = 150;
-	button[i].r.right = xres-150;
-	button[i].r.top = yres-200;
-	button[i].r.bot = yres-200-105;
-	button[i].click=0;
-	button[i].over=0;
-	button[i].down=0;
-	button[i].dcolor[0]=0.0f+(float)i/0.5;
-	button[i].dcolor[1]=0.4f;
-	button[i].dcolor[2]=0.7f;
+	nbuttons++;
+	button[nbuttons].r.width=475;
+	button[nbuttons].r.height=50;
+	button[nbuttons].r.centerx =(float)xres/2.0;
+	button[nbuttons].r.centery =offsets[nbuttons];
+	button[nbuttons].r.left = 150;
+	button[nbuttons].r.right = xres-150;
+	button[nbuttons].r.top = top[nbuttons];
+	button[nbuttons].r.bot = bottom[nbuttons];
+	button[nbuttons].click=0;
+	button[nbuttons].over=0;
+	button[nbuttons].down=0;
+	button[nbuttons].dcolor[0]=0.0f+0.5;
+	button[nbuttons].dcolor[1]=0.4f;
+	button[nbuttons].dcolor[2]=0.7f;
 	//button 3
 	
-	button[i].r.width=475;
-	button[i].r.height=200;
-	//button[i].r.centerx =(float)xres/2.0-3.0*i;
-	//button[i].r.centery =yres/2.0-3.0*i;
-	button[i].r.centerx =(float)xres/2.0;
-	button[i].r.centery =(float)yres/2.0-50*i;
-	button[i].r.left = 150;
-	button[i].r.right = xres-150;
-	button[i].r.top = yres-200;
-	button[i].r.bot = yres-200-105;
-	button[i].click=0;
-	button[i].over=0;
-	button[i].down=0;
-	button[i].dcolor[0]=0.0f+(float)i/0.5;
-	button[i].dcolor[1]=0.4f;
-	button[i].dcolor[2]=0.7f;
+	nbuttons++;
+	button[nbuttons].r.width=475;
+	button[nbuttons].r.height=30;
+	button[nbuttons].r.centerx =(float)xres/2.0;
+	button[nbuttons].r.centery =offsets[nbuttons];
+	button[nbuttons].r.left = 150;
+	button[nbuttons].r.right = xres-150;
+	button[nbuttons].r.top = top[nbuttons];
+	button[nbuttons].r.bot = bottom[nbuttons];
+	button[nbuttons].click=0;
+	button[nbuttons].over=0;
+	button[nbuttons].down=0;
+	button[nbuttons].dcolor[0]=0.0f+0.5;
+	button[nbuttons].dcolor[1]=0.4f;
+	button[nbuttons].dcolor[2]=0.7f;
     //button 4
 
-	button[i].r.width=475;
-	button[i].r.height=200;
-	//button[i].r.centerx =(float)xres/2.0-3.0*i;
-	//button[i].r.centery =yres/2.0-3.0*i;
-	button[i].r.centerx =(float)xres/2.0;
-	button[i].r.centery =(float)yres/2.0-50*i;
-	button[i].r.left = 150;
-	button[i].r.right = xres-150;
-	button[i].r.top = yres-200;
-	button[i].r.bot = yres-200-105;
-	button[i].click=0;
-	button[i].over=0;
-	button[i].down=0;
-	button[i].dcolor[0]=0.0f+(float)i/0.5;
-	button[i].dcolor[1]=0.4f;
-	button[i].dcolor[2]=0.7f;
-#endif //buttons
-
-	//int nbuttons=0;
-    /*strcpy(button[nbuttons].text, "How to Play");
-      nbuttons++;
-      strcpy(button[nbuttons].text, "Controls");
-      nbuttons++;
-      */
+	nbuttons++;
+	button[nbuttons].r.width=475;
+	button[nbuttons].r.height=20;
+	button[nbuttons].r.centerx =(float)xres/2.0;
+	button[nbuttons].r.centery =offsets[nbuttons];
+	button[nbuttons].r.left = 150;
+	button[nbuttons].r.right = xres-150;
+	button[nbuttons].r.top = top[nbuttons];
+	button[nbuttons].r.bot = bottom[nbuttons];
+	button[nbuttons].click=0;
+	button[nbuttons].over=0;
+	button[nbuttons].down=0;
+	button[nbuttons].dcolor[0]=0.0f+0.5;
+	button[nbuttons].dcolor[1]=0.4f;
+	button[nbuttons].dcolor[2]=0.7f;
+//#endif //buttons
 }
 
 void ana_show_help(){
@@ -198,9 +201,6 @@ void ana_show_help(){
     ggprint8b(&r,16,0x00ff0000, "Help Menu");
     ggprint8b(&r, 16,0x00ff000,"Press H to toggle");
     glColor3i(255,0,0);
-    int offset =105;
-    int offsetx =150;
-    int offsety = 200;
     for (int i=0;i<4;i++){
 
 	/*if (x >= button[i].r.center - button[i].r.width &&
@@ -242,16 +242,16 @@ void ana_show_help(){
 
 	//	cout<<"buttons drawn"<<endl;
     }
-    r.bot= button[0].r.centery+190;
+    r.bot= button[0].r.centery;
     r.left =button[0].r.centerx;
     ggprint12(&r,0,0x00000000,"Controls");
-    r.bot= button[1].r.centery+90;
+    r.bot= button[1].r.centery;
     r.left = button[1].r.centerx;
     ggprint12(&r,0,0x00000000,"How to play");
-    r.bot= button[2].r.centery-15;
+    r.bot= button[2].r.centery;
     r.left = button[2].r.centerx;
     ggprint12(&r,0,0x00000000,"Release Notes");
-    r.bot= button[3].r.centery-120;
+    r.bot= button[3].r.centery;
     r.left =button[3].r.centerx;
     ggprint12(&r,0,0x00000000,"About");
 
@@ -295,8 +295,8 @@ void ana_show_help(){
 	}
 
 	cout <<"abcm 6"<<endl;
-	//int i= 0;
-	for (int i=0; i<4; i++) {
+	int nbuttons= 4;
+	for (int i=0; i<nbuttons; i++) {
 	    button[i].over = 0;
 	    cout<<"for loop"<<endl;
 	    if (x >= button[i].r.centerx - button[i].r.width &&
