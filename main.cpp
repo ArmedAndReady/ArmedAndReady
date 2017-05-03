@@ -600,7 +600,11 @@ void check_mouse(XEvent *e)
 	static int savex = 0;
 	static int savey = 0;
 	int lbutton=0;
-	if (lbutton) {};
+	if (lbutton) {
+	
+		//cout<<"calling abcm"<<endl;
+		//abcm(e);
+	}
 	int x,y;
 	if (x) {};
 	int rbutton=0;
@@ -644,9 +648,11 @@ void check_mouse(XEvent *e)
 		if (g->ship.angle < 0.0f)
 			g->ship.angle += 360.0f;
 			*/
-		//extern void abcm(XEvent *e);
+		if(state_help){
+		extern void abcm(XEvent *e);
 		cout<<"calling abcm"<<endl;
 		abcm(e);
+		}
 	}
 
 
@@ -680,7 +686,7 @@ int check_keys(XEvent *e)
 			break;
 		case XK_h:
 			//AB to toggle help menu
-			state_help ^= 1;
+			state_help = 1;
 			ana_show_help();
 			break;
 		case XK_s:

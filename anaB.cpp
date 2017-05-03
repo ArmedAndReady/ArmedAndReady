@@ -82,111 +82,111 @@ nbox = 0;
 
 
 struct Global {
-  //  float xres;
-   // float yres;
+    //  float xres;
+    // float yres;
     int done;
     int nbox;
     Global (){
-//	xres = 800;
-//	yres = 600;
+	//	xres = 800;
+	//	yres = 600;
 	done = 0;
 	nbox = 0;
     }
 } g;
 
-    int offset =105;
-    int offsetx =150;
-    int offsety = 200;
+int offset =105;
+int offsetx =150;
+int offsety = 200;
 void ab_init(){
-//#define BUTTONS
-//#ifdef BUTTONS
-	//button 1
-	int offsets[4];
-	int top[4];
-	int bottom[4];
-	for (int i=0;i<4;i++){
+    //#define BUTTONS
+    //#ifdef BUTTONS
+    //button 1
+    int offsets[4];
+    int top[4];
+    int bottom[4];
+    for (int i=0;i<4;i++){
 	bottom[i]= offsety*3- i*offset;
 	top[i]=yres-offsety-i*offset;
 	offsets[i]=(top[i]+bottom[i])/2;
 	//glVertex2i((offsetx),(yres-offsety)-i*offset);
 	//glVertex2i((offsetx),((offsety)*3)-i*offset);
-	}
-	int nbuttons=0;
-	
-	button[nbuttons].r.width=475;
-	button[nbuttons].r.height=50;
-	button[nbuttons].r.centerx =(float)xres/2.0;
-	button[nbuttons].r.centery =200; 
-	    //offsets[nbuttons];
-	button[nbuttons].r.left = 150;
-	button[nbuttons].r.right = xres-150;
-	button[nbuttons].r.top = top[nbuttons];
-	button[nbuttons].r.bot = bottom[nbuttons];
-	button[nbuttons].click=0;
-	button[nbuttons].over=0;
-	button[nbuttons].down=0;
-	button[nbuttons].dcolor[0]=0.0f+0.5;
-	button[nbuttons].dcolor[1]=0.4f;
-	button[nbuttons].dcolor[2]=0.7f;
+    }
+    int nbuttons=0;
+
+    button[nbuttons].r.width=475;
+    button[nbuttons].r.height=50;
+    button[nbuttons].r.centerx =(float)xres/2.0;
+    button[nbuttons].r.centery =200; 
+    //offsets[nbuttons];
+    button[nbuttons].r.left = 150;
+    button[nbuttons].r.right = xres-150;
+    button[nbuttons].r.top = top[nbuttons];
+    button[nbuttons].r.bot = bottom[nbuttons];
+    button[nbuttons].click=0;
+    button[nbuttons].over=0;
+    button[nbuttons].down=0;
+    button[nbuttons].dcolor[0]=0.0f+0.5;
+    button[nbuttons].dcolor[1]=0.4f;
+    button[nbuttons].dcolor[2]=0.7f;
     //button 2
 
-	nbuttons++;
-	button[nbuttons].r.width=475;
-	button[nbuttons].r.height=50;
-	button[nbuttons].r.centerx =(float)xres/2.0;
-	button[nbuttons].r.centery =offsets[nbuttons];
-	button[nbuttons].r.left = 150;
-	button[nbuttons].r.right = xres-150;
-	button[nbuttons].r.top = top[nbuttons];
-	button[nbuttons].r.bot = bottom[nbuttons];
-	button[nbuttons].click=0;
-	button[nbuttons].over=0;
-	button[nbuttons].down=0;
-	button[nbuttons].dcolor[0]=0.0f+0.5;
-	button[nbuttons].dcolor[1]=0.4f;
-	button[nbuttons].dcolor[2]=0.7f;
-	//button 3
-	
-	nbuttons++;
-	button[nbuttons].r.width=475;
-	button[nbuttons].r.height=30;
-	button[nbuttons].r.centerx =(float)xres/2.0;
-	button[nbuttons].r.centery =offsets[nbuttons];
-	button[nbuttons].r.left = 150;
-	button[nbuttons].r.right = xres-150;
-	button[nbuttons].r.top = top[nbuttons];
-	button[nbuttons].r.bot = bottom[nbuttons];
-	button[nbuttons].click=0;
-	button[nbuttons].over=0;
-	button[nbuttons].down=0;
-	button[nbuttons].dcolor[0]=0.0f+0.5;
-	button[nbuttons].dcolor[1]=0.4f;
-	button[nbuttons].dcolor[2]=0.7f;
+    nbuttons++;
+    button[nbuttons].r.width=475;
+    button[nbuttons].r.height=50;
+    button[nbuttons].r.centerx =(float)xres/2.0;
+    button[nbuttons].r.centery =offsets[3];
+    button[nbuttons].r.left = 150;
+    button[nbuttons].r.right = xres-150;
+    button[nbuttons].r.top = top[nbuttons];
+    button[nbuttons].r.bot = bottom[nbuttons];
+    button[nbuttons].click=0;
+    button[nbuttons].over=0;
+    button[nbuttons].down=0;
+    button[nbuttons].dcolor[0]=0.0f+0.5;
+    button[nbuttons].dcolor[1]=0.4f;
+    button[nbuttons].dcolor[2]=0.7f;
+    //button 3
+
+    nbuttons++;
+    button[nbuttons].r.width=475;
+    button[nbuttons].r.height=30;
+    button[nbuttons].r.centerx =(float)xres/2.0;
+    button[nbuttons].r.centery =offsets[nbuttons];
+    button[nbuttons].r.left = 150;
+    button[nbuttons].r.right = xres-150;
+    button[nbuttons].r.top = top[nbuttons];
+    button[nbuttons].r.bot = bottom[nbuttons];
+    button[nbuttons].click=0;
+    button[nbuttons].over=0;
+    button[nbuttons].down=0;
+    button[nbuttons].dcolor[0]=0.0f+0.5;
+    button[nbuttons].dcolor[1]=0.4f;
+    button[nbuttons].dcolor[2]=0.7f;
     //button 4
 
-	nbuttons++;
-	button[nbuttons].r.width=475;
-	button[nbuttons].r.height=20;
-	button[nbuttons].r.centerx =(float)xres/2.0;
-	button[nbuttons].r.centery =offsets[nbuttons];
-	button[nbuttons].r.left = 150;
-	button[nbuttons].r.right = xres-150;
-	button[nbuttons].r.top = top[nbuttons];
-	button[nbuttons].r.bot = bottom[nbuttons];
-	button[nbuttons].click=0;
-	button[nbuttons].over=0;
-	button[nbuttons].down=0;
-	button[nbuttons].dcolor[0]=0.0f+0.5;
-	button[nbuttons].dcolor[1]=0.4f;
-	button[nbuttons].dcolor[2]=0.7f;
-//#endif //buttons
+    nbuttons++;
+    button[nbuttons].r.width=475;
+    button[nbuttons].r.height=20;
+    button[nbuttons].r.centerx =(float)xres/2.0;
+    button[nbuttons].r.centery =offsets[1];
+    button[nbuttons].r.left = 150;
+    button[nbuttons].r.right = xres-150;
+    button[nbuttons].r.top = top[nbuttons];
+    button[nbuttons].r.bot = bottom[nbuttons];
+    button[nbuttons].click=0;
+    button[nbuttons].over=0;
+    button[nbuttons].down=0;
+    button[nbuttons].dcolor[0]=0.0f+0.5;
+    button[nbuttons].dcolor[1]=0.4f;
+    button[nbuttons].dcolor[2]=0.7f;
+    //#endif //buttons
 }
 
 void ana_show_help(){
     Rect r;
     int x =xres;
     int y = yres;
-		if (x||y) {};
+    if (x||y) {};
     glColor3f(1.0,1.0,1.0);
     glBegin(GL_QUADS);
     glVertex2i((xres-100),(100));
@@ -235,6 +235,7 @@ void ana_show_help(){
 	}
 	glBegin(GL_QUADS);
 	glVertex2i((xres-offsetx),((offsety)*3)- i*offset);
+
 	glVertex2i((xres-offsetx),(yres-offsety)-i*offset);
 	glVertex2i((offsetx),(yres-offsety)-i*offset);
 	glVertex2i((offsetx),((offsety)*3)-i*offset);
@@ -242,7 +243,7 @@ void ana_show_help(){
 
 	//	cout<<"buttons drawn"<<endl;
     }
-    r.bot= button[0].r.centery;
+    r.bot= button[0].r.centery+450;
     r.left =button[0].r.centerx;
     ggprint12(&r,0,0x00000000,"Controls");
     r.bot= button[1].r.centery;
@@ -301,8 +302,8 @@ void ana_show_help(){
 	    cout<<"for loop"<<endl;
 	    if (x >= button[i].r.centerx - button[i].r.width &&
 		    x <= button[i].r.centerx + button[i].r.width &&
-		   y >= button[i].r.centery-button[i].r.height &&
-		   y <= button[i].r.centery+ button[i].r.height){
+		    y >= button[i].r.centery-button[i].r.height &&
+		    y <= button[i].r.centery+ button[i].r.height){
 		button[i].over=1;
 		cout<<"if loop"<<i<<endl;
 
@@ -313,7 +314,7 @@ void ana_show_help(){
 			switch(i) {
 			    case 0:
 				cout << "Controls"<<endl;
-				//system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
+				system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
 				break;
 			    case 1:
 				cout << "How to play"<<endl;
@@ -331,16 +332,16 @@ void ana_show_help(){
 		    }
 		}
 	    }
-	    }
-
-	    return;
 	}
 
+	return;
+    }
 
 
 
-	//boxes and add menu options are in the game need.
-	//need to link each box to a link and make it click-able.  
-	//link to a webpage
-	//system("picture")
-	//http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php
+
+    //boxes and add menu options are in the game need.
+    //need to link each box to a link and make it click-able.  
+    //link to a webpage
+    //system("picture")
+    //http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php
