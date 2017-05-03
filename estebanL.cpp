@@ -296,12 +296,13 @@ void set_background()
 void draw_background()
 {
 		float w, h;
-		w = xres;
-		h = yres;
+	//	w = xres;
+	//	h = yres;
+		glColor3ub(0, 125, 204);
 		glBindTexture(GL_TEXTURE_2D, parallaxTexture);
 		glPushMatrix();
 		glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 1.0);
+	/*	glTexCoord2f(0.0, 1.0);
 		glVertex2i(0,0);
 		glTexCoord2f(0.0, 0.0); 
 		glVertex2i(0,h);
@@ -309,7 +310,9 @@ void draw_background()
 		glVertex2i(w,h);
 		glTexCoord2f(1.0, 1.0);
 		glVertex2i(w,0);
-		/*w = (1920.0/2048.0);
+*/
+
+		w = (1920.0/2048.0);
 		  h = (1080.0/2048.0);
 		  glTexCoord2f(0.0, h);
 		  glVertex2i(0,0);
@@ -318,7 +321,7 @@ void draw_background()
 		  glTexCoord2f(w, 0.0);
 		  glVertex2i(xres,yres);
 		  glTexCoord2f(w, h);
-		  glVertex2i(xres,0);*/
+		  glVertex2i(xres,0);
 		glEnd();
 		glPopMatrix();
 }

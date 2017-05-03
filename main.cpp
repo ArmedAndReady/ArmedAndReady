@@ -489,7 +489,7 @@ void init_opengl(void)
 	glClearColor(0.0, 0.0, 0.0, 1.0);
 
 	glClearColor(0.0, 0.0, 0.0, 1.0);
-	system("convert atlantis.jpg atlantis.ppm");
+	system("convert atlantis1.jpg atlantis.ppm");
 	//name_image2 = ppm6GetImage("atlantis.ppm");	
 	parallaxImage = ppm6GetImage("atlantis.ppm");	
 	glGenTextures(1, &parallaxTexture);
