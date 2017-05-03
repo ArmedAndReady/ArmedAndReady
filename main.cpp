@@ -66,7 +66,7 @@ extern void texGen();//MF
 extern void characterSelect();//MF
 #ifdef SOUND
 extern int initattacksound(Game *g);//MF
-extern void attacksound(Game *g);//MF
+extern void attacksound(ALuint Asource);//MF
 extern int soundcheck;//MF
 #endif 
 extern void print_Adam();
@@ -812,8 +812,8 @@ void physics(Game *g)
 	clock_gettime(CLOCK_REALTIME, &bt);
 	for (int i=0; i<g->nbullets; i++) {
 
-	    	soundcheck ^=1;
-		attacksound(g);
+	    	//soundcheck ^=1;
+		//attacksound(alSourceShoot);
 
 		Bullet *b = &g->barr[i];
 		//How long has bullet been alive?
@@ -1000,7 +1000,7 @@ void physics(Game *g)
 		struct timespec bt;
 		clock_gettime(CLOCK_REALTIME, &bt);
 		double ts = timeDiff(&g->bulletTimer, &bt);
-		//attacksound();
+		//attacksound(source);
 		if (ts > 0.1) {
 			timeCopy(&g->bulletTimer, &bt);
 			//shoot a bullet...

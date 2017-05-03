@@ -60,7 +60,7 @@ extern void cleanupSound(Game *g);
 extern void playSound(ALuint source);
 extern int sound;
 void initattacksound(Game *g);
-void attacksound(Game *g);
+void attacksound(ALuint alSourceShoot);
 int soundcheck = 0;
 #endif
 
@@ -75,9 +75,14 @@ void initattacksound(Game *g)
     alSourcef(g->alSourceShoot, AL_LOOPING, AL_TRUE);
 }
 
-void attacksound(Game *g)
+void attacksound(ALuint alSourceShoot)
 {
-    cout << "In attack sound...\n";
+    //cout << "In attack sound...\n";
+    while (soundcheck != 0) {
+	//play sound
+	alSourcePlay(alSourceShoot);
+	soundcheck ^= 1;
+    }
 }
 #endif
 
@@ -208,11 +213,11 @@ void redOctober()
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER, 0.0f);
-/*    glBindTexture(GL_TEXTURE_2D, rOTex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, redImage->data);
-*/
+    /*    glBindTexture(GL_TEXTURE_2D, rOTex);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	  glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, redImage->data);
+	  */
     glBindTexture(GL_TEXTURE_2D, rSil);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
