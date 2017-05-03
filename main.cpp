@@ -276,6 +276,9 @@ extern void el_jump(Game *g);
 extern void el_sidescroll(Game *g, float scroll, char dir);
 extern void el_stats();
 extern void init_el_buttons();
+extern void el_update_score(char c);
+extern void el_enemy_collision(Game *g);
+extern int el_enemy_count;
 extern void abcm(XEvent *e);
 extern int mdone;
 int main(void)
@@ -582,6 +585,7 @@ void init(Game *g)
 			g->ahead->prev = a;
 		g->ahead = a;
 		g->nasteroids++;
+		el_enemy_count++;
 		ab_init();
 	}
 	clock_gettime(CLOCK_REALTIME, &g->bulletTimer);
@@ -865,6 +869,7 @@ void physics(Game *g)
 		a = a->next;
 	}
 	//
+	el_enemy_collision(g);
 	//Asteroid collision with bullets?
 	//If collision detected:
 	//     1. delete the bullet
@@ -907,6 +912,8 @@ void physics(Game *g)
 					deleteAsteroid(g, a);
 					a = savea;
 					g->nasteroids--;
+					char c = 'e';
+					el_update_score(c);
 				}
 				//Delete bullet here.
 				//How?

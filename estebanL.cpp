@@ -21,6 +21,7 @@
 
 int total_boxes = 0;
 int num_blocks_wide = 0;
+int score = 0;
 extern int xres;
 extern int yres;
 extern Ppmimage *floorImage;
@@ -38,7 +39,8 @@ int floor_set = 0;
 int checked = 0;
 int reset_boxes = 0;
 float shift_platform = 0;
-int score = 0;
+int el_enemy_count = 0;
+//int score = 0;
 
 extern "C" {
 #include "fonts.h"
@@ -296,32 +298,32 @@ void set_background()
 void draw_background()
 {
 		float w, h;
-	//	w = xres;
-	//	h = yres;
+		//	w = xres;
+		//	h = yres;
 		glColor3ub(0, 125, 204);
 		glBindTexture(GL_TEXTURE_2D, parallaxTexture);
 		glPushMatrix();
 		glBegin(GL_QUADS);
-	/*	glTexCoord2f(0.0, 1.0);
-		glVertex2i(0,0);
-		glTexCoord2f(0.0, 0.0); 
-		glVertex2i(0,h);
-		glTexCoord2f(1.0, 0.0);
-		glVertex2i(w,h);
-		glTexCoord2f(1.0, 1.0);
-		glVertex2i(w,0);
-*/
+		/*	glTexCoord2f(0.0, 1.0);
+			glVertex2i(0,0);
+			glTexCoord2f(0.0, 0.0); 
+			glVertex2i(0,h);
+			glTexCoord2f(1.0, 0.0);
+			glVertex2i(w,h);
+			glTexCoord2f(1.0, 1.0);
+			glVertex2i(w,0);
+		 */
 
 		w = (1920.0/2048.0);
-		  h = (1080.0/2048.0);
-		  glTexCoord2f(0.0, h);
-		  glVertex2i(0,0);
-		  glTexCoord2f(0.0, 0.0); 
-		  glVertex2i(0,yres);
-		  glTexCoord2f(w, 0.0);
-		  glVertex2i(xres,yres);
-		  glTexCoord2f(w, h);
-		  glVertex2i(xres,0);
+		h = (1080.0/2048.0);
+		glTexCoord2f(0.0, h);
+		glVertex2i(0,0);
+		glTexCoord2f(0.0, 0.0); 
+		glVertex2i(0,yres);
+		glTexCoord2f(w, 0.0);
+		glVertex2i(xres,yres);
+		glTexCoord2f(w, h);
+		glVertex2i(xres,0);
 		glEnd();
 		glPopMatrix();
 }
@@ -666,38 +668,88 @@ void el_stats()
 
 void set_stats_box() 
 {
-	stat_box[0].width = 100;
-	stat_box[0].height = 50;
-	stat_box[0].center[0] = 1135;
-	stat_box[0].center[1] = 100;
+		stat_box[0].width = 100;
+		stat_box[0].height = 50;
+		stat_box[0].center[0] = 1135;
+		stat_box[0].center[1] = 100;
 }
 
 void set_life_boxes()
 {
-	Shape *s;
-	s = &stat_box[0];
-	for (int i = 0; i < 10; i++) {
-		life_box[i].width = 4;
-		life_box[i].height = 15;
-		life_box[i].center[0] = s->center[0] + (i*9);
-		life_box[i].center[1] = s->center[1] + 10;
-	}
+		Shape *s;
+		s = &stat_box[0];
+		for (int i = 0; i < 10; i++) {
+				life_box[i].width = 4;
+				life_box[i].height = 15;
+				life_box[i].center[0] = s->center[0] + (i*9);
+				life_box[i].center[1] = s->center[1] + 10;
+		}
 }
 
 int dummy_life = 10;
 
 void draw_life_boxes()
 {	
-	Shape *s;
-	float w, h;
-	int count = 0;
-	glColor3ub(0,255,0);
-	while(count < dummy_life) {
-		s = &life_box[count];
+		Shape *s;
+		float w, h;
+		int count = 0;
+		switch (dummy_life) {
+				case 1:
+				case 2:
+				case 3:
+						glColor3ub(255,0,0);
+						break;
+				case 4:
+				case 5:
+				case 6: 
+						glColor3ub(255,153,0);
+						break;
+				case 7:
+				case 8:
+				case 9:
+						glColor3ub(255,255,0);
+						break;
+				default:
+						glColor3ub(0,255,0);
+						break;
+
+		}
+		//glColor3ub(0,255,0);
+
+		while(count < dummy_life) {
+				s = &life_box[count];
+				glPushMatrix();
+				glTranslatef(s->center[0], s->center[1], s->center[2]);
+				w = s->width;
+				h = s->height;
+				glBegin(GL_QUADS);
+				glVertex2i(-w,-h);
+				glVertex2i(-w,h);
+				glVertex2i(w,h);
+				glVertex2i(w,-h);
+				glEnd();
+				glPopMatrix();
+				count++;
+		}
+}
+
+int dummy_score = 1000;
+
+void draw_stats_box()
+{
+		float w, h;
+		Rect r;
+		Shape *s;
+		s = &stat_box[0]; 
+		//glClear(GL_COLOR_BUFFER_BIT);
+		glColor3ub(1.0,0.0,0.0);
 		glPushMatrix();
 		glTranslatef(s->center[0], s->center[1], s->center[2]);
-		w = s->width;
-		h = s->height;
+		w =  s->width;
+		h =  s->height;
+		/*glTranslatef(s.center[0], s->center[1], s->center[2]);
+		  w =  s->width;
+		  h =  s->height;*/
 		glBegin(GL_QUADS);
 		glVertex2i(-w,-h);
 		glVertex2i(-w,h);
@@ -705,49 +757,72 @@ void draw_life_boxes()
 		glVertex2i(w,-h);
 		glEnd();
 		glPopMatrix();
-		count++;
-	}
+
+		r.bot = s->center[1] + 25;
+		r.left = s->center[0] - 90;
+		r.center = 0;
+		ggprint16(&r, 0, 0x00ffffff, "Score");
+
+		r.bot = s->center[1] + 25;
+		r.left = s->center[0];
+		r.center = 0;
+		//ggprint16(&r, 0, 0x00ffffff, "%i", dummy_score);
+		ggprint16(&r, 0, 0x00ffffff, "%i", score);
+
+		draw_life_boxes();
+
+		r.bot = s->center[1];
+		r.left = s->center[0] - 90;
+		r.center = 0;
+		ggprint16(&r, 0, 0x00ffffff, "Life");
 }
 
-int dummy_score = 1000;
-
-void draw_stats_box()
+void el_update_score(char c)
 {
-	float w, h;
-	Rect r;
-	Shape *s;
-	s = &stat_box[0]; 
-	//glClear(GL_COLOR_BUFFER_BIT);
-	glColor3ub(1.0,0.0,0.0);
-	glPushMatrix();
-	glTranslatef(s->center[0], s->center[1], s->center[2]);
-	w =  s->width;
-	h =  s->height;
-	/*glTranslatef(s.center[0], s->center[1], s->center[2]);
-	w =  s->width;
-	h =  s->height;*/
-	glBegin(GL_QUADS);
-	glVertex2i(-w,-h);
-	glVertex2i(-w,h);
-	glVertex2i(w,h);
-	glVertex2i(w,-h);
-	glEnd();
-	glPopMatrix();
+		switch(c) {
+				case 'e':
+						score += 100;
+						break;
+		}
 
-	r.bot = s->center[1] + 25;
-	r.left = s->center[0] - 90;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "Score");
+}
 
-	r.bot = s->center[1] + 25;
-	r.left = s->center[0];
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "%i", dummy_score);
+int injury_effect = 0;
 
-	draw_life_boxes();
-
-	r.bot = s->center[1];
-	r.left = s->center[0] - 90;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "Life");
+void el_enemy_collision(Game *g)
+{
+		float d0, d1, dist;
+		Asteroid *w;
+		w = g->ahead;
+		if (g) {};
+		int checked = 0;
+#define ENEMY_COLLISION1
+#ifdef ENEMY_COLLISION1
+		while (w) {
+				//cout << "DEBUG: in enemy collision loop \n";
+				for (int i = 0; i < el_enemy_count; i++) {
+						d0 = g->ship.pos[0] - w->pos[0];
+						d1 = g->ship.pos[1] - w->pos[1];
+						dist = (d0*d0 + d1*d1);
+						if (dist < (w->radius*w->radius)) {
+								w->vel[0] = g->ship.vel[0];
+								//w->vel[1] = (-1.0) * (w->vel[1]);
+								
+								if (injury_effect == 0)
+								{
+										dummy_life--;
+										injury_effect = 1000;
+								} else { 
+										injury_effect--;
+								}
+						}
+				}
+				w = w->next;
+		}
+#endif //ENEMY_COLLISION1
+		//#define ENEMY_COLLISION
+#ifdef ENEMY_COLLISION
+		cout << "DEBUG: enemy collision\n";
+		cout << "DEBUG: enemy count = " << el_enemy_count  << endl;
+#endif //ENEMY_COLLISION
 }
