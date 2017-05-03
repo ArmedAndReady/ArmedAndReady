@@ -55,6 +55,7 @@ extern void initSound(Game *g);
 extern void cleanupSound(Game *g);
 extern void playSound(ALuint source);
 extern int sound;
+void attacksound();
 #endif
 
 void mark_show_charsel()
@@ -132,6 +133,7 @@ void initCharMark()
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_ALPHA_TEST);
     glAlphaFunc(GL_GREATER, 0.0f);
+    //Currently works for transparency, but too taxing when applied to more objects
 
     /*    glBindTexture(GL_TEXTURE_2D, octoTexture);
 	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);

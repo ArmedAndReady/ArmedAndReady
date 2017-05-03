@@ -903,13 +903,7 @@ void physics(Game *g)
 				//Then update the array count, nbullets.
 				//--like we did with water particles--
 
-
-
-
-
-
-
-
+				g->nbullets--;
 				if (a == NULL)
 					break;
 				continue;
