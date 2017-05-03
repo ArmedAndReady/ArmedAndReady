@@ -183,6 +183,7 @@ void ana_show_help(){
     Rect r;
     int x =xres;
     int y = yres;
+		if (x||y) {};
     glColor3f(1.0,1.0,1.0);
     glBegin(GL_QUADS);
     glVertex2i((xres-100),(100));
@@ -263,6 +264,7 @@ void ana_show_help(){
 	static int savey = 0;
 	int x,y;
 	int lbutton=0;
+	if (lbutton) {};
 	int rbutton=0;
 	if (e->type == ButtonRelease){
 	    cout<<"abcm 1"<<endl;
@@ -271,7 +273,8 @@ void ana_show_help(){
 	}
 	if (e->type == ButtonPress) {
 	    if (e->xbutton.button==1) {
-		int lbutton = 1;
+		//int lbutton = 1;
+		lbutton = 1;
 		cout<<"abcm 2"<<endl;
 	    }
 	    if (e->xbutton.button==3) {

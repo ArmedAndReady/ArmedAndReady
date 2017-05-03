@@ -267,6 +267,7 @@ extern void el_gravity_f(Game *g);
 extern void el_platform_collision(Game *g);
 extern void el_jump(Game *g);
 extern void el_sidescroll(Game *g, float scroll, char dir);
+extern void el_stats();
 extern void init_el_buttons();
 extern void abcm(XEvent *e);
 extern int mdone;
@@ -599,7 +600,9 @@ void check_mouse(XEvent *e)
 	static int savex = 0;
 	static int savey = 0;
 	int lbutton=0;
+	if (lbutton) {};
 	int x,y;
+	if (x) {};
 	int rbutton=0;
 	if (e->type == ButtonRelease) {
 #ifdef COLLISION
@@ -1147,6 +1150,7 @@ void render(Game *g)
 		}
 		//Draw the floor EL
 		el_render_floor();
+		el_stats();
 		//init_el_buttons();
 	}
 }

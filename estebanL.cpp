@@ -19,7 +19,6 @@
 //for different unit tests and implementations
 //#define FLOOR_STUDY
 
-
 int total_boxes = 0;
 int num_blocks_wide = 0;
 extern int xres;
@@ -39,6 +38,7 @@ int floor_set = 0;
 int checked = 0;
 int reset_boxes = 0;
 float shift_platform = 0;
+int score = 0;
 
 extern "C" {
 #include "fonts.h"
@@ -61,7 +61,9 @@ struct Shape {
 };
 
 Shape platform_boxes[MAX_BLOCKS];
+Shape stat_box[3];
 int set_from_text[MAX_BLOCKS_WIDE];
+
 
 void read_from_text();
 void set_platform_boxes();
@@ -70,6 +72,9 @@ void check_position();
 void reset_platforms();
 void set_background();
 void draw_background();
+void el_stats();
+void set_stats_box();
+void draw_stats_box();
 //void el_sidescroll();
 //Have Mark use if images are set and set to 1
 bool image_set = 0;
@@ -78,69 +83,69 @@ float octo_position = 0.0;
 using namespace std;
 
 typedef struct t_el_button {
-	Rect r;
-	char text[32];
-	int over;
-	int down;
-	int click;
-	float color[3];
-	float dcolor[3];
-	unsigned int text_color;
+		Rect r;
+		char text[32];
+		int over;
+		int down;
+		int click;
+		float color[3];
+		float dcolor[3];
+		unsigned int text_color;
 } El_Button;
 
 El_Button el_button[2];
 
 void init_el_buttons()
 {
-	int nbuttons=0;
-	//size and position
-	el_button[nbuttons].r.width = 140;
-	el_button[nbuttons].r.height = 60;
-	el_button[nbuttons].r.left = 20;
-	el_button[nbuttons].r.bot = 320;
-	el_button[nbuttons].r.right =
-	   el_button[nbuttons].r.left + el_button[nbuttons].r.width;
-	el_button[nbuttons].r.top =
-	   el_button[nbuttons].r.bot + el_button[nbuttons].r.height;
-	el_button[nbuttons].r.centerx =
-	   (el_button[nbuttons].r.left + el_button[nbuttons].r.right) / 2;
-	el_button[nbuttons].r.centery =
-	   (el_button[nbuttons].r.bot + el_button[nbuttons].r.top) / 2;
-	strcpy(el_button[nbuttons].text, "Reset");
-	el_button[nbuttons].down = 0;
-	el_button[nbuttons].click = 0;
-	el_button[nbuttons].color[0] = 0.4f;
-	el_button[nbuttons].color[1] = 0.4f;
-	el_button[nbuttons].color[2] = 0.7f;
-	el_button[nbuttons].dcolor[0] = el_button[nbuttons].color[0] * 0.5f;
-	el_button[nbuttons].dcolor[1] = el_button[nbuttons].color[1] * 0.5f;
-	el_button[nbuttons].dcolor[2] = el_button[nbuttons].color[2] * 0.5f;
-	el_button[nbuttons].text_color = 0x00ffffff;
-	nbuttons++;
-	el_button[nbuttons].r.width = 140;
-	el_button[nbuttons].r.height = 60;
-	el_button[nbuttons].r.left = 20;
-	el_button[nbuttons].r.bot = 160;
-	el_button[nbuttons].r.right =
-	   el_button[nbuttons].r.left + el_button[nbuttons].r.width;
-	el_button[nbuttons].r.top = el_button[nbuttons].r.bot +
-	   el_button[nbuttons].r.height;
-	el_button[nbuttons].r.centerx = (el_button[nbuttons].r.left +
-	   el_button[nbuttons].r.right) / 2;
-	el_button[nbuttons].r.centery = (el_button[nbuttons].r.bot +
-	   el_button[nbuttons].r.top) / 2;
-	strcpy(el_button[nbuttons].text, "Quit");
-	el_button[nbuttons].down = 0;
-	el_button[nbuttons].click = 0;
-	el_button[nbuttons].color[0] = 0.3f;
-	el_button[nbuttons].color[1] = 0.3f;
-	el_button[nbuttons].color[2] = 0.6f;
-	el_button[nbuttons].dcolor[0] = el_button[nbuttons].color[0] * 0.5f;
-	el_button[nbuttons].dcolor[1] = el_button[nbuttons].color[1] * 0.5f;
-	el_button[nbuttons].dcolor[2] = el_button[nbuttons].color[2] * 0.5f;
-	el_button[nbuttons].text_color = 0x00ffffff;
-	nbuttons++;
-	
+		int nbuttons=0;
+		//size and position
+		el_button[nbuttons].r.width = 140;
+		el_button[nbuttons].r.height = 60;
+		el_button[nbuttons].r.left = 20;
+		el_button[nbuttons].r.bot = 320;
+		el_button[nbuttons].r.right =
+				el_button[nbuttons].r.left + el_button[nbuttons].r.width;
+		el_button[nbuttons].r.top =
+				el_button[nbuttons].r.bot + el_button[nbuttons].r.height;
+		el_button[nbuttons].r.centerx =
+				(el_button[nbuttons].r.left + el_button[nbuttons].r.right) / 2;
+		el_button[nbuttons].r.centery =
+				(el_button[nbuttons].r.bot + el_button[nbuttons].r.top) / 2;
+		strcpy(el_button[nbuttons].text, "Reset");
+		el_button[nbuttons].down = 0;
+		el_button[nbuttons].click = 0;
+		el_button[nbuttons].color[0] = 0.4f;
+		el_button[nbuttons].color[1] = 0.4f;
+		el_button[nbuttons].color[2] = 0.7f;
+		el_button[nbuttons].dcolor[0] = el_button[nbuttons].color[0] * 0.5f;
+		el_button[nbuttons].dcolor[1] = el_button[nbuttons].color[1] * 0.5f;
+		el_button[nbuttons].dcolor[2] = el_button[nbuttons].color[2] * 0.5f;
+		el_button[nbuttons].text_color = 0x00ffffff;
+		nbuttons++;
+		el_button[nbuttons].r.width = 140;
+		el_button[nbuttons].r.height = 60;
+		el_button[nbuttons].r.left = 20;
+		el_button[nbuttons].r.bot = 160;
+		el_button[nbuttons].r.right =
+				el_button[nbuttons].r.left + el_button[nbuttons].r.width;
+		el_button[nbuttons].r.top = el_button[nbuttons].r.bot +
+				el_button[nbuttons].r.height;
+		el_button[nbuttons].r.centerx = (el_button[nbuttons].r.left +
+						el_button[nbuttons].r.right) / 2;
+		el_button[nbuttons].r.centery = (el_button[nbuttons].r.bot +
+						el_button[nbuttons].r.top) / 2;
+		strcpy(el_button[nbuttons].text, "Quit");
+		el_button[nbuttons].down = 0;
+		el_button[nbuttons].click = 0;
+		el_button[nbuttons].color[0] = 0.3f;
+		el_button[nbuttons].color[1] = 0.3f;
+		el_button[nbuttons].color[2] = 0.6f;
+		el_button[nbuttons].dcolor[0] = el_button[nbuttons].color[0] * 0.5f;
+		el_button[nbuttons].dcolor[1] = el_button[nbuttons].color[1] * 0.5f;
+		el_button[nbuttons].dcolor[2] = el_button[nbuttons].color[2] * 0.5f;
+		el_button[nbuttons].text_color = 0x00ffffff;
+		nbuttons++;
+
 }
 
 void print_esteban()
@@ -303,15 +308,15 @@ void draw_background()
 		glTexCoord2f(1.0, 1.0);
 		glVertex2i(w,0);
 		/*w = (1920.0/2048.0);
-		h = (1080.0/2048.0);
-		glTexCoord2f(0.0, h);
-		glVertex2i(0,0);
-		glTexCoord2f(0.0, 0.0); 
-		glVertex2i(0,yres);
-		glTexCoord2f(w, 0.0);
-		glVertex2i(xres,yres);
-		glTexCoord2f(w, h);
-		glVertex2i(xres,0);*/
+		  h = (1080.0/2048.0);
+		  glTexCoord2f(0.0, h);
+		  glVertex2i(0,0);
+		  glTexCoord2f(0.0, 0.0); 
+		  glVertex2i(0,yres);
+		  glTexCoord2f(w, 0.0);
+		  glVertex2i(xres,yres);
+		  glTexCoord2f(w, h);
+		  glVertex2i(xres,0);*/
 		glEnd();
 		glPopMatrix();
 }
@@ -637,3 +642,55 @@ void el_jump(Game *g)
 		}
 }
 //void read_by_char(string filename)
+
+bool stats_box_set = 0;
+
+void el_stats()
+{
+		if (!stats_box_set) {
+				set_stats_box();
+				stats_box_set = 1;
+		}
+		draw_stats_box();
+}
+
+void set_stats_box() 
+{
+	stat_box[0].width = 100;
+	stat_box[0].height = 50;
+	stat_box[0].center[0] = 1100;
+	stat_box[0].center[1] = 200;
+}
+
+void draw_stats_box()
+{
+	float w, h;
+	Rect r;
+	Shape *s;
+	s = &stat_box[0]; 
+	//glClear(GL_COLOR_BUFFER_BIT);
+	glColor3ub(1.0,0.0,0.0);
+	glPushMatrix();
+	glTranslatef(s->center[0], s->center[1], s->center[2]);
+	w =  s->width;
+	h =  s->height;
+	/*glTranslatef(s.center[0], s->center[1], s->center[2]);
+	w =  s->width;
+	h =  s->height;*/
+	glBegin(GL_QUADS);
+	glVertex2i(-w,-h);
+	glVertex2i(-w,h);
+	glVertex2i(w,h);
+	glVertex2i(w,-h);
+	glEnd();
+	glPopMatrix();
+
+	r.bot = yres - 100;
+	r.left = 500;
+	r.center = 0;
+	ggprint12(&r, 0, 0x00ffffff, "Score");
+
+
+
+
+}
