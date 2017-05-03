@@ -62,6 +62,7 @@ struct Shape {
 
 Shape platform_boxes[MAX_BLOCKS];
 Shape stat_box[3];
+Shape life_box[10];
 int set_from_text[MAX_BLOCKS_WIDE];
 
 
@@ -75,6 +76,7 @@ void draw_background();
 void el_stats();
 void set_stats_box();
 void draw_stats_box();
+void set_life_boxes();
 //void el_sidescroll();
 //Have Mark use if images are set and set to 1
 bool image_set = 0;
@@ -644,12 +646,17 @@ void el_jump(Game *g)
 //void read_by_char(string filename)
 
 bool stats_box_set = 0;
+bool life_box_set = 0;
 
 void el_stats()
 {
 		if (!stats_box_set) {
 				set_stats_box();
 				stats_box_set = 1;
+		}
+		if (!life_box_set) {
+				set_life_boxes();
+				life_box_set = 1;
 		}
 		draw_stats_box();
 }
@@ -658,9 +665,48 @@ void set_stats_box()
 {
 	stat_box[0].width = 100;
 	stat_box[0].height = 50;
-	stat_box[0].center[0] = 1100;
-	stat_box[0].center[1] = 200;
+	stat_box[0].center[0] = 1135;
+	stat_box[0].center[1] = 100;
 }
+
+void set_life_boxes()
+{
+	Shape *s;
+	s = &stat_box[0];
+	for (int i = 0; i < 10; i++) {
+		life_box[i].width = 4;
+		life_box[i].height = 15;
+		life_box[i].center[0] = s->center[0] + (i*9);
+		life_box[i].center[1] = s->center[1] + 10;
+	}
+}
+
+int dummy_life = 10;
+
+void draw_life_boxes()
+{	
+	Shape *s;
+	float w, h;
+	int count = 0;
+	glColor3ub(0,255,0);
+	while(count < dummy_life) {
+		s = &life_box[count];
+		glPushMatrix();
+		glTranslatef(s->center[0], s->center[1], s->center[2]);
+		w = s->width;
+		h = s->height;
+		glBegin(GL_QUADS);
+		glVertex2i(-w,-h);
+		glVertex2i(-w,h);
+		glVertex2i(w,h);
+		glVertex2i(w,-h);
+		glEnd();
+		glPopMatrix();
+		count++;
+	}
+}
+
+int dummy_score = 1000;
 
 void draw_stats_box()
 {
@@ -685,12 +731,20 @@ void draw_stats_box()
 	glEnd();
 	glPopMatrix();
 
-	r.bot = yres - 100;
-	r.left = 500;
+	r.bot = s->center[1] + 25;
+	r.left = s->center[0] - 90;
 	r.center = 0;
-	ggprint12(&r, 0, 0x00ffffff, "Score");
+	ggprint16(&r, 0, 0x00ffffff, "Score");
 
+	r.bot = s->center[1] + 25;
+	r.left = s->center[0];
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "%i", dummy_score);
 
+	draw_life_boxes();
 
-
+	r.bot = s->center[1];
+	r.left = s->center[0] - 90;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "Life");
 }
