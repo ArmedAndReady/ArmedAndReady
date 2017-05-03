@@ -1,5 +1,9 @@
-//Analy Velazquez
-//Armed and Ready
+//Author: Analy Velazquez
+//Created: February 26, 2017
+//Program: analyV.cpp
+//Game: Armed and Ready
+//Purpose: 	To make a menu screen for Armed and Ready 
+//		video game. 
 
 #include <iostream>
 #include <stdio.h>
@@ -37,16 +41,10 @@ typedef float Vec[3];
 typedef Flt Matrix [4][4];
 
 #define rnd() (((double)rand())/(double)RAND_MAX)
-//#define VecZero(a) (a)[0]=0.0;(a)[1]=0.0;(a)[2]=0.0
-//#define random(b) (rand()%b)
 #define VecCopy(a,b) (b)[0]=(a)[0];(b)[1]=(a)[1];(b)[2]=(a)[2]
-//const float timeslice = 1.0f;
-//const float gravity = -0.2f;
-#define PI 3.141592653589793
 const double physicsRate = 1.0 / 30.0;
 
-void physicsB(void);
-void renderB(void);
+void Analy_init();
 
 void print_Analy() 
 {
@@ -73,6 +71,7 @@ typedef struct Bubble {
     float radius;
     float color[3];
 } Bubble;
+
 const int MAX_BUBBLES = 1000;
 Bubble bubble[MAX_BUBBLES];
 int nbubbles=0;
@@ -89,18 +88,95 @@ typedef struct t_button {
 }Button;
 
 Button button1[4];
-/*
-int offset=90;
-int offsetx=500;
-int offsety=200;
 
-*/
+void Analy_init()
+{
+    int offsets1[4];
+    int top1[4];
+    int bottom1[4];
 
+    int offset2 = 90;
 
+    for (int i=0; i<4;i++) {
+	bottom1[i]= (450-(i*offset2));
+	top1[i] = (520-(i*offset2));
+	float middle[4];
+       middle[i] = (top1[i] + bottom1[i])/2;
+	offsets1[i] = middle[i];
+    }
+
+    int nbuttons = 0;
+	
+    //first button
+    button1[nbuttons].r.width = 200;
+    button1[nbuttons].r.height = 70;
+    button1[nbuttons].r.centerx = (float)xres/2.0;
+    button1[nbuttons].r.centery = offsets1[4]; 
+    button1[nbuttons].r.left = 70;
+    button1[nbuttons].r.right = xres - 70;
+    button1[nbuttons].r.top = top1[nbuttons];
+    button1[nbuttons].r.bot = bottom1[nbuttons];
+    button1[nbuttons].click = 0;
+    button1[nbuttons].over = 0;
+    button1[nbuttons].down = 0;
+    button1[nbuttons].dcolor[0] = 0.0f+0.5;
+    button1[nbuttons].dcolor[1] = 0.4f;
+    button1[nbuttons].dcolor[2] = 0.7f;
+    
+    //second button
+    nbuttons++;
+    button1[nbuttons].r.width = 200;
+    button1[nbuttons].r.height = 70;
+    button1[nbuttons].r.centerx = (float)xres/2.0;
+    button1[nbuttons].r.centery = offsets1[3]; 
+    button1[nbuttons].r.left = 70;
+    button1[nbuttons].r.right = xres-70;
+    button1[nbuttons].r.top = top1[nbuttons];
+    button1[nbuttons].r.bot = bottom1[nbuttons];
+    button1[nbuttons].click = 0;
+    button1[nbuttons].over = 0;
+    button1[nbuttons].down = 0;
+    button1[nbuttons].dcolor[0] = 0.0f+0.5;
+    button1[nbuttons].dcolor[1] = 0.4f;
+    button1[nbuttons].dcolor[2] = 0.7f;
+
+    //third button
+    nbuttons++;
+    button1[nbuttons].r.width = 200;
+    button1[nbuttons].r.height = 70;
+    button1[nbuttons].r.centerx = (float)xres/2.0;
+    button1[nbuttons].r.centery = offsets1[4]; 
+    button1[nbuttons].r.left = 70;
+    button1[nbuttons].r.right = xres-70;
+    button1[nbuttons].r.top = top1[nbuttons];
+    button1[nbuttons].r.bot = bottom1[nbuttons];
+    button1[nbuttons].click = 0;
+    button1[nbuttons].over = 0;
+    button1[nbuttons].down = 0;
+    button1[nbuttons].dcolor[0] = 0.0f+0.5;
+    button1[nbuttons].dcolor[1] = 0.4f;
+    button1[nbuttons].dcolor[2] = 0.7f;
+
+    //fourth button
+    nbuttons++;
+    button1[nbuttons].r.width = 200;
+    button1[nbuttons].r.height = 70;
+    button1[nbuttons].r.centerx = (float)xres/2.0;
+    button1[nbuttons].r.centery = offsets1[4]; 
+    button1[nbuttons].r.left = 70;
+    button1[nbuttons].r.right = xres-70;
+    button1[nbuttons].r.top = top1[nbuttons];
+    button1[nbuttons].r.bot = bottom1[nbuttons];
+    button1[nbuttons].click = 0;
+    button1[nbuttons].over = 0;
+    button1[nbuttons].down = 0;
+    button1[nbuttons].dcolor[0] = 0.0f+0.5;
+    button1[nbuttons].dcolor[1] = 0.4f;
+    button1[nbuttons].dcolor[2] = 0.7f;
+
+}
 void Analy_show_menu()
 {
-    Rect r;
-
     //this will be the background (vertix have to be in order
     //(0,0), (0,y), (x,y), (x,0) 
     // glColor3ub(0, 204, 204);
@@ -143,10 +219,11 @@ void Analy_show_menu()
 	bubble[nbubbles].color[2] = 1.0;
 	++nbubbles;
     }
+
     //move bubbles
     for (int i=0; i<nbubbles; i++) {
 	bubble[i].force[0] = rnd() * 0.5 - 0.25;
-	bubble[i].force[1] = 0.01 + bubble[i].radius*0.005;
+	bubble[i].force[1] = 0.0001 + bubble[i].radius*0.005;
 	bubble[i].vel[0] += bubble[i].force[0];
 	bubble[i].vel[1] += bubble[i].force[1];
 	//constrain the x-movement of a bubble.
@@ -169,9 +246,9 @@ void Analy_show_menu()
 	    int bnum = rand() % nbubbles;
 	    --nbubbles;
 	    bubble[bnum] = bubble[nbubbles];
+	
 	}
     }
-
     //render function without being a function
     static int firsttime=1;
     const int npts=12;
@@ -223,51 +300,112 @@ void Analy_show_menu()
     glPopMatrix();
 
     //menu boxes are created here
-    for(int i=0; i<3; i++){
-	glColor3ub(9, 60, 235);
-	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, 0);
-
+    //i is set to 4 to create 4 boxes
+    
+	glColor3i(9, 60, 235);
+    for(int i=0; i<4; i++){
+	if (button1[i].over) {
+	    glLineWidth(2);
+	    glBegin(GL_LINE_LOOP);
+	    glVertex2i(button1[i].r.left-2, button1[i].r.bot-2);
+	    glVertex2i(button1[i].r.left-2, button1[i].r.top+2);
+	    glVertex2i(button1[i].r.right+2, button1[i].r.top+2);
+	    glVertex2i(button1[i].r.right+2, button1[i].r.bot-2);
+	    glVertex2i(button1[i].r.left-2, button1[i].r.bot-2);
+	glEnd();
+	glLineWidth(1);
+	glColor3fv(button1[i].dcolor);
+	}
+	else {
+	    glColor3f(0.0,1.0/(2*i),2.0);
+	}
+	
 	int offset1=90;
 	int offsetx1=500;
 	int offsety1=200;
+//	glColor3ub(9, 60, 235);
+	//creates 3 boxes here 
+	//vertices for box 1: 	(725, 450)
+	//			(725, 520)
+	//			(525, 520)
+	//			(525, 450)
+	//vertices for box 2: 	(725, 360)
+	//			(725, 430)
+	//			(525, 430)
+	//			(525, 360)
+	//vertices for box 3: 	(725, 270)
+	//			(725, 340)
+	//			(525, 340)
+	//			(525, 270)
+	//vertices for box 4: 	(725, 180)
+	//			(725, 250)
+	//			(525, 250)
+	//			(525, 180)
+//	glPushMatrix();
+//	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_QUADS);
 	glVertex2i((xres-offsetx1-25),((offsety1)*3)- i*offset1-150);
 	glVertex2i((xres-offsetx1-25),(yres-offsety1-30)-i*offset1-150);
 	glVertex2i((offsetx1+25),(yres-offsety1-30)-i*offset1-150);
 	glVertex2i((offsetx1+25),((offsety1)*3)-i*offset1-150);
 	glEnd();
-	glPopMatrix();
+	//glPopMatrix();
     }
 
+    Rect r;
+
     //menu boxes names are created here
-    r.bot = 475; 
+    //so each one has a position to match to be
+    //centered in each box
+    
+    /*r.bot = 475; 
     r.left =605 ;
-    r.center = 0;
+    r.center = 0; 
+    */
+    r.bot = button1[0].r.centery + 475;
+    r.left = button1[0].r.centerx + 605;
     ggprint16(&r, 16, 0x00ffffff, "Start");
 
+    /*
     r.bot = 385;
     r.left =605 ;
     r.center = 0;
+    */
+    r.bot = button1[0].r.centery + 385;
+    r.left = button1[0].r.centerx+605;
     ggprint16(&r, 16, 0x00ff0000, "Help");
 
+    /*
     r.bot = 295; 
+    r.left =580 ;
+    r.center = 0;
+    */
+    r.bot = button1[0].r.centery + 295;
+    r.left = button1[0].r.centerx + 580;
+    ggprint16(&r, 0, 0x00ff0000, "High Score");
+
+
+    /*
+    r.bot = 205; 
     r.left =605 ;
     r.center = 0;
-    ggprint16(&r, 16, 0x00ff0000, "Quit");
+    */
+    r.bot = button1[0].r.centery + 205;
+    r.left = button1[0].r.centerx + 605;
+    ggprint16(&r, 0, 0x00ff0000, "Quit");
 
     r.bot = 30;
     r.left = 250;
     r.center = 0;
     ggprint12(&r, 12, 0x00fffffff, "Created by: Ana Butanda,"\
-	    " Mark Felisilda,Esteban Lopez, Analy Velazquez -"\
+	    " Mark Felisilda, Esteban Lopez, Analy Velazquez -"\
 	    "CMPS 3350 [Software Engineering] Spring 2017");
 
 }
 
 /*void drawbuttons(Game *g) 
-{
-    Shape *s;
+  {
+  Shape *s;
 //    s = &game->
 
 
