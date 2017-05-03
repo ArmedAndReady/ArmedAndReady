@@ -63,7 +63,10 @@ extern void mark_show_charsel();//MF
 extern void redOctober();//MF
 extern void projectileTex();//MF
 extern void texGen();//MF
-extern void characterSelect();
+extern void characterSelect();//MF
+//#ifdef SOUND
+//extern void attackSound();//MF
+//#endif 
 extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu();
@@ -992,6 +995,7 @@ void physics(Game *g)
 		struct timespec bt;
 		clock_gettime(CLOCK_REALTIME, &bt);
 		double ts = timeDiff(&g->bulletTimer, &bt);
+		//attacksound();
 		if (ts > 0.1) {
 			timeCopy(&g->bulletTimer, &bt);
 			//shoot a bullet...

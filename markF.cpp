@@ -21,17 +21,23 @@ extern "C" {
 #include "fonts.h"
 }
 
+#define SOUND
+#ifdef SOUND
+#include </usr/include/AL/alut.h>
+#endif
+
 using namespace std;
 
 Ppmimage *octoImage=NULL;
 Ppmimage *redImage=NULL;
 Ppmimage *AtkImage=NULL;
-GLuint /*octoSil;// */octoTexture;
+GLuint octoSil;// */octoTexture;
 GLuint rOTex;
 GLuint AtkTex;
 
 extern int xres;
 extern int yres;
+extern int state_charsel;
 static int charsel = 0;
 int mdone = 0;
 extern int keys[];
@@ -43,6 +49,13 @@ void projectileTex();	//use this to draw projectiles
 void texGen();		//generates all textures
 void characterSelect(); //select character sprite
 unsigned char *buildAlphaData(Ppmimage *img, unsigned char trans_col[3]);
+
+#ifdef SOUND
+extern void initSound(Game *g);
+extern void cleanupSound(Game *g);
+extern void playSound(ALuint source);
+extern int sound;
+#endif
 
 void mark_show_charsel()
 {
@@ -75,20 +88,23 @@ int mcheck_keys(XEvent *e)
     //cout << "int key initialized...\n";
 
     //cout << "Right before switch...\n";
-    switch(mkey) {
-	case XK_0:
-	    charsel = 0;
-	    break;
-	case XK_1:
-	    //cout << "Set charsel to 1\n";
-	    charsel = 1;
-	    break;
-	case XK_2:
-	    charsel = 2;
-	    break;
+    if(state_charsel != 0){
+	switch(mkey) {
+	    case XK_0:
+		charsel = 0;
+		break;
+	    case XK_1:
+		//cout << "Set charsel to 1\n";
+		charsel = 1;
+		break;
+	    case XK_2:
+		charsel = 2;
+		break;
+	}
     }
     characterSelect();
     return 0;
+
 }
 
 void characterSelect()
@@ -114,21 +130,23 @@ void initCharMark()
     //    glColor3f(0.0f, 1.0f, 1.0f);
 
     glEnable(GL_TEXTURE_2D);
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.0f);
 
-    glBindTexture(GL_TEXTURE_2D, octoTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    /*    glBindTexture(GL_TEXTURE_2D, octoTexture);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, octoImage->data);
-/*
+	  glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, octoImage->data);
+	  */
     glBindTexture(GL_TEXTURE_2D, octoSil);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     unsigned char tc[3] = {180, 250, 188};
     unsigned char *octoSil = buildAlphaData(octoImage, tc);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, octoSil);
-    free(octoSil);*/
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, octoSil);
+    free(octoSil);
 
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid, -wid);
@@ -204,7 +222,7 @@ void texGen()
     system("convert ./Game_Tiles/Octopus.png ./Game_Tiles/octopus.ppm");
     //system("convert ./Game_Tiles/Tracer.png ./Game_Tiles/octopus.ppm");
     octoImage = ppm6GetImage("./Game_Tiles/octopus.ppm");
-    glGenTextures(1, /*&octoSil);// */&octoTexture);
+    glGenTextures(1, &octoSil);// */&octoTexture);
     unlink("./Game_Tiles/octopus.ppm");
 
     //Enemy character ppm creation
@@ -220,7 +238,7 @@ void texGen()
     unlink("./Game_Tiles/Atk.ppm");
 }
 
-/*unsigned char *buildAlphaData(Ppmimage *img, unsigned char trans_col[3])
+unsigned char *buildAlphaData(Ppmimage *img, unsigned char trans_col[3])
 {
     //Transparency color RGB value: (180, 250, 188)
     int i;
@@ -229,7 +247,7 @@ void texGen()
     unsigned char *data = (unsigned char *)img->data;
     newdata = (unsigned char *)malloc(img->width * img->height * 4);
     ptr = newdata;
-    for (i=0; i < (img->data) * (img->height) * 3; i+=3) {
+    for (i=0; i < img->width * img->height * 3; i+=3) {
 	a = *(data+0);
 	b = *(data+1);
 	c = *(data+2);
@@ -247,7 +265,7 @@ void texGen()
     }
 
     return newdata;
-} */
+} 
 
 void print_Mark()
 {
