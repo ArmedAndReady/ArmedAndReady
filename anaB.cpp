@@ -18,6 +18,7 @@ extern"C"{
 extern int xres;
 extern int yres;
 void ab_init();
+extern int state_help;
 using namespace std;
 void print_Ana()
 {
@@ -248,13 +249,13 @@ void ana_show_help(){
     ggprint12(&r,0,0x00000000,"Controls");
     r.bot= button[1].r.centery;
     r.left = button[1].r.centerx;
-    ggprint12(&r,0,0x00000000,"How to play");
+    ggprint12(&r,0,0x00000000,"Back");
     r.bot= button[2].r.centery;
     r.left = button[2].r.centerx;
-    ggprint12(&r,0,0x00000000,"Release Notes");
+    ggprint12(&r,0,0x00000000,"About");
     r.bot= button[3].r.centery;
     r.left =button[3].r.centerx;
-    ggprint12(&r,0,0x00000000,"About");
+    ggprint12(&r,0,0x00000000,"How To Play");
 
     }
 
@@ -308,25 +309,25 @@ void ana_show_help(){
 		cout<<"if loop"<<i<<endl;
 
 		//esteban put just for compile. get rid of later
-		int lbutton = 1;
+		//int lbutton = 1;
 		if (button[i].over) {
 		    if (lbutton) {
 			switch(i) {
 			    case 0:
 				cout << "Controls"<<endl;
-				//system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
+				system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
 				break;
 			    case 1:
 				cout << "How to play"<<endl;
-				//system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
+				system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
 				break;
 			    case 2:
-				cout << "Release Notes"<<endl;
-				//system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
+				cout << "About"<<endl;
+				system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
 				break;
 			    case 3:
-				cout << "About"<<endl;
-				//system("firefox http://www.cs.csub.edu/~abutanda/3350/help_menu/help_menu.php");
+				cout << "back"<<endl;
+				state_help = 0;
 				break;
 			}
 		    }
@@ -334,7 +335,6 @@ void ana_show_help(){
 	    }
 	}
 
-	return;
     }
 
 

@@ -302,9 +302,6 @@ int main(void)
 			XNextEvent(dpy, &e);
 			check_resize(&e);
 			check_mouse(&e);
-			abcm(&e);
-			cout<<"calling abcm"<<endl;
-			abcm(&e);
 			done = check_keys(&e);
 			mdone = mcheck_keys(&e);
 		}
@@ -649,7 +646,6 @@ void check_mouse(XEvent *e)
 			g->ship.angle += 360.0f;
 			*/
 		if(state_help){
-		extern void abcm(XEvent *e);
 		cout<<"calling abcm"<<endl;
 		abcm(e);
 		}
@@ -688,7 +684,7 @@ int check_keys(XEvent *e)
 			//AB to toggle help menu
 			state_help = 1;
 			ana_show_help();
-			break;
+			return 0;
 		case XK_s:
 			//AV to start the game
 			state_menu = 0;
