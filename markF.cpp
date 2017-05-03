@@ -32,7 +32,7 @@ Ppmimage *octoImage=NULL;
 Ppmimage *redImage=NULL;
 Ppmimage *AtkImage=NULL;
 GLuint octoSil;// */octoTexture;
-GLuint rOTex;
+GLuint rSil; // */rOTex;
 GLuint AtkTex;
 
 extern int xres;
@@ -183,11 +183,20 @@ void redOctober()
     float wid = 64.0f;
 
     glEnable(GL_TEXTURE_2D);
-
-    glBindTexture(GL_TEXTURE_2D, rOTex);
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.0f);
+/*    glBindTexture(GL_TEXTURE_2D, rOTex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, 3, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, redImage->data);
+*/
+    glBindTexture(GL_TEXTURE_2D, rSil);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    unsigned char tc[3] = {180, 250, 188};
+    unsigned char *rSil = buildAlphaData(redImage, tc);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, rSil);
+    free(rSil);
 
     glBegin(GL_QUADS); 
     glTexCoord2f(0.0f, 1.0f); glVertex2i(-wid, -wid);
@@ -230,7 +239,7 @@ void texGen()
     //Enemy character ppm creation
     system("convert ./Game_Tiles/RedOctober.png ./Game_Tiles/redOctober.ppm");
     redImage = ppm6GetImage("./Game_Tiles/redOctober.ppm");
-    glGenTextures(1, &rOTex);
+    glGenTextures(1, &rSil);// */&rOTex);
     unlink("./Game_Tiles/redOctober.ppm");
 
     //Attack projectile texture creation
