@@ -47,12 +47,28 @@ int mdone = 0;
 extern int keys[];
 void mark_show_charsel();
 int mcheck_keys(XEvent *e);
+void mmmm(XEvent *e);
 void initCharMark();	//draw default charcter
 void redOctober();	//use this to draw enemy
 void projectileTex();	//use this to draw projectiles
 void texGen();		//generates all textures
 void characterSelect(); //select character sprite
 unsigned char *buildAlphaData(Ppmimage *img, unsigned char trans_col[3]);
+void markButtons();
+
+typedef struct c_button {
+    Rect r;
+    char text[32];
+    int over;
+    int down;
+    int click;
+    float color[3];
+    float dcolor[3];
+    unsigned int text_color;
+
+} Button;
+
+Button mbutton[3];
 
 #ifdef SOUND
 extern void initSound(Game *g);
@@ -85,27 +101,182 @@ void attacksound(ALuint alSourceShoot)
     }
 }
 #endif
-
+int moffset = 105;
+int moffsetx = 150;
+int moffsety = 200;
 void mark_show_charsel()
 {
     //cout << "Showing character select. . .\n";
     Rect r;
-    glColor3ub(0,255,255);
-    glPushMatrix();
+    int x = xres;
+    int y = yres;
+    if (x||y){};
+    glColor3f(0.0,1.0,1.0);
     glBegin(GL_QUADS);
-    glVertex2i(0,0);
-    glVertex2i(0,yres);
-    glVertex2i(xres, yres);
-    glVertex2i(xres, 0);
+    glVertex2i((xres-100),(100));
+    glVertex2i((xres-100),(yres-100));
+    glVertex2i((100), (yres-100));
+    glVertex2i((100), (100));
     glEnd();
     glPopMatrix();
-    r.bot = 400;
-    r.left = 400;
+    r.bot = 750;
+    r.left = 555;
     r.center = 0;
-    ggprint8b(&r, 96, 0x0000ff, "CHARACTER SELECT");
-    ggprint8b(&r, 48, 0x0000ff, "1 - Red October");
-    ggprint8b(&r, 48, 0x0000ff, "2 - Dirt Texture");
-    ggprint8b(&r, 48, 0x0000ff, "0 - Default Texture");
+    ggprint16(&r, 96, 0x0000ff, "CHARACTER SELECT");
+
+    glColor3i(255,255,0);
+    for (int i=0; i<3; i++) {
+	if(mbutton[i].over){
+	    glLineWidth(2);
+	    glBegin(GL_LINE_LOOP);
+	    glVertex2i(mbutton[i].r.left-2,  mbutton[i].r.bot-2);
+	    glVertex2i(mbutton[i].r.left-2,  mbutton[i].r.top+2);
+	    glVertex2i(mbutton[i].r.right+2, mbutton[i].r.top+2);
+	    glVertex2i(mbutton[i].r.right+2,  mbutton[i].r.bot-2);
+	    glVertex2i(mbutton[i].r.left-2,  mbutton[i].r.bot-2);
+	    glEnd();
+	    glLineWidth(1);
+	    glColor3fv(mbutton[i].dcolor);
+	}
+	else{
+	    glColor3f(1.0, 1.0, 1.0);
+	}
+	glBegin(GL_QUADS);
+	glVertex2i((xres-moffsetx), ((moffsety)*3)-i*moffset);
+	glVertex2i((xres-moffsetx), (yres-moffsety)-i*moffset);
+	glVertex2i((moffsetx), (yres-moffsety)-i*moffset);
+	glVertex2i((moffsetx), ((moffsety)*3)-i*moffset);
+	glEnd();
+    }
+    r.bot = 645;
+    r.left = 555;
+    r.center = 0;
+    ggprint16(&r, 0, 0x0000ff, "1 - Red October");
+    r.bot = 540;
+    r.left = 555;
+    r.center = 0;
+    ggprint16(&r, 0, 0x0000ff, "2 - Dirt Texture");
+    r.bot = 435;
+    r.left = 555;
+    r.center = 0;
+    ggprint16(&r, 0, 0x0000ff, "0 - Default Texture");
+}
+void mmmm(XEvent *e)
+{
+    static int savex = 0;
+    static int savey = 0;
+    int x, y;
+    int lbutton=0;
+    if (lbutton){};
+    int rbutton=0;
+    if(e->type == ButtonRelease){
+	return;
+    }
+    if (e->type == ButtonPress){
+	if (e->xbutton.button == 1) {
+	    lbutton = 1;
+	}
+	if (e->xbutton.button == 3) {
+	    rbutton = 1;
+	    if (rbutton) {}
+	}
+    }
+
+    x = e->xbutton.x;
+    y = e->xbutton.y;
+    if (savex != e->xbutton.x || savey != e->xbutton.y) {
+	savex = e->xbutton.x;
+	savey = e->xbutton.y;
+    }
+
+    int nbuttons = 3;
+    for (int i=0; i<nbuttons; i++) {
+	mbutton[i].over = 0;
+	if(x >= mbutton[i].r.centerx - mbutton[i].r.width &&
+		x <= mbutton[i].r.centerx + mbutton[i].r.width &&
+		y >= mbutton[i].r.centery - mbutton[i].r.height &&
+		y <= mbutton[i].r.centery + mbutton[i].r.height) {
+	    mbutton[i].over=1;
+	    if(mbutton[i].over) {
+		if (lbutton) {
+		    switch(i) {
+			case 0:
+			    charsel = 1;
+			    break;
+			case 1:
+			    charsel = 2;
+			    break;
+			case 2:
+			    charsel = 0;
+			    break;
+
+		    }
+		}
+	    }
+
+	}
+    }
+}
+
+void markButtons(){
+    //int offsets[3];
+    int ttop[3];
+    int tbottom[3];
+    for(int i=0; i<3; i++){
+	tbottom[i] = moffsety*3 - i*moffset;
+	ttop[i]=yres-moffsety-i*moffset;
+	//offsets[i]=(top[i]+bottom[i])/2;	
+    }
+    int nbuttons = 0;
+    mbutton[nbuttons].r.width=475;
+    mbutton[nbuttons].r.height=50;
+    mbutton[nbuttons].r.centerx = (float)xres/2.0;
+    mbutton[nbuttons].r.centery = 300;
+
+    mbutton[nbuttons].r.left=150;
+    mbutton[nbuttons].r.right=xres-150;
+    mbutton[nbuttons].r.top=ttop[nbuttons];
+    mbutton[nbuttons].r.bot=tbottom[nbuttons];
+    mbutton[nbuttons].click=0;
+    mbutton[nbuttons].over=0;
+    mbutton[nbuttons].down=0;
+    mbutton[nbuttons].dcolor[0]=0.0f+0.5;
+    mbutton[nbuttons].dcolor[1]=0.4f;
+    mbutton[nbuttons].dcolor[2]=0.7f;
+
+    nbuttons++;
+    mbutton[nbuttons].r.width=475;
+    mbutton[nbuttons].r.height=50;
+    mbutton[nbuttons].r.centerx = (float)xres/2.0;
+    mbutton[nbuttons].r.centery = 355;
+
+    mbutton[nbuttons].r.left=150;
+    mbutton[nbuttons].r.right=xres-150;
+    mbutton[nbuttons].r.top=ttop[nbuttons];
+    mbutton[nbuttons].r.bot=tbottom[nbuttons];
+    mbutton[nbuttons].click=0;
+    mbutton[nbuttons].over=0;
+    mbutton[nbuttons].down=0;
+    mbutton[nbuttons].dcolor[0]=0.0f+0.5;
+    mbutton[nbuttons].dcolor[1]=0.4f;
+    mbutton[nbuttons].dcolor[2]=0.7f;
+
+    nbuttons++;
+    mbutton[nbuttons].r.width=475;
+    mbutton[nbuttons].r.height=50;
+    mbutton[nbuttons].r.centerx = (float)xres/2.0;
+    mbutton[nbuttons].r.centery = 460;
+
+    mbutton[nbuttons].r.left=150;
+    mbutton[nbuttons].r.right=xres-150;
+    mbutton[nbuttons].r.top=ttop[nbuttons];
+    mbutton[nbuttons].r.bot=tbottom[nbuttons];
+    mbutton[nbuttons].click=0;
+    mbutton[nbuttons].over=0;
+    mbutton[nbuttons].down=0;
+    mbutton[nbuttons].dcolor[0]=0.0f+0.5;
+    mbutton[nbuttons].dcolor[1]=0.4f;
+    mbutton[nbuttons].dcolor[2]=0.7f;
 }
 
 int mcheck_keys(XEvent *e)

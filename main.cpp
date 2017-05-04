@@ -64,6 +64,8 @@ extern void redOctober();//MF
 extern void projectileTex();//MF
 extern void texGen();//MF
 extern void characterSelect();//MF
+extern void mmmm(XEvent *e); //MF
+extern void markButtons(); //MF
 #ifdef SOUND
 extern int initattacksound(Game *g);//MF
 extern void attacksound(ALuint Asource);//MF
@@ -592,6 +594,7 @@ void init(Game *g)
 		el_enemy_count++;
 		ab_init();
 		Analy_init();
+		markButtons();
 	}
 	clock_gettime(CLOCK_REALTIME, &g->bulletTimer);
 	memset(keys, 0, 65536);
@@ -670,6 +673,9 @@ void check_mouse(XEvent *e)
 		}
 		if(state_menu) {
 		    Analy_ev(e);
+		}
+		if(state_charsel) {
+		    mmmm(e);
 		}
 
 	}
