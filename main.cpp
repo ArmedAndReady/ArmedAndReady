@@ -71,9 +71,8 @@ extern int soundcheck;//MF
 #endif 
 extern void print_Adam();
 extern void print_Analy();
-extern void Analy_show_menu();
-extern void physicsB();
-extern void renderB();
+extern void Analy_show_menu(); //AV
+extern void Analy_init(); //AV
 //int showRain=0;
 
 extern "C" {
@@ -110,7 +109,8 @@ const float gravity = -0.2f;
 
 #endif //COLLISION
 //AV
-int state_menu = 1; 
+int state_menu = 1;
+int state_start= 0; 
 //AB
 int state_help = 0;
 //MF
@@ -280,6 +280,8 @@ extern void el_update_score(char c);
 extern void el_enemy_collision(Game *g);
 extern int el_enemy_count;
 extern void abcm(XEvent *e);
+extern void Analy_ev(XEvent *e);
+
 extern int mdone;
 int main(void)
 {
@@ -587,6 +589,7 @@ void init(Game *g)
 		g->nasteroids++;
 		el_enemy_count++;
 		ab_init();
+		Analy_init();
 	}
 	clock_gettime(CLOCK_REALTIME, &g->bulletTimer);
 	memset(keys, 0, 65536);
@@ -663,6 +666,10 @@ void check_mouse(XEvent *e)
 		cout<<"calling abcm"<<endl;
 		abcm(e);
 		}
+		if(state_menu) {
+		    Analy_ev(e);
+		}
+
 	}
 
 
@@ -685,8 +692,10 @@ int check_keys(XEvent *e)
 			shift=1;
 			return 0;
 		}
-	} else {
+	
+	 else {
 		return 0;
+	}
 	}
 	if (shift){}
 	switch(key) {

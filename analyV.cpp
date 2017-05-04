@@ -29,6 +29,8 @@ extern "C" {
 
 extern int xres;
 extern int yres;
+extern int state_menu;
+extern int state_help;
 extern Ppmimage *name_image;
 extern GLuint name_texture;
 
@@ -91,29 +93,46 @@ Button button1[4];
 
 void Analy_init()
 {
-    int offsets1[4];
     int top1[4];
     int bottom1[4];
 
     int offset2 = 90;
-
+    int offsety2 = 200;
     for (int i=0; i<4;i++) {
-	bottom1[i]= (450-(i*offset2));
-	top1[i] = (520-(i*offset2));
-	float middle[4];
-       middle[i] = (top1[i] + bottom1[i])/2;
-	offsets1[i] = middle[i];
+	bottom1[i]= (offsety2*3-i*offset2-150);
+	top1[i] = (yres-offsety2-30-i*offset2-150);
+
     }
 
-    int nbuttons = 0;
-	
+    int nbuttons=0;
+
+    //vertices for box 1: 	(725, 450)
+    //			(725, 520)
+    //			(525, 520)
+    //			(525, 450)
+
+    //vertices for box 2: 	(725, 360)
+    //			(725, 430)
+    //			(525, 430)
+    //			(525, 360)
+
+    //vertices for box 3: 	(725, 270)
+    //			(725, 340)
+    //			(525, 340)
+    //			(525, 270)
+
+    //vertices for box 4: 	(725, 180)
+    //			(725, 250)
+    //			(525, 250)
+    //			(525, 180)
+    //
     //first button
-    button1[nbuttons].r.width = 200;
-    button1[nbuttons].r.height = 70;
+    button1[nbuttons].r.width = 100;
+    button1[nbuttons].r.height = 35;
     button1[nbuttons].r.centerx = (float)xres/2.0;
-    button1[nbuttons].r.centery = offsets1[4]; 
-    button1[nbuttons].r.left = 70;
-    button1[nbuttons].r.right = xres - 70;
+    button1[nbuttons].r.centery = 380; //offsets1[0]; //215; //485; 
+    button1[nbuttons].r.left =  525;
+    button1[nbuttons].r.right = xres-525;
     button1[nbuttons].r.top = top1[nbuttons];
     button1[nbuttons].r.bot = bottom1[nbuttons];
     button1[nbuttons].click = 0;
@@ -122,15 +141,15 @@ void Analy_init()
     button1[nbuttons].dcolor[0] = 0.0f+0.5;
     button1[nbuttons].dcolor[1] = 0.4f;
     button1[nbuttons].dcolor[2] = 0.7f;
-    
+
     //second button
     nbuttons++;
-    button1[nbuttons].r.width = 200;
-    button1[nbuttons].r.height = 70;
+    button1[nbuttons].r.width = 100;
+    button1[nbuttons].r.height = 35;
     button1[nbuttons].r.centerx = (float)xres/2.0;
-    button1[nbuttons].r.centery = offsets1[3]; 
-    button1[nbuttons].r.left = 70;
-    button1[nbuttons].r.right = xres-70;
+    button1[nbuttons].r.centery = 505; // 305; //395; 
+    button1[nbuttons].r.left = 525;
+    button1[nbuttons].r.right = xres-525;
     button1[nbuttons].r.top = top1[nbuttons];
     button1[nbuttons].r.bot = bottom1[nbuttons];
     button1[nbuttons].click = 0;
@@ -142,12 +161,12 @@ void Analy_init()
 
     //third button
     nbuttons++;
-    button1[nbuttons].r.width = 200;
-    button1[nbuttons].r.height = 70;
+    button1[nbuttons].r.width = 100;
+    button1[nbuttons].r.height = 35;
     button1[nbuttons].r.centerx = (float)xres/2.0;
-    button1[nbuttons].r.centery = offsets1[4]; 
-    button1[nbuttons].r.left = 70;
-    button1[nbuttons].r.right = xres-70;
+    button1[nbuttons].r.centery = 595; //395; //305; 
+    button1[nbuttons].r.left = 525;
+    button1[nbuttons].r.right = xres-525;
     button1[nbuttons].r.top = top1[nbuttons];
     button1[nbuttons].r.bot = bottom1[nbuttons];
     button1[nbuttons].click = 0;
@@ -159,12 +178,12 @@ void Analy_init()
 
     //fourth button
     nbuttons++;
-    button1[nbuttons].r.width = 200;
-    button1[nbuttons].r.height = 70;
+    button1[nbuttons].r.width = 100;
+    button1[nbuttons].r.height = 35;
     button1[nbuttons].r.centerx = (float)xres/2.0;
-    button1[nbuttons].r.centery = offsets1[4]; 
-    button1[nbuttons].r.left = 70;
-    button1[nbuttons].r.right = xres-70;
+    button1[nbuttons].r.centery = 685; // 485; //215; 
+    button1[nbuttons].r.left = 525;
+    button1[nbuttons].r.right = xres-525;
     button1[nbuttons].r.top = top1[nbuttons];
     button1[nbuttons].r.bot = bottom1[nbuttons];
     button1[nbuttons].click = 0;
@@ -179,7 +198,7 @@ void Analy_show_menu()
 {
     //this will be the background (vertix have to be in order
     //(0,0), (0,y), (x,y), (x,0) 
-    // glColor3ub(0, 204, 204);
+    glColor3ub(0, 204, 204);
     glPushMatrix();
     glBegin(GL_QUADS);
     glVertex2i(0, 0);
@@ -246,7 +265,7 @@ void Analy_show_menu()
 	    int bnum = rand() % nbubbles;
 	    --nbubbles;
 	    bubble[bnum] = bubble[nbubbles];
-	
+
 	}
     }
     //render function without being a function
@@ -301,9 +320,9 @@ void Analy_show_menu()
 
     //menu boxes are created here
     //i is set to 4 to create 4 boxes
-    
-	glColor3i(9, 60, 235);
-    for(int i=0; i<4; i++){
+
+    //	glColor3i(9, 60, 235);
+    for(int i=0; i<4; i++) {
 	if (button1[i].over) {
 	    glLineWidth(2);
 	    glBegin(GL_LINE_LOOP);
@@ -312,18 +331,16 @@ void Analy_show_menu()
 	    glVertex2i(button1[i].r.right+2, button1[i].r.top+2);
 	    glVertex2i(button1[i].r.right+2, button1[i].r.bot-2);
 	    glVertex2i(button1[i].r.left-2, button1[i].r.bot-2);
-	glEnd();
-	glLineWidth(1);
-	glColor3fv(button1[i].dcolor);
+	    glEnd();
+	    glLineWidth(1);
+	    glColor3fv(button1[i].dcolor);
+	} else {
+	    glColor3ub(9, 60, 235);
 	}
-	else {
-	    glColor3f(0.0,1.0/(2*i),2.0);
-	}
-	
 	int offset1=90;
 	int offsetx1=500;
 	int offsety1=200;
-//	glColor3ub(9, 60, 235);
+	//glColor3i(9, 60, 235);
 	//creates 3 boxes here 
 	//vertices for box 1: 	(725, 450)
 	//			(725, 520)
@@ -341,15 +358,15 @@ void Analy_show_menu()
 	//			(725, 250)
 	//			(525, 250)
 	//			(525, 180)
-//	glPushMatrix();
-//	glBindTexture(GL_TEXTURE_2D, 0);
+	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_QUADS);
 	glVertex2i((xres-offsetx1-25),((offsety1)*3)- i*offset1-150);
 	glVertex2i((xres-offsetx1-25),(yres-offsety1-30)-i*offset1-150);
 	glVertex2i((offsetx1+25),(yres-offsety1-30)-i*offset1-150);
 	glVertex2i((offsetx1+25),((offsety1)*3)-i*offset1-150);
 	glEnd();
-	//glPopMatrix();
+	glPopMatrix();
     }
 
     Rect r;
@@ -357,42 +374,42 @@ void Analy_show_menu()
     //menu boxes names are created here
     //so each one has a position to match to be
     //centered in each box
-    
-    /*r.bot = 475; 
+
+    r.bot = 475; 
     r.left =605 ;
     r.center = 0; 
-    */
-    r.bot = button1[0].r.centery + 475;
-    r.left = button1[0].r.centerx + 605;
-    ggprint16(&r, 16, 0x00ffffff, "Start");
 
-    /*
+    //r.bot = button1[0].r.centery - 10;
+    //r.left = button1[0].r.centerx - 20;
+    ggprint16(&r, 0, 0x00ffffff, "Start");
+
+
     r.bot = 385;
     r.left =605 ;
     r.center = 0;
-    */
-    r.bot = button1[0].r.centery + 385;
-    r.left = button1[0].r.centerx+605;
-    ggprint16(&r, 16, 0x00ff0000, "Help");
 
-    /*
+    //r.bot = button1[1].r.centery - 10;
+    //r.left = button1[1].r.centerx - 20;
+    ggprint16(&r, 0, 0x00ff0000, "Help");
+
+
     r.bot = 295; 
     r.left =580 ;
     r.center = 0;
-    */
-    r.bot = button1[0].r.centery + 295;
-    r.left = button1[0].r.centerx + 580;
+
+    //r.bot = button1[2].r.centery - 10;
+    // r.left = button1[2].r.centerx - 45;
     ggprint16(&r, 0, 0x00ff0000, "High Score");
 
 
-    /*
     r.bot = 205; 
     r.left =605 ;
     r.center = 0;
-    */
-    r.bot = button1[0].r.centery + 205;
-    r.left = button1[0].r.centerx + 605;
+
+    //r.bot = button1[3].r.centery - 10;
+    //r.left = button1[3].r.centerx - 20;
     ggprint16(&r, 0, 0x00ff0000, "Quit");
+
 
     r.bot = 30;
     r.left = 250;
@@ -412,3 +429,69 @@ void Analy_show_menu()
 
 }*/
 
+void Analy_ev(XEvent *e)
+{
+    static int savex=0;
+    static int savey=0;
+    int x;
+    int y;
+    int lbutton=0;
+    if(lbutton) {};
+    int rbutton=0;
+    if(e->type == ButtonRelease) {
+	return;
+    }
+    if(e->type == ButtonPress) {
+	if (e->xbutton.button==1) {
+	    lbutton =1;
+	}
+	if (e->xbutton.button==3) {
+	    rbutton = 1;
+	    if(rbutton) {}
+	}
+
+    } 
+
+    x = e->xbutton.x;
+    y = e->xbutton.y;
+
+    if(savex != e->xbutton.x || savey != e->xbutton.y) {
+	savex = e->xbutton.x;
+	savey = e->xbutton.y;
+    }
+
+    int nbuttons = 4;
+    for (int i=0; i<nbuttons; i++) {
+	button1[i].over=0;
+	cout << "for loop1" <<endl;
+	if (x >= button1[i].r.centerx - button1[i].r.width &&
+		x<= button1[i].r.centerx + button1[i].r.width &&
+		y>= button1[i].r.centery - button1[i].r.height &&
+		y <= button1[i].r.centery + button1[i].r.height) {
+	    button1[i].over=1;
+	    cout << "if loop1" <<i<<endl;
+
+	    if (button1[i].over) {
+		if(lbutton) {
+		    switch (i) {
+			case 0:
+			    state_menu = 0;
+			    break;
+			case 1:
+			    state_help =1;
+			    break;
+
+			case 2:
+
+			    break;
+			case 3:
+			    break;
+		    }
+		}
+	    }
+	}
+    }
+}
+
+
+//	}
