@@ -826,3 +826,8 @@ void el_enemy_collision(Game *g)
 		cout << "DEBUG: enemy count = " << el_enemy_count  << endl;
 #endif //ENEMY_COLLISION
 }
+
+
+
+
+
