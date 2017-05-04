@@ -32,6 +32,7 @@ extern int yres;
 extern int state_menu;
 extern int state_help;
 extern int state_charsel;
+extern int state_end;
 extern Ppmimage *name_image;
 extern GLuint name_texture;
 
@@ -91,6 +92,7 @@ typedef struct t_button {
 }Button;
 
 Button button1[5];
+Button button2[5];
 
 void Analy_init()
 {
@@ -147,9 +149,9 @@ void Analy_init()
     button1[nbuttons].click = 0;
     button1[nbuttons].over = 0;
     button1[nbuttons].down = 0;
-    button1[nbuttons].dcolor[0] = 0.0f+0.5;
-    button1[nbuttons].dcolor[1] = 0.4f;
-    button1[nbuttons].dcolor[2] = 0.7f;
+    button1[nbuttons].dcolor[0] = 0.0f+0.0;
+    button1[nbuttons].dcolor[1] = 0.0f;
+    button1[nbuttons].dcolor[2] = 0.0f;
     //second button
     nbuttons++;
     button1[nbuttons].r.width = 100;
@@ -163,9 +165,9 @@ void Analy_init()
     button1[nbuttons].click = 0;
     button1[nbuttons].over = 0;
     button1[nbuttons].down = 0;
-    button1[nbuttons].dcolor[0] = 0.0f+0.5;
-    button1[nbuttons].dcolor[1] = 0.4f;
-    button1[nbuttons].dcolor[2] = 0.7f;
+    button1[nbuttons].dcolor[0] = 0.0f+0.0;
+    button1[nbuttons].dcolor[1] = 0.0f;
+    button1[nbuttons].dcolor[2] = 0.0f;
 
     //third button
     nbuttons++;
@@ -180,9 +182,9 @@ void Analy_init()
     button1[nbuttons].click = 0;
     button1[nbuttons].over = 0;
     button1[nbuttons].down = 0;
-    button1[nbuttons].dcolor[0] = 0.0f+0.5;
-    button1[nbuttons].dcolor[1] = 0.4f;
-    button1[nbuttons].dcolor[2] = 0.7f;
+    button1[nbuttons].dcolor[0] = 0.0f+0.0;
+    button1[nbuttons].dcolor[1] = 0.0f;
+    button1[nbuttons].dcolor[2] = 0.0f;
 
     //fourth button
     nbuttons++;
@@ -197,9 +199,9 @@ void Analy_init()
     button1[nbuttons].click = 0;
     button1[nbuttons].over = 0;
     button1[nbuttons].down = 0;
-    button1[nbuttons].dcolor[0] = 0.0f+0.5;
-    button1[nbuttons].dcolor[1] = 0.4f;
-    button1[nbuttons].dcolor[2] = 0.7f;
+    button1[nbuttons].dcolor[0] = 0.0f+0.0;
+    button1[nbuttons].dcolor[1] = 0.0f;
+    button1[nbuttons].dcolor[2] = 0.0f;
     
     //fifth  button
     nbuttons++;
@@ -214,9 +216,9 @@ void Analy_init()
     button1[nbuttons].click = 0;
     button1[nbuttons].over = 0;
     button1[nbuttons].down = 0;
-    button1[nbuttons].dcolor[0] = 0.0f+0.5;
-    button1[nbuttons].dcolor[1] = 0.4f;
-    button1[nbuttons].dcolor[2] = 0.7f;
+    button1[nbuttons].dcolor[0] = 0.0f+0.0;
+    button1[nbuttons].dcolor[1] = 0.0f;
+    button1[nbuttons].dcolor[2] = 0.0f;
 }
 
 void Analy_show_menu()
@@ -414,22 +416,22 @@ void Analy_show_menu()
     r.bot = 385;
     r.left =605 ;
     r.center = 0;
-    ggprint16(&r, 0, 0x00ff0000, "Help");
+    ggprint16(&r, 0, 0x00ffffff, "Help");
 
     r.bot = 295; 
-    r.left =600 ;
+    r.left =595;
     r.center = 0;
-    ggprint16(&r, 0, 0x00ff0000, "Settings");
+    ggprint16(&r, 0, 0x00ffffff, "Settings");
 
     r.bot = 205; 
     r.left =580 ;
     r.center = 0;
-    ggprint16(&r, 0, 0x00ff0000, "High Score");
+    ggprint16(&r, 0, 0x00ffffff, "High Score");
     
     r.bot = 115; 
-    r.left =605 ;
+    r.left =607 ;
     r.center = 0;
-    ggprint16(&r, 0, 0x00ff0000, "Quit");
+    ggprint16(&r, 0, 0x00ffffff, "Quit");
 
     r.bot = 30;
     r.left = 250;
@@ -493,10 +495,12 @@ void Analy_ev(XEvent *e)
 			    break;
 			    
 			case 3:
+
 			    break;
 
 			case 4:
-			    break;
+			    exit(0);
+			    
 		    }
 		}
 	    }
@@ -505,4 +509,119 @@ void Analy_ev(XEvent *e)
 }
 
 
+void Analy_show_end() 
+{
+
+    glColor3ub(0, 204, 204);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2i(0, 0);
+    glVertex2i(0, yres);
+    glVertex2i(xres, yres);
+    glVertex2i(xres, 0);
+    glEnd();
+    glPopMatrix();
+ 
+    glBindTexture(GL_TEXTURE_2D, name_texture2);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    //the original image had the dimensions 725x433 
+    //then we used a canvas to set it up and new dimensions are 1024x512
+    //we always want to use a power of 2
+    float w = (725.0/1024.0);
+    float h = (433.0/512.0);
+    glTexCoord2f(0.0, h); glVertex2i(0, 0);
+    glTexCoord2f(0.0, 0.0); glVertex2i(0, yres);
+    glTexCoord2f(w, 0.0); glVertex2i(xres, yres);
+    glTexCoord2f(w, h); glVertex2i(xres, 0);
+    glEnd();
+    glPopMatrix();
+
+    Rect r;
+
+    r.bot = 800; 
+    r.left = 585 ;
+    r.center = 0; 
+    ggprint16(&r, 0, 0x00ffffff, "GAME OVER");
+
+
+    for(int i=0; i<4; i++) {
+    r.bot = 550; 
+    r.left =100 ;
+    r.center = 0; 
+    ggprint16(&r, 0, 0x00ffffff, "Help Menu Developer: Ana Butanda");
+    
+    r.bot = 530; 
+    r.left =100 ;
+    r.center = 0; 
+    ggprint16(&r, 0, 0x00ffffff, "\"Life is better when you're running it\"");
+
+    r.bot = 510; 
+    r.left =100 ;
+    r.center = 0; 
+    ggprint16(&r, 0, 0x00ffffff, "         -Ana Butanda");
+    
+    r.bot = 450;
+    r.left =100 ;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "Lead Graphics Design: Mark Felisilda");
+
+    r.bot =430;
+    r.left =100;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "\"We must embrace pain and");
+
+    r.bot =410;
+    r.left =100;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "burn it as fuel for our journey\"");
+
+
+    r.bot =390;
+    r.left =100;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "         -Sonic");
+
+    r.bot = 350; 
+    r.left =100;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "Physics Monkey: Esteban Lopez");
+
+    r.bot = 330; 
+    r.left =100;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "\"If the grass is greener on the other side,");
+
+    
+    r.bot = 310; 
+    r.left =100;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "you still have to mow it\"");
+
+    r.bot = 250; 
+    r.left =100 ;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "Menu Creator: Analy Velazquez");  
+    
+    r.bot= 230;
+    r.left =100;
+    r.center=0;
+    ggprint16(&r, 0, 0x00fffffff, "\"The difference between school and life?");
+    
+    r.bot= 210;
+    r.left =100;
+    r.center=0;
+    ggprint16(&r, 0, 0x00ffffff, "In school, you're taught a lesson and then given a test.");
+   
+    r.bot= 190;
+    r.left =100;
+    r.center=0;
+    ggprint16(&r, 0, 0x00ffffff, "In life, you're given a test that teaches you a lesson.\"");
+    
+    r.bot= 170;
+    r.left =100;
+    r.center=0;
+    ggprint16(&r, 0, 0x00ffffff,  "         -Tom Bodett" );
+    }
+}
 
