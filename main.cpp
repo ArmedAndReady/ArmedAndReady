@@ -73,6 +73,7 @@ extern void print_Adam();
 extern void print_Analy();
 extern void Analy_show_menu(); //AV
 extern void Analy_init(); //AV
+extern void Analy_show_end(); //AV
 //int showRain=0;
 
 extern "C" {
@@ -111,6 +112,7 @@ const float gravity = -0.2f;
 //AV
 int state_menu = 1;
 int state_start= 0; 
+int state_end = 0;
 //AB
 int state_help = 0;
 //MF
@@ -720,11 +722,16 @@ int check_keys(XEvent *e)
 			state_menu=1;
 			Analy_show_menu();
 			break;
+		case XK_e:
+			state_end = 1;
+			Analy_show_end();
+			break;
 		case XK_c:
 			//MF to toggle character select screen
 			state_charsel ^=1;
 			mark_show_charsel();		
 			mcheck_keys(e);
+			break;
 		case XK_Down:
 			break;
 		case XK_equal:
@@ -1060,9 +1067,8 @@ void render(Game *g)
 	//AV
 	if (state_menu)
 		Analy_show_menu();
-	//    	physicsB();
-	//	renderB();
-	//Analy_show_menu();
+	if(state_end)
+		Analy_show_end();
 	//AB
 	if (state_help)
 		ana_show_help();
