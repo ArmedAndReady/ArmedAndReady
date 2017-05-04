@@ -259,7 +259,7 @@ void Analy_show_menu()
 	VecZero(bubble[nbubbles].vel);
 	VecZero(bubble[nbubbles].force);
 	//bubble radius
-	bubble[nbubbles].radius = rnd() * 12.0 + 2.0;
+	bubble[nbubbles].radius = rnd() * 12.0 + 1.0;
 	bubble[nbubbles].color[0] = 1.0;
 	bubble[nbubbles].color[1] = 1.0;
 	bubble[nbubbles].color[2] = 1.0;
@@ -269,7 +269,7 @@ void Analy_show_menu()
     //move bubbles
     for (int i=0; i<nbubbles; i++) {
 	bubble[i].force[0] = rnd() * 0.5 - 0.25;
-	bubble[i].force[1] = 0.0001 + bubble[i].radius*0.005;
+	bubble[i].force[1] = 0.0000000000001 + bubble[i].radius*0.003;
 	bubble[i].vel[0] += bubble[i].force[0];
 	bubble[i].vel[1] += bubble[i].force[1];
 	//constrain the x-movement of a bubble.
