@@ -83,6 +83,7 @@ void set_life_boxes();
 //Have Mark use if images are set and set to 1
 bool image_set = 0;
 float octo_position = 0.0;
+int high_scores_read = 0;
 
 using namespace std;
 
@@ -796,6 +797,7 @@ void el_enemy_collision(Game *g)
 		w = g->ahead;
 		if (g) {};
 		int checked = 0;
+		if (checked) {};
 #define ENEMY_COLLISION1
 #ifdef ENEMY_COLLISION1
 		while (w) {
@@ -827,6 +829,24 @@ void el_enemy_collision(Game *g)
 #endif //ENEMY_COLLISION
 }
 
+int high_scores[10];
+
+void el_read_high_scores(){
+		string filename = "topten.txt";
+		ifstream ifs;
+		int number;
+		ifs.open(filename.c_str());
+		total_boxes = 0;
+		//while (ifs >> number && !ifs.eof()) {
+		for (int i = 0; i < 10; i++) {
+				ifs >> number;
+				high_scores[i] = number;
+		}
+		ifs.close();
+		for (int i = 0; i < 10; i++) {
+				cout << "High Score " << i << ": " << high_scores[i] << endl;
+		}
+}
 
 
 
