@@ -76,6 +76,10 @@ extern void print_Analy();
 extern void Analy_show_menu(); //AV
 extern void Analy_init(); //AV
 extern void Analy_show_end(); //AV
+extern void show_pause();//
+extern void show_pause_button();
+extern void Analy_init_pause();
+
 //int showRain=0;
 
 extern "C" {
@@ -115,6 +119,7 @@ const float gravity = -0.2f;
 int state_menu = 1;
 int state_start= 0; 
 int state_end = 0;
+int state_pause=0;
 //AB
 int state_help = 0;
 //MF
@@ -285,6 +290,7 @@ extern void el_enemy_collision(Game *g);
 extern int el_enemy_count;
 extern void abcm(XEvent *e);
 extern void Analy_ev(XEvent *e);
+extern void Analy_ev1(XEvent *e);
 
 extern int mdone;
 int main(void)
@@ -595,6 +601,7 @@ void init(Game *g)
 		ab_init();
 		Analy_init();
 		markButtons();
+		Analy_init_pause();
 	}
 	clock_gettime(CLOCK_REALTIME, &g->bulletTimer);
 	memset(keys, 0, 65536);
@@ -674,9 +681,14 @@ void check_mouse(XEvent *e)
 		if(state_menu) {
 		    Analy_ev(e);
 		}
+		if(state_pause) {
+		    Analy_ev1(e);
+		}
+
 		if(state_charsel) {
 		    mmmm(e);
 		}
+
 
 	}
 
@@ -724,9 +736,9 @@ int check_keys(XEvent *e)
 			state_menu=1;
 			Analy_show_menu();
 			break;
-		case XK_r:
-			state_menu=1;
-			Analy_show_menu();
+		case XK_p:
+			state_pause = 1;
+			show_pause();
 			break;
 		case XK_e:
 			state_end = 1;
@@ -973,7 +985,7 @@ void physics(Game *g)
 			g->ship.pos[0] += 0.0f;
 			scroll = -4.0f;
 		} else {
-			g->ship.pos[0] -= 4.0f;
+			g->ship.pos[0] -= 5.0f;
 		}
 		el_sidescroll(g, scroll,direction);
 		//g->ship.angle = 0.0f;
@@ -995,22 +1007,22 @@ void physics(Game *g)
 			g->ship.pos[0] += 0.0f;
 			scroll = 4.0f;
 		} else {
-			g->ship.pos[0] += 4.0f;
+			g->ship.pos[0] += 5.0f;
 		}
 		el_sidescroll(g, scroll, direction);
 #endif //EL_PHYSICS
 	}
 	if (keys[XK_Up]) {
 		el_jump(g);
-#ifdef ORIG_PHYSICS
+//#ifdef ORIG_PHYSICS
 		//apply thrust
 		//convert ship angle to radians
 		Flt rad = ((g->ship.angle+90.0f) / 360.0f) * PI * 2.0f;
 		//convert angle to a vector
 		Flt xdir = cos(rad);
 		Flt ydir = sin(rad);
-		g->ship.vel[0] += xdir*0.02f;
-		g->ship.vel[1] += ydir*0.02f;
+		g->ship.vel[0] += xdir;//*0.02f;
+		g->ship.vel[1] += ydir;//*0.02f;
 		Flt speed = sqrt(g->ship.vel[0]*g->ship.vel[0]+
 				g->ship.vel[1]*g->ship.vel[1]);
 		if (speed > 10.0f) {
@@ -1019,7 +1031,31 @@ void physics(Game *g)
 			g->ship.vel[0] *= speed;
 			g->ship.vel[1] *= speed;
 		}
-#endif //ORIG_PHYSICS
+//#endif //ORIG_PHYSICS
+#ifdef EL_PHYSICS
+		//change this to some sort of jumping function
+#endif //EL_PHYSICS
+	}
+	if (keys[XK_Down]) {
+		el_jump(g);
+//#ifdef ORIG_PHYSICS
+		//apply thrust
+		//convert ship angle to radians
+		Flt rad = ((g->ship.angle+90.0f) / 360.0f) * PI * 2.0f;
+		//convert angle to a vector
+		Flt xdir = cos(rad);
+		Flt ydir = sin(rad);
+		g->ship.vel[0] -= xdir;//*0.02f;
+		g->ship.vel[1] -= ydir;//*0.02f;
+		Flt speed = sqrt(g->ship.vel[0]*g->ship.vel[0]+
+				g->ship.vel[1]*g->ship.vel[1]);
+		if (speed > 10.0f) {
+			speed = 10.0f;
+			normalize(g->ship.vel);
+			g->ship.vel[0] *= speed;
+			g->ship.vel[1] *= speed;
+		}
+//#endif //ORIG_PHYSICS
 #ifdef EL_PHYSICS
 		//change this to some sort of jumping function
 #endif //EL_PHYSICS
@@ -1075,6 +1111,8 @@ void render(Game *g)
 		Analy_show_menu();
 	if(state_end)
 		Analy_show_end();
+	if(state_pause)
+	    show_pause();
 	//AB
 	if (state_help)
 		ana_show_help();
@@ -1190,6 +1228,7 @@ void render(Game *g)
 		//Draw the floor EL
 		el_render_floor();
 		el_stats();
+		show_pause_button();
 		//init_el_buttons();
 	}
 }

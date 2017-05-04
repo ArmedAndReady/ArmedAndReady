@@ -33,6 +33,7 @@ extern int state_menu;
 extern int state_help;
 extern int state_charsel;
 extern int state_end;
+extern int state_pause;
 extern Ppmimage *name_image;
 extern GLuint name_texture;
 
@@ -49,6 +50,7 @@ typedef Flt Matrix [4][4];
 const double physicsRate = 1.0 / 30.0;
 
 void Analy_init();
+void Analy_init_pause();
 
 void print_Analy() 
 {
@@ -92,7 +94,7 @@ typedef struct t_button {
 }Button;
 
 Button button1[5];
-Button button2[5];
+Button button2[1];
 
 void Analy_init()
 {
@@ -622,6 +624,146 @@ void Analy_show_end()
     r.left =100;
     r.center=0;
     ggprint16(&r, 0, 0x00ffffff,  "         -Tom Bodett" );
+    }
+}
+
+
+void Analy_init_pause()
+{
+    int top2[1];
+    int bottom2[1];
+
+//    int offset2 = 90;
+  //  int offsety2 = 200;
+    for (int i=0; i<1;i++) {
+	bottom2[i]= 60 ;
+	top2[i] = 86;
+    
+}
+    int nbuttons=0;
+    
+    button2[nbuttons].r.width = 50;
+    button2[nbuttons].r.height =36.5 ;
+    button2[nbuttons].r.centerx = (float)xres/2.0;
+    button2[nbuttons].r.centery = 814; 
+    button2[nbuttons].r.left =  1085;
+    button2[nbuttons].r.right = 1185;
+    button2[nbuttons].r.top = top2[nbuttons];
+    button2[nbuttons].r.bot = bottom2[nbuttons];
+    button2[nbuttons].click = 0;
+    button2[nbuttons].over = 0;
+    button2[nbuttons].down = 0;
+    button2[nbuttons].dcolor[0] = 1.0f+0.0;
+    button2[nbuttons].dcolor[1] = 0.0f;
+    button2[nbuttons].dcolor[2] = 0.0f;
+ }
+
+void show_pause_button()
+{
+    for(int i=0; i<1; i++) {
+	if (button2[i].over) {
+	    glLineWidth(2);
+	    glBegin(GL_LINE_LOOP);
+	    glVertex2i(button2[i].r.left-2, button2[i].r.bot-2);
+	    glVertex2i(button2[i].r.left-2, button2[i].r.top+2);
+	    glVertex2i(button2[i].r.right+2, button2[i].r.top+2);
+	    glVertex2i(button2[i].r.right+2, button2[i].r.bot-2);
+	    glVertex2i(button2[i].r.left-2, button2[i].r.bot-2);
+	    glVertex2i(button2[i].r.left-2, button2[i].r.top+2);
+	    glEnd();
+	    glLineWidth(1);
+	    glColor3fv(button2[i].dcolor);
+	} else {
+	    glColor3ub(9, 60, 235);
+	}
+	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBegin(GL_QUADS);
+	glVertex2i(1085, 60);
+	glVertex2i(1085, 86);
+	glVertex2i(1185, 86);
+	glVertex2i(1185, 60);
+	glEnd();
+	glPopMatrix();
+
+Rect r;
+    r.bot = 63;
+    r.left =1115;
+    r.center = 0; 
+    ggprint16(&r, 0, 0x00ffffff, "Menu");
+    }
+}
+
+void show_pause()
+{
+    glColor3ub(0, 204, 204);
+    glPushMatrix();
+    glBegin(GL_QUADS);
+    glVertex2i(925, 650);
+    glVertex2i(925, 250);
+    glVertex2i(325, 250);
+    glVertex2i(325, 650);
+    glEnd();
+    glPopMatrix();
+
+    Rect r;
+    r.bot = 440;
+    r.left = 605;
+    r.center=0;
+    ggprint16(&r, 0, 0x00ffffff, "Pause Screen.");
+
+
+
+}
+
+void Analy_ev1(XEvent *e)
+{
+    static int savex=0;
+    static int savey=0;
+    int x;
+    int y;
+    int lbutton=0;
+    if(lbutton) {};
+    int rbutton=0;
+    if(e->type == ButtonRelease) {
+	return;
+    }
+    if(e->type == ButtonPress) {
+	if (e->xbutton.button==1) {
+	    lbutton =1;
+	}
+	if (e->xbutton.button==3) {
+	    rbutton = 1;
+	    if(rbutton) {}
+	}
+    } 
+
+    x = e->xbutton.x;
+    y = e->xbutton.y;
+
+    if(savex != e->xbutton.x || savey != e->xbutton.y) {
+	savex = e->xbutton.x;
+	savey = e->xbutton.y;
+    }
+
+    int nbuttons = 1;
+    for (int i=0; i<nbuttons; i++) {
+	button2[i].over=0;
+	if (x >= button2[i].r.centerx - button2[i].r.width &&
+		x<= button2[i].r.centerx + button2[i].r.width &&
+		y>= button2[i].r.centery - button2[i].r.height &&
+		y <= button2[i].r.centery + button2[i].r.height) {
+	    button2[i].over=1;
+	    if (button2[i].over) {
+		if(lbutton) {
+		    switch (i) {
+			case 0:
+			    state_pause = 1;
+			    break;
+		    }
+		}
+	    }
+	}
     }
 }
 
