@@ -31,6 +31,7 @@ extern int xres;
 extern int yres;
 extern int state_menu;
 extern int state_help;
+extern int state_charsel;
 extern Ppmimage *name_image;
 extern GLuint name_texture;
 
@@ -89,48 +90,56 @@ typedef struct t_button {
     unsigned int text_color;
 }Button;
 
-Button button1[4];
+Button button1[5];
 
 void Analy_init()
 {
-    int top1[4];
-    int bottom1[4];
+    int top1[5];
+    int bottom1[5];
 
     int offset2 = 90;
     int offsety2 = 200;
-    for (int i=0; i<4;i++) {
+    for (int i=0; i<5;i++) {
 	bottom1[i]= (offsety2*3-i*offset2-150);
 	top1[i] = (yres-offsety2-30-i*offset2-150);
-
     }
 
     int nbuttons=0;
-
-    //vertices for box 1: 	(725, 450)
-    //			(725, 520)
-    //			(525, 520)
-    //			(525, 450)
+    //vertices for box 1:	(725, 450)
+    //				(725, 520)
+    //				(525, 520)
+    //				(525, 450)
+    //	y cordinate from 900 upside down : 450, 380 = 
 
     //vertices for box 2: 	(725, 360)
-    //			(725, 430)
-    //			(525, 430)
-    //			(525, 360)
+    //				(725, 430)
+    //				(525, 430)
+    //				(525, 360)
+    //	y cordinate from 900 upside down : 540, 470 = 505
 
     //vertices for box 3: 	(725, 270)
-    //			(725, 340)
-    //			(525, 340)
-    //			(525, 270)
+    //				(725, 340)
+    //				(525, 340)
+    //				(525, 270)
+    //	y cordinate from 900 upside down : 630, 560 = 595
 
     //vertices for box 4: 	(725, 180)
-    //			(725, 250)
-    //			(525, 250)
-    //			(525, 180)
-    //
+    //				(725, 250)
+    //				(525, 250)
+    //				(525, 180)
+    //	y cordinate from 900 upside down : 720, 650 = 685
+  
+    //vertices for box 5: 	(725, 90)
+    //				(725, 160)
+    //				(525, 160)
+    //				(525, 90)
+    //	y cordinate from 900 upside down : 810, 740 =  775
+
     //first button
     button1[nbuttons].r.width = 100;
     button1[nbuttons].r.height = 35;
     button1[nbuttons].r.centerx = (float)xres/2.0;
-    button1[nbuttons].r.centery = 380; //offsets1[0]; //215; //485; 
+    button1[nbuttons].r.centery = 380; 
     button1[nbuttons].r.left =  525;
     button1[nbuttons].r.right = xres-525;
     button1[nbuttons].r.top = top1[nbuttons];
@@ -141,13 +150,12 @@ void Analy_init()
     button1[nbuttons].dcolor[0] = 0.0f+0.5;
     button1[nbuttons].dcolor[1] = 0.4f;
     button1[nbuttons].dcolor[2] = 0.7f;
-
     //second button
     nbuttons++;
     button1[nbuttons].r.width = 100;
     button1[nbuttons].r.height = 35;
     button1[nbuttons].r.centerx = (float)xres/2.0;
-    button1[nbuttons].r.centery = 505; // 305; //395; 
+    button1[nbuttons].r.centery = 505; 
     button1[nbuttons].r.left = 525;
     button1[nbuttons].r.right = xres-525;
     button1[nbuttons].r.top = top1[nbuttons];
@@ -164,7 +172,7 @@ void Analy_init()
     button1[nbuttons].r.width = 100;
     button1[nbuttons].r.height = 35;
     button1[nbuttons].r.centerx = (float)xres/2.0;
-    button1[nbuttons].r.centery = 595; //395; //305; 
+    button1[nbuttons].r.centery = 595; 
     button1[nbuttons].r.left = 525;
     button1[nbuttons].r.right = xres-525;
     button1[nbuttons].r.top = top1[nbuttons];
@@ -181,7 +189,7 @@ void Analy_init()
     button1[nbuttons].r.width = 100;
     button1[nbuttons].r.height = 35;
     button1[nbuttons].r.centerx = (float)xres/2.0;
-    button1[nbuttons].r.centery = 685; // 485; //215; 
+    button1[nbuttons].r.centery = 685; 
     button1[nbuttons].r.left = 525;
     button1[nbuttons].r.right = xres-525;
     button1[nbuttons].r.top = top1[nbuttons];
@@ -192,8 +200,25 @@ void Analy_init()
     button1[nbuttons].dcolor[0] = 0.0f+0.5;
     button1[nbuttons].dcolor[1] = 0.4f;
     button1[nbuttons].dcolor[2] = 0.7f;
-
+    
+    //fifth  button
+    nbuttons++;
+    button1[nbuttons].r.width = 100;
+    button1[nbuttons].r.height = 35;
+    button1[nbuttons].r.centerx = (float)xres/2.0;
+    button1[nbuttons].r.centery = 775; 
+    button1[nbuttons].r.left =  525;
+    button1[nbuttons].r.right = xres-525;
+    button1[nbuttons].r.top = top1[nbuttons];
+    button1[nbuttons].r.bot = bottom1[nbuttons];
+    button1[nbuttons].click = 0;
+    button1[nbuttons].over = 0;
+    button1[nbuttons].down = 0;
+    button1[nbuttons].dcolor[0] = 0.0f+0.5;
+    button1[nbuttons].dcolor[1] = 0.4f;
+    button1[nbuttons].dcolor[2] = 0.7f;
 }
+
 void Analy_show_menu()
 {
     //this will be the background (vertix have to be in order
@@ -268,6 +293,7 @@ void Analy_show_menu()
 
 	}
     }
+
     //render function without being a function
     static int firsttime=1;
     const int npts=12;
@@ -322,7 +348,7 @@ void Analy_show_menu()
     //i is set to 4 to create 4 boxes
 
     //	glColor3i(9, 60, 235);
-    for(int i=0; i<4; i++) {
+    for(int i=0; i<5; i++) {
 	if (button1[i].over) {
 	    glLineWidth(2);
 	    glBegin(GL_LINE_LOOP);
@@ -331,12 +357,14 @@ void Analy_show_menu()
 	    glVertex2i(button1[i].r.right+2, button1[i].r.top+2);
 	    glVertex2i(button1[i].r.right+2, button1[i].r.bot-2);
 	    glVertex2i(button1[i].r.left-2, button1[i].r.bot-2);
+	    glVertex2i(button1[i].r.left-2, button1[i].r.top+2);
 	    glEnd();
 	    glLineWidth(1);
 	    glColor3fv(button1[i].dcolor);
 	} else {
 	    glColor3ub(9, 60, 235);
 	}
+
 	int offset1=90;
 	int offsetx1=500;
 	int offsety1=200;
@@ -358,6 +386,10 @@ void Analy_show_menu()
 	//			(725, 250)
 	//			(525, 250)
 	//			(525, 180)
+	//vertices for box 5: 	(725, 90)
+    	//			(725, 160)
+    	//			(525, 160)
+    	//			(525, 90)
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_QUADS);
@@ -374,42 +406,30 @@ void Analy_show_menu()
     //menu boxes names are created here
     //so each one has a position to match to be
     //centered in each box
-
     r.bot = 475; 
     r.left =605 ;
     r.center = 0; 
-
-    //r.bot = button1[0].r.centery - 10;
-    //r.left = button1[0].r.centerx - 20;
     ggprint16(&r, 0, 0x00ffffff, "Start");
-
 
     r.bot = 385;
     r.left =605 ;
     r.center = 0;
-
-    //r.bot = button1[1].r.centery - 10;
-    //r.left = button1[1].r.centerx - 20;
     ggprint16(&r, 0, 0x00ff0000, "Help");
 
-
     r.bot = 295; 
-    r.left =580 ;
+    r.left =600 ;
     r.center = 0;
-
-    //r.bot = button1[2].r.centery - 10;
-    // r.left = button1[2].r.centerx - 45;
-    ggprint16(&r, 0, 0x00ff0000, "High Score");
-
+    ggprint16(&r, 0, 0x00ff0000, "Settings");
 
     r.bot = 205; 
+    r.left =580 ;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ff0000, "High Score");
+    
+    r.bot = 115; 
     r.left =605 ;
     r.center = 0;
-
-    //r.bot = button1[3].r.centery - 10;
-    //r.left = button1[3].r.centerx - 20;
     ggprint16(&r, 0, 0x00ff0000, "Quit");
-
 
     r.bot = 30;
     r.left = 250;
@@ -417,17 +437,7 @@ void Analy_show_menu()
     ggprint12(&r, 12, 0x00fffffff, "Created by: Ana Butanda,"\
 	    " Mark Felisilda, Esteban Lopez, Analy Velazquez -"\
 	    "CMPS 3350 [Software Engineering] Spring 2017");
-
 }
-
-/*void drawbuttons(Game *g) 
-  {
-  Shape *s;
-//    s = &game->
-
-
-
-}*/
 
 void Analy_ev(XEvent *e)
 {
@@ -449,7 +459,6 @@ void Analy_ev(XEvent *e)
 	    rbutton = 1;
 	    if(rbutton) {}
 	}
-
     } 
 
     x = e->xbutton.x;
@@ -460,31 +469,33 @@ void Analy_ev(XEvent *e)
 	savey = e->xbutton.y;
     }
 
-    int nbuttons = 4;
+    int nbuttons = 5;
     for (int i=0; i<nbuttons; i++) {
 	button1[i].over=0;
-	cout << "for loop1" <<endl;
 	if (x >= button1[i].r.centerx - button1[i].r.width &&
 		x<= button1[i].r.centerx + button1[i].r.width &&
 		y>= button1[i].r.centery - button1[i].r.height &&
 		y <= button1[i].r.centery + button1[i].r.height) {
 	    button1[i].over=1;
-	    cout << "if loop1" <<i<<endl;
-
 	    if (button1[i].over) {
 		if(lbutton) {
 		    switch (i) {
 			case 0:
 			    state_menu = 0;
 			    break;
+
 			case 1:
 			    state_help =1;
 			    break;
 
 			case 2:
-
+			    state_charsel = 1;
 			    break;
+			    
 			case 3:
+			    break;
+
+			case 4:
 			    break;
 		    }
 		}
@@ -494,4 +505,4 @@ void Analy_ev(XEvent *e)
 }
 
 
-//	}
+

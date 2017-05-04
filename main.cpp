@@ -693,10 +693,10 @@ int check_keys(XEvent *e)
 			return 0;
 		}
 	
-	 else {
+	} else {
 		return 0;
 	}
-	}
+	
 	if (shift){}
 	switch(key) {
 		case XK_Escape:
@@ -1067,10 +1067,10 @@ void render(Game *g)
 	if (state_help)
 		ana_show_help();
 	//MF
-	if(state_charsel && !state_menu && !state_help)
+	if(state_charsel && !state_help)
 		mark_show_charsel();
 
-	if (!state_menu && !state_help && !state_charsel) {
+	if (!state_menu && !state_charsel) {
 		el_render_background();
 		//Draw the ship
 		glColor3fv(g->ship.color);
