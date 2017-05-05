@@ -96,6 +96,7 @@ typedef struct t_button {
 
 Button button1[5];
 Button button2[1];
+Button button3[4];
 
 void Analy_init()
 {
@@ -498,6 +499,7 @@ void Analy_ev(XEvent *e)
 
 			case 4:
 			    exit(0);
+			    break;
 
 		    }
 		}
@@ -627,14 +629,14 @@ void Analy_init_pause()
 {
     int top2[1];
     int bottom2[1];
-    for (int i=0; i<1;i++) {
-	bottom2[i]= 60 ;
-	top2[i] = 86; 
+    for (int i=0; i<=1; i++) {
+	bottom2[i]= 60 -i ;
+	top2[i] = 86 - i; 
     }
     int nbuttons=0;
     button2[nbuttons].r.width = 50;
-    button2[nbuttons].r.height =36.5 ;
-    button2[nbuttons].r.centerx = (float)xres/2.0;
+    button2[nbuttons].r.height =13;
+    button2[nbuttons].r.centerx = 1135;
     button2[nbuttons].r.centery = 814; 
     button2[nbuttons].r.left =  1085;
     button2[nbuttons].r.right = 1185;
@@ -646,11 +648,12 @@ void Analy_init_pause()
     button2[nbuttons].dcolor[0] = 0.0f+0.0;
     button2[nbuttons].dcolor[1] = 0.0f;
     button2[nbuttons].dcolor[2] = 0.0f;
+    nbuttons++;
 }
 
 void show_pause_button()
 {
-    for(int i=0; i<1; i++) {
+    for(int i=0; i<=1; i++) {
 	if (button2[i].over) {
 	    glLineWidth(2);
 	    glBegin(GL_LINE_LOOP);
@@ -675,13 +678,13 @@ void show_pause_button()
 	glVertex2i(1185, 60);
 	glEnd();
 	glPopMatrix();
+    }
 
 	Rect r;
 	r.bot = 63;
 	r.left =1115;
 	r.center = 0; 
 	ggprint16(&r, 0, 0x00ffffff, "Menu");
-    }
 }
 
 void show_pause()
@@ -697,20 +700,70 @@ void show_pause()
     glPopMatrix();
 
     Rect r;
-    r.bot = 630;
-    r.left = 585;
+    r.bot = 590;
+    r.left = 565;
     r.center=0;
     ggprint16(&r, 0, 0x00ffffff, "Pause Screen.");
 
 
+       	for(int i=0; i<4; i++) {
+	if (button3[i].over) {
+	    glLineWidth(2);
+	    glBegin(GL_LINE_LOOP);
+	    glVertex2i(button3[i].r.left-2, button3[i].r.bot-2);
+	    glVertex2i(button3[i].r.left-2, button3[i].r.top+2);
+	    glVertex2i(button3[i].r.right+2, button3[i].r.top+2);
+	    glVertex2i(button3[i].r.right+2, button3[i].r.bot-2);
+	    glVertex2i(button3[i].r.left-2, button3[i].r.bot-2);
+	    glVertex2i(button3[i].r.left-2, button3[i].r.top+2);
+	    glEnd();
+	    glLineWidth(1);
+	    glColor3fv(button3[i].dcolor);
+	} else {
+	    glColor3ub(9, 60, 235);
+	}
+
+	int offset3=75;
+	//int offsetx1=500;
+	//int offsety3=200;
+	glPushMatrix();
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBegin(GL_QUADS);
+	glVertex2i((xres-525),(550- i*offset3));
+	glVertex2i((xres-525),(500-i*offset3));
+	glVertex2i((525),(500)-i*offset3);
+	glVertex2i((525),(550-i*offset3));
+	glEnd();
+	glPopMatrix();
+    }
 
 
+    //menu boxes names are created here
+    //so each one has a position to match to be
+    //centered in each box
+    r.bot = 515; 
+    r.left =605 ;
+    r.center = 0; 
+    ggprint16(&r, 0, 0x00ffffff, "Menu");
 
+    r.bot = 440;
+    r.left =605 ;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "Help");
 
+    r.bot = 365; 
+    r.left =595;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "Settings");
 
+    r.bot = 290; 
+    r.left = 605;
+    r.center = 0;
+    ggprint16(&r, 0, 0x00ffffff, "Quit");
 
 
 }
+
 
 void Analy_ev1(XEvent *e)
 {
@@ -743,7 +796,7 @@ void Analy_ev1(XEvent *e)
     }
 
     int nbuttons = 1;
-    for (int i=0; i<nbuttons; i++) {
+    for (int i=0; i<=nbuttons; i++) {
 	button2[i].over=0;
 	if (x >= button2[i].r.centerx - button2[i].r.width &&
 		x<= button2[i].r.centerx + button2[i].r.width &&
@@ -756,6 +809,7 @@ void Analy_ev1(XEvent *e)
 			case 0:
 			    state_pause = 1;
 			    break;
+
 		    }
 		}
 	    }
@@ -763,3 +817,140 @@ void Analy_ev1(XEvent *e)
     }
 }
 
+void Analy_init_pause1()
+{
+    int set3 = 75;
+    int top3[4];
+    int bottom3[4];
+    for (int i=0; i<4; i++) {
+	bottom3[i]= 500 -i*set3 ;
+	top3[i] =  550 - i*set3 ; 
+    }
+    int nbuttons=0;
+    button3[nbuttons].r.width = 100;
+    button3[nbuttons].r.height =25;
+    button3[nbuttons].r.centerx = (float)xres/2.0;
+    button3[nbuttons].r.centery = 400; 
+    button3[nbuttons].r.left =  525;
+    button3[nbuttons].r.right = xres-525;
+    button3[nbuttons].r.top = top3[nbuttons];
+    button3[nbuttons].r.bot = bottom3[nbuttons];
+    button3[nbuttons].click = 0;
+    button3[nbuttons].over = 0;
+    button3[nbuttons].down = 0;
+    button3[nbuttons].dcolor[0] = 0.0f+0.0;
+    button3[nbuttons].dcolor[1] = 0.0f;
+    button3[nbuttons].dcolor[2] = 0.0f;
+
+    nbuttons++;
+    button3[nbuttons].r.width = 100;
+    button3[nbuttons].r.height =25;
+    button3[nbuttons].r.centerx = (float)xres/2.0;
+    button3[nbuttons].r.centery = 450; 
+    button3[nbuttons].r.left =  525;
+    button3[nbuttons].r.right = xres-525;
+    button3[nbuttons].r.top = top3[nbuttons];
+    button3[nbuttons].r.bot = bottom3[nbuttons];
+    button3[nbuttons].click = 0;
+    button3[nbuttons].over = 0;
+    button3[nbuttons].down = 0;
+    button3[nbuttons].dcolor[0] = 0.0f+0.0;
+    button3[nbuttons].dcolor[1] = 0.0f;
+    button3[nbuttons].dcolor[2] = 0.0f;
+  
+    nbuttons++;
+    button3[nbuttons].r.width = 100;
+    button3[nbuttons].r.height =25;
+    button3[nbuttons].r.centerx = (float)xres/2.0;
+    button3[nbuttons].r.centery = 525; 
+    button3[nbuttons].r.left =  525;
+    button3[nbuttons].r.right = xres-525;
+    button3[nbuttons].r.top = top3[nbuttons];
+    button3[nbuttons].r.bot = bottom3[nbuttons];
+    button3[nbuttons].click = 0;
+    button3[nbuttons].over = 0;
+    button3[nbuttons].down = 0;
+    button3[nbuttons].dcolor[0] = 0.0f+0.0;
+    button3[nbuttons].dcolor[1] = 0.0f;
+    button3[nbuttons].dcolor[2] = 0.0f;
+
+    nbuttons++;
+    button3[nbuttons].r.width = 50;
+    button3[nbuttons].r.height =25;
+    button3[nbuttons].r.centerx = (float)xres/2.0;
+    button3[nbuttons].r.centery = 600; 
+    button3[nbuttons].r.left =  525;
+    button3[nbuttons].r.right = xres-525;
+    button3[nbuttons].r.top = top3[nbuttons];
+    button3[nbuttons].r.bot = bottom3[nbuttons];
+    button3[nbuttons].click = 0;
+    button3[nbuttons].over = 0;
+    button3[nbuttons].down = 0;
+    button3[nbuttons].dcolor[0] = 0.0f+0.0;
+    button3[nbuttons].dcolor[1] = 0.0f;
+    button3[nbuttons].dcolor[2] = 0.0f;
+}
+
+void Analy_ev2(XEvent *e)
+{
+    static int savex=0;
+    static int savey=0;
+    int x;
+    int y;
+    int lbutton=0;
+    if(lbutton) {};
+    int rbutton=0;
+    if(e->type == ButtonRelease) {
+	return;
+    }
+    if(e->type == ButtonPress) {
+	if (e->xbutton.button==1) {
+	    lbutton =1;
+	}
+	if (e->xbutton.button==3) {
+	    rbutton = 1;
+	    if(rbutton) {}
+	}
+    } 
+
+    x = e->xbutton.x;
+    y = e->xbutton.y;
+
+    if(savex != e->xbutton.x || savey != e->xbutton.y) {
+	savex = e->xbutton.x;
+	savey = e->xbutton.y;
+    }
+
+    int nbuttons = 4;
+    for (int i=0; i<nbuttons; i++) {
+	button3[i].over=0;
+	if (x >= button3[i].r.centerx - button3[i].r.width &&
+		x <= button3[i].r.centerx + button3[i].r.width &&
+		y >= button3[i].r.centery - button3[i].r.height &&
+		y <= button3[i].r.centery + button3[i].r.height) {
+	    button3[i].over=1;
+	    if (button3[i].over) {
+		if(lbutton) {
+		    switch (i) {
+			case 0:
+			    state_pause=0;
+			    state_menu = 1;
+			    break;
+			case 1:
+			    state_pause=0;
+			    state_help=1;
+			    break;
+			case 2:
+			    state_pause=0;
+			    state_charsel=1;
+			    break;
+			case 3:
+			    state_pause=0;
+			    exit(0);
+			    break;
+		    }
+		}
+	    }
+	}
+    }
+}
