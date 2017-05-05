@@ -735,7 +735,7 @@ int check_keys(XEvent *e)
 			break;
 		case XK_h:
 			//AB to toggle help menu
-			state_help = 1;
+			state_help ^= 1;
 			ana_show_help();
 			return 0;
 		case XK_s:
