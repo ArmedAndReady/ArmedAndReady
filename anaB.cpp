@@ -268,7 +268,7 @@ void abcm(XEvent *e)
 			    break;
 			case 2:
 			    cout << "About"<<endl;
-			    system("firefox http://www.cs.csub.edu/~abutanda/3350/About/about.html");
+			    system("firefox https://www.cs.csub.edu/~abutanda/3350/home/home.html");
 			    break;
 			case 3:
 			    cout << "back"<<endl;
