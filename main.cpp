@@ -606,6 +606,7 @@ void init(Game *g)
 		Analy_init();
 		markButtons();
 		Analy_init_pause();
+		Analy_init_pause1();
 	}
 	clock_gettime(CLOCK_REALTIME, &g->bulletTimer);
 	memset(keys, 0, 65536);
