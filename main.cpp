@@ -68,7 +68,7 @@ extern void mmmm(XEvent *e); //MF
 extern void markButtons(); //MF
 #ifdef SOUND
 extern int initattacksound(Game *g);//MF
-extern void attacksound(ALuint Asource);//MF
+extern void attacksound(ALuint alSourceShoot);//MF
 extern int soundcheck;//MF
 #endif 
 extern void print_Adam();
@@ -404,7 +404,9 @@ void playSound(ALuint source)
 	while (sound < 9000) {
 		alSourcePlay(source);
 		sound++;
+		attacksound(source);
 	}
+	
 }
 #endif //SOUND
 
@@ -750,6 +752,10 @@ int check_keys(XEvent *e)
 			mark_show_charsel();		
 			mcheck_keys(e);
 			break;
+/*		case XK_space:
+			soundcheck = 1;
+			cout << soundcheck;
+			break;*/
 		case XK_Down:
 			break;
 		case XK_equal:
@@ -850,8 +856,6 @@ void physics(Game *g)
 	clock_gettime(CLOCK_REALTIME, &bt);
 	for (int i=0; i<g->nbullets; i++) {
 
-	    	//soundcheck ^=1;
-		//attacksound(alSourceShoot);
 
 		Bullet *b = &g->barr[i];
 		//How long has bullet been alive?
@@ -1061,11 +1065,12 @@ void physics(Game *g)
 #endif //EL_PHYSICS
 	}
 	if (keys[XK_space]) {
+	    	soundcheck = 1;
+		//cout << soundcheck << endl;
 		//a little time between each bullet
 		struct timespec bt;
 		clock_gettime(CLOCK_REALTIME, &bt);
 		double ts = timeDiff(&g->bulletTimer, &bt);
-		//attacksound(source);
 		if (ts > 0.1) {
 			timeCopy(&g->bulletTimer, &bt);
 			//shoot a bullet...

@@ -91,13 +91,15 @@ void initattacksound(Game *g)
     alSourcef(g->alSourceShoot, AL_LOOPING, AL_TRUE);
 }
 
-void attacksound(ALuint alSourceShoot)
+void attacksound(ALuint source)
 {
+    cout << soundcheck << endl;
     //cout << "In attack sound...\n";
-    while (soundcheck != 0) {
+    while (soundcheck == 1) {
+	cout << "In attacksound loop...\n";
 	//play sound
-	alSourcePlay(alSourceShoot);
-	soundcheck ^= 1;
+	alSourcePlay(source);
+	soundcheck = 0;
     }
 }
 #endif
