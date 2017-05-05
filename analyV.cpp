@@ -35,11 +35,14 @@ extern int state_charsel;
 extern int state_end;
 extern int state_pause;
 
+//logo image
 extern Ppmimage *name_image;
 extern GLuint name_texture;
 
+//background image
 extern Ppmimage *name_image2;
 extern GLuint name_texture2;
+
 using namespace std;
 
 typedef float Flt;
@@ -234,14 +237,16 @@ void Analy_show_menu()
     glVertex2i(xres, 0);
     glEnd();
     glPopMatrix();
-
+    
+    //the original image had the dimensions 725x433 
+    //then we used a canvas to set it up and new 
+    //dimensions are 1024x512
+    //we always want to use a power of 2
+    //this is the main background
     glColor3ub(0, 204, 204);
     glBindTexture(GL_TEXTURE_2D, name_texture2);
     glPushMatrix();
     glBegin(GL_QUADS);
-    //the original image had the dimensions 725x433 
-    //then we used a canvas to set it up and new dimensions are 1024x512
-    //we always want to use a power of 2
     float w = (725.0/1024.0);
     float h = (433.0/512.0);
     glTexCoord2f(0.0, h); glVertex2i(0, 0);
@@ -347,8 +352,6 @@ void Analy_show_menu()
 
     //menu boxes are created here
     //i is set to 4 to create 4 boxes
-
-    //	glColor3i(9, 60, 235);
     for(int i=0; i<5; i++) {
 	if (button1[i].over) {
 	    glLineWidth(2);
@@ -460,11 +463,9 @@ void Analy_ev(XEvent *e)
 	    rbutton = 1;
 	    if(rbutton) {}
 	}
-    } 
-
+    }
     x = e->xbutton.x;
     y = e->xbutton.y;
-
     if(savex != e->xbutton.x || savey != e->xbutton.y) {
 	savex = e->xbutton.x;
 	savey = e->xbutton.y;
@@ -500,7 +501,6 @@ void Analy_ev(XEvent *e)
 			case 4:
 			    exit(0);
 			    break;
-
 		    }
 		}
 	    }
@@ -521,12 +521,14 @@ void Analy_show_end()
     glEnd();
     glPopMatrix();
 
+    //the original image had the dimensions 725x433 
+    //then we used a canvas to set it up and new 
+    //dimensions are 1024x512
+    //we always want to use a power of 2
+    //this is the main background
     glBindTexture(GL_TEXTURE_2D, name_texture2);
     glPushMatrix();
     glBegin(GL_QUADS);
-    //the original image had the dimensions 725x433 
-    //then we used a canvas to set it up and new dimensions are 1024x512
-    //we always want to use a power of 2
     float w = (725.0/1024.0);
     float h = (433.0/512.0);
     glTexCoord2f(0.0, h); glVertex2i(0, 0);
@@ -542,7 +544,6 @@ void Analy_show_end()
     r.left = 585 ;
     r.center = 0; 
     ggprint16(&r, 0, 0x00ffffff, "GAME OVER");
-
 
     for(int i=0; i<4; i++) {
 	r.bot = 550; 
@@ -575,7 +576,6 @@ void Analy_show_end()
 	r.center = 0;
 	ggprint16(&r, 0, 0x00ffffff, "burn it as fuel for our journey\"");
 
-
 	r.bot =390;
 	r.left =100;
 	r.center = 0;
@@ -590,7 +590,6 @@ void Analy_show_end()
 	r.left =100;
 	r.center = 0;
 	ggprint16(&r, 0, 0x00ffffff, "\"If the grass is greener on the other side,");
-
 
 	r.bot = 310; 
 	r.left =100;
@@ -633,6 +632,7 @@ void Analy_init_pause()
 	bottom2[i]= 60 -i ;
 	top2[i] = 86 - i; 
     }
+        
     int nbuttons=0;
     button2[nbuttons].r.width = 50;
     button2[nbuttons].r.height =13;
@@ -669,6 +669,7 @@ void show_pause_button()
 	} else {
 	    glColor3ub(9, 60, 235);
 	}
+            
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_QUADS);
@@ -705,7 +706,6 @@ void show_pause()
     r.center=0;
     ggprint16(&r, 0, 0x00ffffff, "Pause Screen.");
 
-
        	for(int i=0; i<4; i++) {
 	if (button3[i].over) {
 	    glLineWidth(2);
@@ -724,8 +724,6 @@ void show_pause()
 	}
 
 	int offset3=75;
-	//int offsetx1=500;
-	//int offsety3=200;
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_QUADS);
@@ -736,7 +734,6 @@ void show_pause()
 	glEnd();
 	glPopMatrix();
     }
-
 
     //menu boxes names are created here
     //so each one has a position to match to be
@@ -760,10 +757,7 @@ void show_pause()
     r.left = 605;
     r.center = 0;
     ggprint16(&r, 0, 0x00ffffff, "Quit");
-
-
 }
-
 
 void Analy_ev1(XEvent *e)
 {
@@ -786,10 +780,8 @@ void Analy_ev1(XEvent *e)
 	    if(rbutton) {}
 	}
     } 
-
     x = e->xbutton.x;
     y = e->xbutton.y;
-
     if(savex != e->xbutton.x || savey != e->xbutton.y) {
 	savex = e->xbutton.x;
 	savey = e->xbutton.y;
@@ -809,7 +801,6 @@ void Analy_ev1(XEvent *e)
 			case 0:
 			    state_pause = 1;
 			    break;
-
 		    }
 		}
 	    }
@@ -826,6 +817,7 @@ void Analy_init_pause1()
 	bottom3[i]= 500 -i*set3 ;
 	top3[i] =  550 - i*set3 ; 
     }
+        
     int nbuttons=0;
     button3[nbuttons].r.width = 100;
     button3[nbuttons].r.height =25;
@@ -912,10 +904,8 @@ void Analy_ev2(XEvent *e)
 	    if(rbutton) {}
 	}
     } 
-
     x = e->xbutton.x;
     y = e->xbutton.y;
-
     if(savex != e->xbutton.x || savey != e->xbutton.y) {
 	savex = e->xbutton.x;
 	savey = e->xbutton.y;
