@@ -76,7 +76,7 @@ extern void cleanupSound(Game *g);
 extern void playSound(ALuint source);
 extern int sound;
 void initattacksound(Game *g);
-void attacksound(ALuint alSourceShoot);
+void attacksound(ALuint source);
 int soundcheck = 0;
 #endif
 
@@ -231,7 +231,7 @@ void markButtons(){
     mbutton[nbuttons].r.width=475;
     mbutton[nbuttons].r.height=50;
     mbutton[nbuttons].r.centerx = (float)xres/2.0;
-    mbutton[nbuttons].r.centery = 300;
+    mbutton[nbuttons].r.centery = 200;
 
     mbutton[nbuttons].r.left=150;
     mbutton[nbuttons].r.right=xres-150;
