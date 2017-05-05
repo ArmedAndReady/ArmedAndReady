@@ -79,6 +79,7 @@ extern void Analy_show_end(); //AV
 extern void show_pause();//
 extern void show_pause_button();
 extern void Analy_init_pause();
+extern void Analy_init_pause1();
 
 //int showRain=0;
 
@@ -291,6 +292,7 @@ extern int el_enemy_count;
 extern void abcm(XEvent *e);
 extern void Analy_ev(XEvent *e);
 extern void Analy_ev1(XEvent *e);
+extern void Analy_ev2(XEvent *e);
 
 extern int mdone;
 int main(void)
@@ -684,6 +686,9 @@ void check_mouse(XEvent *e)
 		    Analy_ev(e);
 		}
 		if(state_pause) {
+		    Analy_ev2(e);
+		}
+		if(!state_menu && !state_help) {
 		    Analy_ev1(e);
 		}
 
@@ -1238,6 +1243,10 @@ void render(Game *g)
 		if(state_pause)
 		{
 		    show_pause();
+		}
+		if(state_help)
+		{
+		    ana_show_help();
 		}
 		//init_el_buttons();
 	}
