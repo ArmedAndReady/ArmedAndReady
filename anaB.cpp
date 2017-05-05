@@ -202,7 +202,7 @@ void ana_show_help ()
     ggprint12(&r,0,0x00000000,"Back");
     r.bot= button[2].r.centery;
     r.left = button[2].r.centerx;
-    ggprint12(&r,0,0x00000000,"About");
+    ggprint12(&r,0,0x00000000,"About Us");
     r.bot= button[3].r.centery;
     r.left =button[3].r.centerx;
     ggprint12(&r,0,0x00000000,"How To Play");
