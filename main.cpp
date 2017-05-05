@@ -289,6 +289,7 @@ extern void init_el_buttons();
 extern void el_update_score(char c);
 extern void el_enemy_collision(Game *g);
 extern int el_enemy_count;
+extern int el_read_high_scores();
 extern void abcm(XEvent *e);
 extern void Analy_ev(XEvent *e);
 extern void Analy_ev1(XEvent *e);
@@ -608,6 +609,7 @@ void init(Game *g)
 		Analy_init_pause();
 		Analy_init_pause1();
 	}
+	el_read_high_scores();
 	clock_gettime(CLOCK_REALTIME, &g->bulletTimer);
 	memset(keys, 0, 65536);
 }
@@ -833,6 +835,7 @@ void physics(Game *g)
 	//function to play through whole 9 seconds
 	playSound(g->alSourceScuba);
 #endif //SOUND
+	if (!state_pause) {
 	Flt d0,d1,dist;
 	//Update ship position
 	g->ship.pos[0] += g->ship.vel[0];
@@ -1071,13 +1074,14 @@ void physics(Game *g)
 #endif //EL_PHYSICS
 	}
 	if (keys[XK_space]) {
-	    	soundcheck = 1;
+	    	//soundcheck = 1;
 		//cout << soundcheck << endl;
 		//a little time between each bullet
 		struct timespec bt;
 		clock_gettime(CLOCK_REALTIME, &bt);
 		double ts = timeDiff(&g->bulletTimer, &bt);
 		if (ts > 0.1) {
+	    	soundcheck = 1;
 			timeCopy(&g->bulletTimer, &bt);
 			//shoot a bullet...
 			Bullet *b = &g->barr[g->nbullets];
@@ -1101,6 +1105,7 @@ void physics(Game *g)
 			g->nbullets++;
 		}
 	}
+}
 }
 
 void render(Game *g)

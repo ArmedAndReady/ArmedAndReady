@@ -471,7 +471,9 @@ void el_platform_collision(Game *g)
 		if (g) {};
 		int x_index = platform_boxes[0].center[0];
 		int y_index = platform_boxes[0].center[1];
+		int check_x_collision = false;
 		int check_y_collision = false;
+		
 		if (y_index){}
 		//#define CHECK_COORDINATES
 #ifdef CHECK_COORDINATES
@@ -512,11 +514,14 @@ void el_platform_collision(Game *g)
 								cout <<"DEBUG: in el_platform_collision\n";
 								cout <<"Collision detected with platform " << i + 1 << endl;
 #endif //DETECT_COLLISION
+		
 								g->ship.pos[1] = platform_boxes[i].center[1] +
-										platform_boxes[i].height * 1.01;
+										platform_boxes[i].height * 0.83;
 								collided =  true;	
 								//g->ship.vel[1] = 0;
 						}
+				}
+				if (check_x_collision) {
 				}
 		}	
 }
@@ -843,11 +848,33 @@ void el_read_high_scores(){
 				high_scores[i] = number;
 		}
 		ifs.close();
+		bool check = 0;
+		if (check) {
 		for (int i = 0; i < 10; i++) {
 				cout << "High Score " << i << ": " << high_scores[i] << endl;
 		}
+	}
 }
 
+int updated_high_scores[10];
 
+void el_update_high_scores()
+{
+	bool higher_score = 0;
+	for (int i = 0; i < 10;  i++ ) {
+		if (score > high_scores[i]) {
+			updated_high_scores[i] = score;
+			higher_score = 1;
+			i++;
+		} else if (higher_score) {
+			updated_high_scores[i] = high_scores[i-1];
+		} else {
+			updated_high_scores[i] = high_scores[i];
+		}
+	}
+	if (higher_score) {
+		
+	}	
+}
 
 
