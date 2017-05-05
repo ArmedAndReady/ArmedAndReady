@@ -1021,8 +1021,8 @@ void physics(Game *g)
 		//convert angle to a vector
 		Flt xdir = cos(rad);
 		Flt ydir = sin(rad);
-		g->ship.vel[0] += xdir;//*0.02f;
-		g->ship.vel[1] += ydir;//*0.02f;
+		g->ship.vel[0] += xdir*0.02f;
+		g->ship.vel[1] += ydir*0.02f;
 		Flt speed = sqrt(g->ship.vel[0]*g->ship.vel[0]+
 				g->ship.vel[1]*g->ship.vel[1]);
 		if (speed > 10.0f) {
@@ -1045,8 +1045,8 @@ void physics(Game *g)
 		//convert angle to a vector
 		Flt xdir = cos(rad);
 		Flt ydir = sin(rad);
-		g->ship.vel[0] -= xdir;//*0.02f;
-		g->ship.vel[1] -= ydir;//*0.02f;
+		g->ship.vel[0] -= xdir*0.02f;
+		g->ship.vel[1] -= ydir*0.02f;
 		Flt speed = sqrt(g->ship.vel[0]*g->ship.vel[0]+
 				g->ship.vel[1]*g->ship.vel[1]);
 		if (speed > 10.0f) {
@@ -1228,7 +1228,12 @@ void render(Game *g)
 		//Draw the floor EL
 		el_render_floor();
 		el_stats();
+		
 		show_pause_button();
+		if(state_pause)
+		{
+		    show_pause();
+		}
 		//init_el_buttons();
 	}
 }

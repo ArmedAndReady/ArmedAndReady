@@ -34,6 +34,7 @@ extern int state_help;
 extern int state_charsel;
 extern int state_end;
 extern int state_pause;
+
 extern Ppmimage *name_image;
 extern GLuint name_texture;
 
@@ -100,7 +101,6 @@ void Analy_init()
 {
     int top1[5];
     int bottom1[5];
-
     int offset2 = 90;
     int offsety2 = 200;
     for (int i=0; i<5;i++) {
@@ -114,25 +114,21 @@ void Analy_init()
     //				(525, 520)
     //				(525, 450)
     //	y cordinate from 900 upside down : 450, 380 = 
-
     //vertices for box 2: 	(725, 360)
     //				(725, 430)
     //				(525, 430)
     //				(525, 360)
     //	y cordinate from 900 upside down : 540, 470 = 505
-
     //vertices for box 3: 	(725, 270)
     //				(725, 340)
     //				(525, 340)
     //				(525, 270)
     //	y cordinate from 900 upside down : 630, 560 = 595
-
     //vertices for box 4: 	(725, 180)
     //				(725, 250)
     //				(525, 250)
     //				(525, 180)
     //	y cordinate from 900 upside down : 720, 650 = 685
-  
     //vertices for box 5: 	(725, 90)
     //				(725, 160)
     //				(525, 160)
@@ -154,6 +150,7 @@ void Analy_init()
     button1[nbuttons].dcolor[0] = 0.0f+0.0;
     button1[nbuttons].dcolor[1] = 0.0f;
     button1[nbuttons].dcolor[2] = 0.0f;
+
     //second button
     nbuttons++;
     button1[nbuttons].r.width = 100;
@@ -204,7 +201,7 @@ void Analy_init()
     button1[nbuttons].dcolor[0] = 0.0f+0.0;
     button1[nbuttons].dcolor[1] = 0.0f;
     button1[nbuttons].dcolor[2] = 0.0f;
-    
+
     //fifth  button
     nbuttons++;
     button1[nbuttons].r.width = 100;
@@ -294,7 +291,6 @@ void Analy_show_menu()
 	    int bnum = rand() % nbubbles;
 	    --nbubbles;
 	    bubble[bnum] = bubble[nbubbles];
-
 	}
     }
 
@@ -391,9 +387,9 @@ void Analy_show_menu()
 	//			(525, 250)
 	//			(525, 180)
 	//vertices for box 5: 	(725, 90)
-    	//			(725, 160)
-    	//			(525, 160)
-    	//			(525, 90)
+	//			(725, 160)
+	//			(525, 160)
+	//			(525, 90)
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_QUADS);
@@ -429,7 +425,7 @@ void Analy_show_menu()
     r.left =580 ;
     r.center = 0;
     ggprint16(&r, 0, 0x00ffffff, "High Score");
-    
+
     r.bot = 115; 
     r.left =607 ;
     r.center = 0;
@@ -495,14 +491,14 @@ void Analy_ev(XEvent *e)
 			case 2:
 			    state_charsel = 1;
 			    break;
-			    
+
 			case 3:
 
 			    break;
 
 			case 4:
 			    exit(0);
-			    
+
 		    }
 		}
 	    }
@@ -513,7 +509,6 @@ void Analy_ev(XEvent *e)
 
 void Analy_show_end() 
 {
-
     glColor3ub(0, 204, 204);
     glPushMatrix();
     glBegin(GL_QUADS);
@@ -523,7 +518,7 @@ void Analy_show_end()
     glVertex2i(xres, 0);
     glEnd();
     glPopMatrix();
- 
+
     glBindTexture(GL_TEXTURE_2D, name_texture2);
     glPushMatrix();
     glBegin(GL_QUADS);
@@ -548,82 +543,82 @@ void Analy_show_end()
 
 
     for(int i=0; i<4; i++) {
-    r.bot = 550; 
-    r.left =100 ;
-    r.center = 0; 
-    ggprint16(&r, 0, 0x00ffffff, "Help Menu Developer: Ana Butanda");
-    
-    r.bot = 530; 
-    r.left =100 ;
-    r.center = 0; 
-    ggprint16(&r, 0, 0x00ffffff, "\"Life is better when you're running it\"");
+	r.bot = 550; 
+	r.left =100 ;
+	r.center = 0; 
+	ggprint16(&r, 0, 0x00ffffff, "Help Menu Developer: Ana Butanda");
 
-    r.bot = 510; 
-    r.left =100 ;
-    r.center = 0; 
-    ggprint16(&r, 0, 0x00ffffff, "         -Ana Butanda");
-    
-    r.bot = 450;
-    r.left =100 ;
-    r.center = 0;
-    ggprint16(&r, 0, 0x00ffffff, "Lead Graphics Design: Mark Felisilda");
+	r.bot = 530; 
+	r.left =100 ;
+	r.center = 0; 
+	ggprint16(&r, 0, 0x00ffffff, "\"Life is better when you're running it\"");
 
-    r.bot =430;
-    r.left =100;
-    r.center = 0;
-    ggprint16(&r, 0, 0x00ffffff, "\"We must embrace pain and");
+	r.bot = 510; 
+	r.left =100 ;
+	r.center = 0; 
+	ggprint16(&r, 0, 0x00ffffff, "         -Ana Butanda");
 
-    r.bot =410;
-    r.left =100;
-    r.center = 0;
-    ggprint16(&r, 0, 0x00ffffff, "burn it as fuel for our journey\"");
+	r.bot = 450;
+	r.left =100 ;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "Lead Graphics Design: Mark Felisilda");
+
+	r.bot =430;
+	r.left =100;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "\"We must embrace pain and");
+
+	r.bot =410;
+	r.left =100;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "burn it as fuel for our journey\"");
 
 
-    r.bot =390;
-    r.left =100;
-    r.center = 0;
-    ggprint16(&r, 0, 0x00ffffff, "         -Sonic");
+	r.bot =390;
+	r.left =100;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "         -Sonic");
 
-    r.bot = 350; 
-    r.left =100;
-    r.center = 0;
-    ggprint16(&r, 0, 0x00ffffff, "Physics Monkey: Esteban Lopez");
+	r.bot = 350; 
+	r.left =100;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "Physics Monkey: Esteban Lopez");
 
-    r.bot = 330; 
-    r.left =100;
-    r.center = 0;
-    ggprint16(&r, 0, 0x00ffffff, "\"If the grass is greener on the other side,");
+	r.bot = 330; 
+	r.left =100;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "\"If the grass is greener on the other side,");
 
-    
-    r.bot = 310; 
-    r.left =100;
-    r.center = 0;
-    ggprint16(&r, 0, 0x00ffffff, "you still have to mow it\"");
 
-    r.bot = 250; 
-    r.left =100 ;
-    r.center = 0;
-    ggprint16(&r, 0, 0x00ffffff, "Menu Creator: Analy Velazquez");  
-    
-    r.bot= 230;
-    r.left =100;
-    r.center=0;
-    ggprint16(&r, 0, 0x00fffffff, "\"The difference between school and life?");
-    
-    r.bot= 210;
-    r.left =100;
-    r.center=0;
-    ggprint16(&r, 0, 0x00ffffff, "In school, you're taught a lesson and then given a test.");
-   
-    r.bot= 190;
-    r.left =100;
-    r.center=0;
-    ggprint16(&r, 0, 0x00ffffff, "In life, you're given a test that teaches you a lesson.\"");
-    
-    r.bot= 170;
-    r.left =100;
-    r.center=0;
-    ggprint16(&r, 0, 0x00ffffff,  "         -Tom Bodett" );
+	r.bot = 310; 
+	r.left =100;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "you still have to mow it\"");
+
+	r.bot = 250; 
+	r.left =100 ;
+	r.center = 0;
+	ggprint16(&r, 0, 0x00ffffff, "Menu Creator: Analy Velazquez");  
+
+	r.bot= 230;
+	r.left =100;
+	r.center=0;
+	ggprint16(&r, 0, 0x00fffffff, "\"The difference between school and life?");
+
+	r.bot= 210;
+	r.left =100;
+	r.center=0;
+	ggprint16(&r, 0, 0x00ffffff, "In school, you're taught a lesson and then given a test.");
+
+	r.bot= 190;
+	r.left =100;
+	r.center=0;
+	ggprint16(&r, 0, 0x00ffffff, "In life, you're given a test that teaches you a lesson.\"");
+
+	r.bot= 170;
+	r.left =100;
+	r.center=0;
+	ggprint16(&r, 0, 0x00ffffff,  "         -Tom Bodett" );
     }
 }
 
@@ -632,16 +627,11 @@ void Analy_init_pause()
 {
     int top2[1];
     int bottom2[1];
-
-//    int offset2 = 90;
-  //  int offsety2 = 200;
     for (int i=0; i<1;i++) {
 	bottom2[i]= 60 ;
-	top2[i] = 86;
-    
-}
+	top2[i] = 86; 
+    }
     int nbuttons=0;
-    
     button2[nbuttons].r.width = 50;
     button2[nbuttons].r.height =36.5 ;
     button2[nbuttons].r.centerx = (float)xres/2.0;
@@ -653,10 +643,10 @@ void Analy_init_pause()
     button2[nbuttons].click = 0;
     button2[nbuttons].over = 0;
     button2[nbuttons].down = 0;
-    button2[nbuttons].dcolor[0] = 1.0f+0.0;
+    button2[nbuttons].dcolor[0] = 0.0f+0.0;
     button2[nbuttons].dcolor[1] = 0.0f;
     button2[nbuttons].dcolor[2] = 0.0f;
- }
+}
 
 void show_pause_button()
 {
@@ -686,11 +676,11 @@ void show_pause_button()
 	glEnd();
 	glPopMatrix();
 
-Rect r;
-    r.bot = 63;
-    r.left =1115;
-    r.center = 0; 
-    ggprint16(&r, 0, 0x00ffffff, "Menu");
+	Rect r;
+	r.bot = 63;
+	r.left =1115;
+	r.center = 0; 
+	ggprint16(&r, 0, 0x00ffffff, "Menu");
     }
 }
 
@@ -707,10 +697,16 @@ void show_pause()
     glPopMatrix();
 
     Rect r;
-    r.bot = 440;
-    r.left = 605;
+    r.bot = 630;
+    r.left = 585;
     r.center=0;
     ggprint16(&r, 0, 0x00ffffff, "Pause Screen.");
+
+
+
+
+
+
 
 
 
