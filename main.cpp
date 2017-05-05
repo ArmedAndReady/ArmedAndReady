@@ -747,7 +747,7 @@ int check_keys(XEvent *e)
 			Analy_show_menu();
 			break;
 		case XK_p:
-			state_pause = 1;
+			state_pause ^= 1;
 			show_pause();
 			break;
 		case XK_e:
