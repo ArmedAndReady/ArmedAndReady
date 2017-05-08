@@ -290,6 +290,9 @@ extern void el_update_score(char c);
 extern void el_enemy_collision(Game *g);
 extern int el_enemy_count;
 extern int el_read_high_scores();
+extern void el_check_x_collision(Game *g, char dir);
+extern int collided;
+int sidescroll_on=0;
 extern void abcm(XEvent *e);
 extern void Analy_ev(XEvent *e);
 extern void Analy_ev1(XEvent *e);
@@ -731,6 +734,9 @@ int check_keys(XEvent *e)
 	switch(key) {
 		case XK_Escape:
 			return 1;
+		case XK_d:
+			sidescroll_on ^= 1;
+			break;
 		case XK_f:
 			break;
 		case XK_h:
@@ -1000,9 +1006,11 @@ void physics(Game *g)
 		} else {
 			g->ship.pos[0] -= 5.0f;
 		}
+		collided = false;
+		if (sidescroll_on) {
 		el_sidescroll(g, scroll,direction);
-		//g->ship.angle = 0.0f;
-		//g->ship.pos[0] -= 4.0f;
+		}
+		//el_check_x_collision(g,direction);
 #endif //EL_PHYSICS
 	}
 	if (keys[XK_Right]) {
@@ -1022,12 +1030,16 @@ void physics(Game *g)
 		} else {
 			g->ship.pos[0] += 5.0f;
 		}
+		collided = false;
+		if (sidescroll_on) {
 		el_sidescroll(g, scroll, direction);
+		}
+		//el_check_x_collision(g,direction);
 #endif //EL_PHYSICS
 	}
 	if (keys[XK_Up]) {
 		el_jump(g);
-//#ifdef ORIG_PHYSICS
+#ifdef ORIG_PHYSICS
 		//apply thrust
 		//convert ship angle to radians
 		Flt rad = ((g->ship.angle+90.0f) / 360.0f) * PI * 2.0f;
@@ -1044,14 +1056,14 @@ void physics(Game *g)
 			g->ship.vel[0] *= speed;
 			g->ship.vel[1] *= speed;
 		}
-//#endif //ORIG_PHYSICS
+#endif //ORIG_PHYSICS
 #ifdef EL_PHYSICS
 		//change this to some sort of jumping function
 #endif //EL_PHYSICS
 	}
 	if (keys[XK_Down]) {
-		el_jump(g);
-//#ifdef ORIG_PHYSICS
+		//el_jump(g);
+#ifdef ORIG_PHYSICS
 		//apply thrust
 		//convert ship angle to radians
 		Flt rad = ((g->ship.angle+90.0f) / 360.0f) * PI * 2.0f;
@@ -1068,7 +1080,7 @@ void physics(Game *g)
 			g->ship.vel[0] *= speed;
 			g->ship.vel[1] *= speed;
 		}
-//#endif //ORIG_PHYSICS
+#endif //ORIG_PHYSICS
 #ifdef EL_PHYSICS
 		//change this to some sort of jumping function
 #endif //EL_PHYSICS
