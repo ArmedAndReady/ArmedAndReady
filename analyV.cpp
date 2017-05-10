@@ -237,7 +237,7 @@ void Analy_show_menu()
     glVertex2i(xres, 0);
     glEnd();
     glPopMatrix();
-    
+
     //the original image had the dimensions 725x433 
     //then we used a canvas to set it up and new 
     //dimensions are 1024x512
@@ -450,23 +450,23 @@ void Analy_ev(XEvent *e)
     int x;
     int y;
     int lbutton=0;
-    if(lbutton) {};
+    if (lbutton) {};
     int rbutton=0;
-    if(e->type == ButtonRelease) {
+    if (e->type == ButtonRelease) {
 	return;
     }
-    if(e->type == ButtonPress) {
+    if (e->type == ButtonPress) {
 	if (e->xbutton.button==1) {
 	    lbutton =1;
 	}
 	if (e->xbutton.button==3) {
 	    rbutton = 1;
-	    if(rbutton) {}
+	    if (rbutton) {}
 	}
     }
     x = e->xbutton.x;
     y = e->xbutton.y;
-    if(savex != e->xbutton.x || savey != e->xbutton.y) {
+    if (savex != e->xbutton.x || savey != e->xbutton.y) {
 	savex = e->xbutton.x;
 	savey = e->xbutton.y;
     }
@@ -480,7 +480,7 @@ void Analy_ev(XEvent *e)
 		y <= button1[i].r.centery + button1[i].r.height) {
 	    button1[i].over=1;
 	    if (button1[i].over) {
-		if(lbutton) {
+		if (lbutton) {
 		    switch (i) {
 			case 0:
 			    state_menu = 0;
@@ -495,7 +495,6 @@ void Analy_ev(XEvent *e)
 			    break;
 
 			case 3:
-
 			    break;
 
 			case 4:
@@ -545,7 +544,7 @@ void Analy_show_end()
     r.center = 0; 
     ggprint16(&r, 0, 0x00ffffff, "GAME OVER");
 
-    for(int i=0; i<4; i++) {
+    for (int i=0; i<4; i++) {
 	r.bot = 550; 
 	r.left =100 ;
 	r.center = 0; 
@@ -632,8 +631,8 @@ void Analy_init_pause()
 	bottom2[i]= 60 -i ;
 	top2[i] = 86 - i; 
     }
-        
-    int nbuttons=0;
+
+    int nbuttons = 0;
     button2[nbuttons].r.width = 50;
     button2[nbuttons].r.height =13;
     button2[nbuttons].r.centerx = 1135;
@@ -669,7 +668,7 @@ void show_pause_button()
 	} else {
 	    glColor3ub(9, 60, 235);
 	}
-            
+
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_QUADS);
@@ -681,11 +680,11 @@ void show_pause_button()
 	glPopMatrix();
     }
 
-	Rect r;
-	r.bot = 63;
-	r.left =1115;
-	r.center = 0; 
-	ggprint16(&r, 0, 0x00ffffff, "Menu");
+    Rect r;
+    r.bot = 63;
+    r.left =1115;
+    r.center = 0; 
+    ggprint16(&r, 0, 0x00ffffff, "Menu");
 }
 
 void show_pause()
@@ -706,7 +705,7 @@ void show_pause()
     r.center=0;
     ggprint16(&r, 0, 0x00ffffff, "Pause Screen.");
 
-       	for(int i=0; i<4; i++) {
+    for (int i=0; i<4; i++) {
 	if (button3[i].over) {
 	    glLineWidth(2);
 	    glBegin(GL_LINE_LOOP);
@@ -723,7 +722,7 @@ void show_pause()
 	    glColor3ub(9, 60, 235);
 	}
 
-	int offset3=75;
+	int offset3 = 75;
 	glPushMatrix();
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBegin(GL_QUADS);
@@ -739,17 +738,17 @@ void show_pause()
     //so each one has a position to match to be
     //centered in each box
     r.bot = 515; 
-    r.left =605 ;
+    r.left = 605 ;
     r.center = 0; 
     ggprint16(&r, 0, 0x00ffffff, "Menu");
 
     r.bot = 440;
-    r.left =605 ;
+    r.left = 605 ;
     r.center = 0;
     ggprint16(&r, 0, 0x00ffffff, "Help");
 
     r.bot = 365; 
-    r.left =595;
+    r.left = 595;
     r.center = 0;
     ggprint16(&r, 0, 0x00ffffff, "Settings");
 
@@ -761,17 +760,17 @@ void show_pause()
 
 void Analy_ev1(XEvent *e)
 {
-    static int savex=0;
-    static int savey=0;
+    static int savex = 0;
+    static int savey = 0;
     int x;
     int y;
-    int lbutton=0;
-    if(lbutton) {};
-    int rbutton=0;
-    if(e->type == ButtonRelease) {
+    int lbutton = 0;
+    if (lbutton) {};
+    int rbutton = 0;
+    if (e->type == ButtonRelease) {
 	return;
     }
-    if(e->type == ButtonPress) {
+    if (e->type == ButtonPress) {
 	if (e->xbutton.button==1) {
 	    lbutton =1;
 	}
@@ -782,7 +781,7 @@ void Analy_ev1(XEvent *e)
     } 
     x = e->xbutton.x;
     y = e->xbutton.y;
-    if(savex != e->xbutton.x || savey != e->xbutton.y) {
+    if (savex != e->xbutton.x || savey != e->xbutton.y) {
 	savex = e->xbutton.x;
 	savey = e->xbutton.y;
     }
@@ -796,7 +795,7 @@ void Analy_ev1(XEvent *e)
 		y <= button2[i].r.centery + button2[i].r.height) {
 	    button2[i].over=1;
 	    if (button2[i].over) {
-		if(lbutton) {
+		if (lbutton) {
 		    switch (i) {
 			case 0:
 			    state_pause = 1;
@@ -817,10 +816,10 @@ void Analy_init_pause1()
 	bottom3[i]= 500 -i*set3 ;
 	top3[i] =  550 - i*set3 ; 
     }
-        
+
     int nbuttons=0;
     button3[nbuttons].r.width = 100;
-    button3[nbuttons].r.height =25;
+    button3[nbuttons].r.height = 25;
     button3[nbuttons].r.centerx = (float)xres/2.0;
     button3[nbuttons].r.centery = 400; 
     button3[nbuttons].r.left =  525;
@@ -836,7 +835,7 @@ void Analy_init_pause1()
 
     nbuttons++;
     button3[nbuttons].r.width = 100;
-    button3[nbuttons].r.height =25;
+    button3[nbuttons].r.height = 25;
     button3[nbuttons].r.centerx = (float)xres/2.0;
     button3[nbuttons].r.centery = 450; 
     button3[nbuttons].r.left =  525;
@@ -849,10 +848,10 @@ void Analy_init_pause1()
     button3[nbuttons].dcolor[0] = 0.0f+0.0;
     button3[nbuttons].dcolor[1] = 0.0f;
     button3[nbuttons].dcolor[2] = 0.0f;
-  
+
     nbuttons++;
     button3[nbuttons].r.width = 100;
-    button3[nbuttons].r.height =25;
+    button3[nbuttons].r.height = 25;
     button3[nbuttons].r.centerx = (float)xres/2.0;
     button3[nbuttons].r.centery = 525; 
     button3[nbuttons].r.left =  525;
@@ -868,7 +867,7 @@ void Analy_init_pause1()
 
     nbuttons++;
     button3[nbuttons].r.width = 50;
-    button3[nbuttons].r.height =25;
+    button3[nbuttons].r.height = 25;
     button3[nbuttons].r.centerx = (float)xres/2.0;
     button3[nbuttons].r.centery = 600; 
     button3[nbuttons].r.left =  525;
@@ -890,12 +889,12 @@ void Analy_ev2(XEvent *e)
     int x;
     int y;
     int lbutton=0;
-    if(lbutton) {};
+    if (lbutton) {};
     int rbutton=0;
-    if(e->type == ButtonRelease) {
+    if (e->type == ButtonRelease) {
 	return;
     }
-    if(e->type == ButtonPress) {
+    if (e->type == ButtonPress) {
 	if (e->xbutton.button==1) {
 	    lbutton =1;
 	}
@@ -906,7 +905,7 @@ void Analy_ev2(XEvent *e)
     } 
     x = e->xbutton.x;
     y = e->xbutton.y;
-    if(savex != e->xbutton.x || savey != e->xbutton.y) {
+    if (savex != e->xbutton.x || savey != e->xbutton.y) {
 	savex = e->xbutton.x;
 	savey = e->xbutton.y;
     }
@@ -920,7 +919,7 @@ void Analy_ev2(XEvent *e)
 		y <= button3[i].r.centery + button3[i].r.height) {
 	    button3[i].over=1;
 	    if (button3[i].over) {
-		if(lbutton) {
+		if (lbutton) {
 		    switch (i) {
 			case 0:
 			    state_pause=0;
