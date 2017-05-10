@@ -108,8 +108,8 @@ void Analy_init()
     int offset2 = 90;
     int offsety2 = 200;
     for (int i=0; i<5;i++) {
-	bottom1[i]= (offsety2*3-i*offset2-150);
-	top1[i] = (yres-offsety2-30-i*offset2-150);
+        bottom1[i]= (offsety2*3-i*offset2-150);
+        top1[i] = (yres-offsety2-30-i*offset2-150);
     }
 
     int nbuttons=0;
@@ -259,45 +259,45 @@ void Analy_show_menu()
     //physics function without being a function
     //create a bubble
     if (nbubbles < MAX_BUBBLES) {
-	bubble[nbubbles].pos[0] = rnd() * (xres) ;
-	bubble[nbubbles].pos[1] = (float)yres/2.0 - 600.0 ;
-	VecZero(bubble[nbubbles].vel);
-	VecZero(bubble[nbubbles].force);
-	//bubble radius
-	bubble[nbubbles].radius = rnd() * 12.0 + 1.0;
-	bubble[nbubbles].color[0] = 1.0;
-	bubble[nbubbles].color[1] = 1.0;
-	bubble[nbubbles].color[2] = 1.0;
-	++nbubbles;
+        bubble[nbubbles].pos[0] = rnd() * (xres) ;
+        bubble[nbubbles].pos[1] = (float)yres/2.0 - 600.0 ;
+        VecZero(bubble[nbubbles].vel);
+        VecZero(bubble[nbubbles].force);
+        //bubble radius
+        bubble[nbubbles].radius = rnd() * 12.0 + 1.0;
+        bubble[nbubbles].color[0] = 1.0;
+        bubble[nbubbles].color[1] = 1.0;
+        bubble[nbubbles].color[2] = 1.0;
+        ++nbubbles;
     }
 
     //move bubbles
     for (int i=0; i<nbubbles; i++) {
-	bubble[i].force[0] = rnd() * 0.5 - 0.25;
-	bubble[i].force[1] = 0.0000000000001 + bubble[i].radius*0.003;
-	bubble[i].vel[0] += bubble[i].force[0];
-	bubble[i].vel[1] += bubble[i].force[1];
-	//constrain the x-movement of a bubble.
-	if (bubble[i].vel[0] > 1.0)
-	    bubble[i].vel[0] = 0.9;
-	if (bubble[i].vel[0] < -1.0)
-	    bubble[i].vel[0] = -1.0;
-	bubble[i].pos[0] += bubble[i].vel[0];
-	bubble[i].pos[1] += bubble[i].vel[1];
-	//radius will increase a little bit over its life
-	bubble[i].radius *= 1.002;
-	//if float to the top??
-	if (bubble[i].pos[1] > yres+20) {
-	    //delete from array
-	    --nbubbles;
-	    bubble[i] = bubble[nbubbles];
-	}
-	//random bubble pop
-	if (rand() < 1000000) {
-	    int bnum = rand() % nbubbles;
-	    --nbubbles;
-	    bubble[bnum] = bubble[nbubbles];
-	}
+        bubble[i].force[0] = rnd() * 0.5 - 0.25;
+        bubble[i].force[1] = 0.0000000000001 + bubble[i].radius*0.003;
+        bubble[i].vel[0] += bubble[i].force[0];
+        bubble[i].vel[1] += bubble[i].force[1];
+        //constrain the x-movement of a bubble.
+        if (bubble[i].vel[0] > 1.0)
+            bubble[i].vel[0] = 0.9;
+        if (bubble[i].vel[0] < -1.0)
+            bubble[i].vel[0] = -1.0;
+        bubble[i].pos[0] += bubble[i].vel[0];
+        bubble[i].pos[1] += bubble[i].vel[1];
+        //radius will increase a little bit over its life
+        bubble[i].radius *= 1.002;
+        //if float to the top??
+        if (bubble[i].pos[1] > yres+20) {
+            //delete from array
+            --nbubbles;
+            bubble[i] = bubble[nbubbles];
+        }
+        //random bubble pop
+        if (rand() < 1000000) {
+            int bnum = rand() % nbubbles;
+            --nbubbles;
+            bubble[bnum] = bubble[nbubbles];
+        }
     }
 
     //render function without being a function
@@ -305,37 +305,37 @@ void Analy_show_menu()
     const int npts=12;
     static float vert[npts][2];
     if (firsttime) {
-	firsttime=0;
-	double ang = 0.0;
-	double inc = (3.14159265 * 2.0) / (double)npts;
-	for (int i=0; i<npts; i++) {
-	    vert[i][0] = cos(ang);
-	    vert[i][1] = sin(ang);
-	    ang += inc;
-	}
+        firsttime=0;
+        double ang = 0.0;
+        double inc = (3.14159265 * 2.0) / (double)npts;
+        for (int i=0; i<npts; i++) {
+            vert[i][0] = cos(ang);
+            vert[i][1] = sin(ang);
+            ang += inc;
+        }
     }
 
     glBindTexture(GL_TEXTURE_2D, 0);
     //draw bubbles
     for (int i=0; i<nbubbles; i++) {
-	glPushMatrix();
-	glTranslated(bubble[i].pos[0], bubble[i].pos[1], 0.0);
-	float r;
-	glColor3fv(bubble[i].color);
-	glBegin(GL_LINE_STRIP);
-	r = bubble[i].radius;
-	for (int j=0; j<npts; j++) {
-	    glVertex2f(vert[j][0]*r, vert[j][1]*r);
-	}
-	glVertex2f(vert[0][0]*r, vert[0][1]*r);
-	glEnd();
-	glBegin(GL_POINTS);
-	r = bubble[i].radius * 0.4;
-	glVertex2f(-r, r);
-	glVertex2f(-r-1, r);
-	glVertex2f(-r-1, r-1);
-	glEnd();
-	glPopMatrix();
+        glPushMatrix();
+        glTranslated(bubble[i].pos[0], bubble[i].pos[1], 0.0);
+        float r;
+        glColor3fv(bubble[i].color);
+        glBegin(GL_LINE_STRIP);
+        r = bubble[i].radius;
+        for (int j=0; j<npts; j++) {
+            glVertex2f(vert[j][0]*r, vert[j][1]*r);
+        }
+        glVertex2f(vert[0][0]*r, vert[0][1]*r);
+        glEnd();
+        glBegin(GL_POINTS);
+        r = bubble[i].radius * 0.4;
+        glVertex2f(-r, r);
+        glVertex2f(-r-1, r);
+        glVertex2f(-r-1, r-1);
+        glEnd();
+        glPopMatrix();
     }
 
     //logo menu title is created here
@@ -353,56 +353,56 @@ void Analy_show_menu()
     //menu boxes are created here
     //i is set to 4 to create 4 boxes
     for(int i=0; i<5; i++) {
-	if (button1[i].over) {
-	    glLineWidth(2);
-	    glBegin(GL_LINE_LOOP);
-	    glVertex2i(button1[i].r.left-2, button1[i].r.bot-2);
-	    glVertex2i(button1[i].r.left-2, button1[i].r.top+2);
-	    glVertex2i(button1[i].r.right+2, button1[i].r.top+2);
-	    glVertex2i(button1[i].r.right+2, button1[i].r.bot-2);
-	    glVertex2i(button1[i].r.left-2, button1[i].r.bot-2);
-	    glVertex2i(button1[i].r.left-2, button1[i].r.top+2);
-	    glEnd();
-	    glLineWidth(1);
-	    glColor3fv(button1[i].dcolor);
-	} else {
-	    glColor3ub(9, 60, 235);
-	}
+        if (button1[i].over) {
+            glLineWidth(2);
+            glBegin(GL_LINE_LOOP);
+            glVertex2i(button1[i].r.left-2, button1[i].r.bot-2);
+            glVertex2i(button1[i].r.left-2, button1[i].r.top+2);
+            glVertex2i(button1[i].r.right+2, button1[i].r.top+2);
+            glVertex2i(button1[i].r.right+2, button1[i].r.bot-2);
+            glVertex2i(button1[i].r.left-2, button1[i].r.bot-2);
+            glVertex2i(button1[i].r.left-2, button1[i].r.top+2);
+            glEnd();
+            glLineWidth(1);
+            glColor3fv(button1[i].dcolor);
+        } else {
+            glColor3ub(9, 60, 235);
+        }
 
-	int offset1=90;
-	int offsetx1=500;
-	int offsety1=200;
-	//glColor3i(9, 60, 235);
-	//creates 3 boxes here 
-	//vertices for box 1: 	(725, 450)
-	//			(725, 520)
-	//			(525, 520)
-	//			(525, 450)
-	//vertices for box 2: 	(725, 360)
-	//			(725, 430)
-	//			(525, 430)
-	//			(525, 360)
-	//vertices for box 3: 	(725, 270)
-	//			(725, 340)
-	//			(525, 340)
-	//			(525, 270)
-	//vertices for box 4: 	(725, 180)
-	//			(725, 250)
-	//			(525, 250)
-	//			(525, 180)
-	//vertices for box 5: 	(725, 90)
-	//			(725, 160)
-	//			(525, 160)
-	//			(525, 90)
-	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBegin(GL_QUADS);
-	glVertex2i((xres-offsetx1-25),((offsety1)*3)- i*offset1-150);
-	glVertex2i((xres-offsetx1-25),(yres-offsety1-30)-i*offset1-150);
-	glVertex2i((offsetx1+25),(yres-offsety1-30)-i*offset1-150);
-	glVertex2i((offsetx1+25),((offsety1)*3)-i*offset1-150);
-	glEnd();
-	glPopMatrix();
+        int offset1=90;
+        int offsetx1=500;
+        int offsety1=200;
+        //glColor3i(9, 60, 235);
+        //creates 3 boxes here 
+        //vertices for box 1: 	(725, 450)
+        //			(725, 520)
+        //			(525, 520)
+        //			(525, 450)
+        //vertices for box 2: 	(725, 360)
+        //			(725, 430)
+        //			(525, 430)
+        //			(525, 360)
+        //vertices for box 3: 	(725, 270)
+        //			(725, 340)
+        //			(525, 340)
+        //			(525, 270)
+        //vertices for box 4: 	(725, 180)
+        //			(725, 250)
+        //			(525, 250)
+        //			(525, 180)
+        //vertices for box 5: 	(725, 90)
+        //			(725, 160)
+        //			(525, 160)
+        //			(525, 90)
+        glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBegin(GL_QUADS);
+        glVertex2i((xres-offsetx1-25),((offsety1)*3)- i*offset1-150);
+        glVertex2i((xres-offsetx1-25),(yres-offsety1-30)-i*offset1-150);
+        glVertex2i((offsetx1+25),(yres-offsety1-30)-i*offset1-150);
+        glVertex2i((offsetx1+25),((offsety1)*3)-i*offset1-150);
+        glEnd();
+        glPopMatrix();
     }
 
     Rect r;
@@ -439,8 +439,8 @@ void Analy_show_menu()
     r.left = 250;
     r.center = 0;
     ggprint12(&r, 12, 0x00fffffff, "Created by: Ana Butanda,"\
-	    " Mark Felisilda, Esteban Lopez, Analy Velazquez -"\
-	    "CMPS 3350 [Software Engineering] Spring 2017");
+            " Mark Felisilda, Esteban Lopez, Analy Velazquez -"\
+            "CMPS 3350 [Software Engineering] Spring 2017");
 }
 
 void Analy_ev(XEvent *e)
@@ -453,57 +453,57 @@ void Analy_ev(XEvent *e)
     if (lbutton) {};
     int rbutton=0;
     if (e->type == ButtonRelease) {
-	return;
+        return;
     }
     if (e->type == ButtonPress) {
-	if (e->xbutton.button==1) {
-	    lbutton =1;
-	}
-	if (e->xbutton.button==3) {
-	    rbutton = 1;
-	    if (rbutton) {}
-	}
+        if (e->xbutton.button==1) {
+            lbutton =1;
+        }
+        if (e->xbutton.button==3) {
+            rbutton = 1;
+            if (rbutton) {}
+        }
     }
     x = e->xbutton.x;
     y = e->xbutton.y;
     if (savex != e->xbutton.x || savey != e->xbutton.y) {
-	savex = e->xbutton.x;
-	savey = e->xbutton.y;
+        savex = e->xbutton.x;
+        savey = e->xbutton.y;
     }
 
     int nbuttons = 5;
     for (int i=0; i<nbuttons; i++) {
-	button1[i].over=0;
-	if (x >= button1[i].r.centerx - button1[i].r.width &&
-		x<= button1[i].r.centerx + button1[i].r.width &&
-		y>= button1[i].r.centery - button1[i].r.height &&
-		y <= button1[i].r.centery + button1[i].r.height) {
-	    button1[i].over=1;
-	    if (button1[i].over) {
-		if (lbutton) {
-		    switch (i) {
-			case 0:
-			    state_menu = 0;
-			    break;
+        button1[i].over=0;
+        if (x >= button1[i].r.centerx - button1[i].r.width &&
+                x<= button1[i].r.centerx + button1[i].r.width &&
+                y>= button1[i].r.centery - button1[i].r.height &&
+                y <= button1[i].r.centery + button1[i].r.height) {
+            button1[i].over=1;
+            if (button1[i].over) {
+                if (lbutton) {
+                    switch (i) {
+                        case 0:
+                            state_menu = 0;
+                            break;
 
-			case 1:
-			    state_help =1;
-			    break;
+                        case 1:
+                            state_help =1;
+                            break;
 
-			case 2:
-			    state_charsel = 1;
-			    break;
+                        case 2:
+                            state_charsel = 1;
+                            break;
 
-			case 3:
-			    break;
+                        case 3:
+                            break;
 
-			case 4:
-			    exit(0);
-			    break;
-		    }
-		}
-	    }
-	}
+                        case 4:
+                            exit(0);
+                            break;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -545,80 +545,80 @@ void Analy_show_end()
     ggprint16(&r, 0, 0x00ffffff, "GAME OVER");
 
     for (int i=0; i<4; i++) {
-	r.bot = 550; 
-	r.left =100 ;
-	r.center = 0; 
-	ggprint16(&r, 0, 0x00ffffff, "Help Menu Developer: Ana Butanda");
+        r.bot = 550; 
+        r.left =100 ;
+        r.center = 0; 
+        ggprint16(&r, 0, 0x00ffffff, "Help Menu Developer: Ana Butanda");
 
-	r.bot = 530; 
-	r.left =100 ;
-	r.center = 0; 
-	ggprint16(&r, 0, 0x00ffffff, "\"Life is better when you're running it\"");
+        r.bot = 530; 
+        r.left =100 ;
+        r.center = 0; 
+        ggprint16(&r, 0, 0x00ffffff, "\"Life is better when you're running it\"");
 
-	r.bot = 510; 
-	r.left =100 ;
-	r.center = 0; 
-	ggprint16(&r, 0, 0x00ffffff, "         -Ana Butanda");
+        r.bot = 510; 
+        r.left =100 ;
+        r.center = 0; 
+        ggprint16(&r, 0, 0x00ffffff, "         -Ana Butanda");
 
-	r.bot = 450;
-	r.left =100 ;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "Lead Graphics Design: Mark Felisilda");
+        r.bot = 450;
+        r.left =100 ;
+        r.center = 0;
+        ggprint16(&r, 0, 0x00ffffff, "Lead Graphics Design: Mark Felisilda");
 
-	r.bot =430;
-	r.left =100;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "\"We must embrace pain and");
+        r.bot =430;
+        r.left =100;
+        r.center = 0;
+        ggprint16(&r, 0, 0x00ffffff, "\"We must embrace pain and");
 
-	r.bot =410;
-	r.left =100;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "burn it as fuel for our journey\"");
+        r.bot =410;
+        r.left =100;
+        r.center = 0;
+        ggprint16(&r, 0, 0x00ffffff, "burn it as fuel for our journey\"");
 
-	r.bot =390;
-	r.left =100;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "         -Sonic");
+        r.bot =390;
+        r.left =100;
+        r.center = 0;
+        ggprint16(&r, 0, 0x00ffffff, "         -Sonic");
 
-	r.bot = 350; 
-	r.left =100;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "Physics Monkey: Esteban Lopez");
+        r.bot = 350; 
+        r.left =100;
+        r.center = 0;
+        ggprint16(&r, 0, 0x00ffffff, "Physics Monkey: Esteban Lopez");
 
-	r.bot = 330; 
-	r.left =100;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "\"If the grass is greener on the other side,");
+        r.bot = 330; 
+        r.left =100;
+        r.center = 0;
+        ggprint16(&r, 0, 0x00ffffff, "\"If the grass is greener on the other side,");
 
-	r.bot = 310; 
-	r.left =100;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "you still have to mow it\"");
+        r.bot = 310; 
+        r.left =100;
+        r.center = 0;
+        ggprint16(&r, 0, 0x00ffffff, "you still have to mow it\"");
 
-	r.bot = 250; 
-	r.left =100 ;
-	r.center = 0;
-	ggprint16(&r, 0, 0x00ffffff, "Menu Creator: Analy Velazquez");  
+        r.bot = 250; 
+        r.left =100 ;
+        r.center = 0;
+        ggprint16(&r, 0, 0x00ffffff, "Menu Creator: Analy Velazquez");  
 
-	r.bot= 230;
-	r.left =100;
-	r.center=0;
-	ggprint16(&r, 0, 0x00fffffff, "\"The difference between school and life?");
+        r.bot= 230;
+        r.left =100;
+        r.center=0;
+        ggprint16(&r, 0, 0x00fffffff, "\"The difference between school and life?");
 
-	r.bot= 210;
-	r.left =100;
-	r.center=0;
-	ggprint16(&r, 0, 0x00ffffff, "In school, you're taught a lesson and then given a test.");
+        r.bot= 210;
+        r.left =100;
+        r.center=0;
+        ggprint16(&r, 0, 0x00ffffff, "In school, you're taught a lesson and then given a test.");
 
-	r.bot= 190;
-	r.left =100;
-	r.center=0;
-	ggprint16(&r, 0, 0x00ffffff, "In life, you're given a test that teaches you a lesson.\"");
+        r.bot= 190;
+        r.left =100;
+        r.center=0;
+        ggprint16(&r, 0, 0x00ffffff, "In life, you're given a test that teaches you a lesson.\"");
 
-	r.bot= 170;
-	r.left =100;
-	r.center=0;
-	ggprint16(&r, 0, 0x00ffffff,  "         -Tom Bodett" );
+        r.bot= 170;
+        r.left =100;
+        r.center=0;
+        ggprint16(&r, 0, 0x00ffffff,  "         -Tom Bodett" );
     }
 }
 
@@ -628,8 +628,8 @@ void Analy_init_pause()
     int top2[1];
     int bottom2[1];
     for (int i=0; i<=1; i++) {
-	bottom2[i]= 60 -i ;
-	top2[i] = 86 - i; 
+        bottom2[i]= 60 -i ;
+        top2[i] = 86 - i; 
     }
 
     int nbuttons = 0;
@@ -653,31 +653,31 @@ void Analy_init_pause()
 void show_pause_button()
 {
     for(int i=0; i<=1; i++) {
-	if (button2[i].over) {
-	    glLineWidth(2);
-	    glBegin(GL_LINE_LOOP);
-	    glVertex2i(button2[i].r.left-2, button2[i].r.bot-2);
-	    glVertex2i(button2[i].r.left-2, button2[i].r.top+2);
-	    glVertex2i(button2[i].r.right+2, button2[i].r.top+2);
-	    glVertex2i(button2[i].r.right+2, button2[i].r.bot-2);
-	    glVertex2i(button2[i].r.left-2, button2[i].r.bot-2);
-	    glVertex2i(button2[i].r.left-2, button2[i].r.top+2);
-	    glEnd();
-	    glLineWidth(1);
-	    glColor3fv(button2[i].dcolor);
-	} else {
-	    glColor3ub(9, 60, 235);
-	}
+        if (button2[i].over) {
+            glLineWidth(2);
+            glBegin(GL_LINE_LOOP);
+            glVertex2i(button2[i].r.left-2, button2[i].r.bot-2);
+            glVertex2i(button2[i].r.left-2, button2[i].r.top+2);
+            glVertex2i(button2[i].r.right+2, button2[i].r.top+2);
+            glVertex2i(button2[i].r.right+2, button2[i].r.bot-2);
+            glVertex2i(button2[i].r.left-2, button2[i].r.bot-2);
+            glVertex2i(button2[i].r.left-2, button2[i].r.top+2);
+            glEnd();
+            glLineWidth(1);
+            glColor3fv(button2[i].dcolor);
+        } else {
+            glColor3ub(9, 60, 235);
+        }
 
-	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBegin(GL_QUADS);
-	glVertex2i(1085, 60);
-	glVertex2i(1085, 86);
-	glVertex2i(1185, 86);
-	glVertex2i(1185, 60);
-	glEnd();
-	glPopMatrix();
+        glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBegin(GL_QUADS);
+        glVertex2i(1085, 60);
+        glVertex2i(1085, 86);
+        glVertex2i(1185, 86);
+        glVertex2i(1185, 60);
+        glEnd();
+        glPopMatrix();
     }
 
     Rect r;
@@ -706,32 +706,32 @@ void show_pause()
     ggprint16(&r, 0, 0x00ffffff, "Pause Screen.");
 
     for (int i=0; i<4; i++) {
-	if (button3[i].over) {
-	    glLineWidth(2);
-	    glBegin(GL_LINE_LOOP);
-	    glVertex2i(button3[i].r.left-2, button3[i].r.bot-2);
-	    glVertex2i(button3[i].r.left-2, button3[i].r.top+2);
-	    glVertex2i(button3[i].r.right+2, button3[i].r.top+2);
-	    glVertex2i(button3[i].r.right+2, button3[i].r.bot-2);
-	    glVertex2i(button3[i].r.left-2, button3[i].r.bot-2);
-	    glVertex2i(button3[i].r.left-2, button3[i].r.top+2);
-	    glEnd();
-	    glLineWidth(1);
-	    glColor3fv(button3[i].dcolor);
-	} else {
-	    glColor3ub(9, 60, 235);
-	}
+        if (button3[i].over) {
+            glLineWidth(2);
+            glBegin(GL_LINE_LOOP);
+            glVertex2i(button3[i].r.left-2, button3[i].r.bot-2);
+            glVertex2i(button3[i].r.left-2, button3[i].r.top+2);
+            glVertex2i(button3[i].r.right+2, button3[i].r.top+2);
+            glVertex2i(button3[i].r.right+2, button3[i].r.bot-2);
+            glVertex2i(button3[i].r.left-2, button3[i].r.bot-2);
+            glVertex2i(button3[i].r.left-2, button3[i].r.top+2);
+            glEnd();
+            glLineWidth(1);
+            glColor3fv(button3[i].dcolor);
+        } else {
+            glColor3ub(9, 60, 235);
+        }
 
-	int offset3 = 75;
-	glPushMatrix();
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBegin(GL_QUADS);
-	glVertex2i((xres-525),(550- i*offset3));
-	glVertex2i((xres-525),(500-i*offset3));
-	glVertex2i((525),(500)-i*offset3);
-	glVertex2i((525),(550-i*offset3));
-	glEnd();
-	glPopMatrix();
+        int offset3 = 75;
+        glPushMatrix();
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glBegin(GL_QUADS);
+        glVertex2i((xres-525),(550- i*offset3));
+        glVertex2i((xres-525),(500-i*offset3));
+        glVertex2i((525),(500)-i*offset3);
+        glVertex2i((525),(550-i*offset3));
+        glEnd();
+        glPopMatrix();
     }
 
     //menu boxes names are created here
@@ -768,42 +768,42 @@ void Analy_ev1(XEvent *e)
     if (lbutton) {};
     int rbutton = 0;
     if (e->type == ButtonRelease) {
-	return;
+        return;
     }
     if (e->type == ButtonPress) {
-	if (e->xbutton.button==1) {
-	    lbutton =1;
-	}
-	if (e->xbutton.button==3) {
-	    rbutton = 1;
-	    if(rbutton) {}
-	}
+        if (e->xbutton.button==1) {
+            lbutton =1;
+        }
+        if (e->xbutton.button==3) {
+            rbutton = 1;
+            if(rbutton) {}
+        }
     } 
     x = e->xbutton.x;
     y = e->xbutton.y;
     if (savex != e->xbutton.x || savey != e->xbutton.y) {
-	savex = e->xbutton.x;
-	savey = e->xbutton.y;
+        savex = e->xbutton.x;
+        savey = e->xbutton.y;
     }
 
     int nbuttons = 1;
     for (int i=0; i<=nbuttons; i++) {
-	button2[i].over=0;
-	if (x >= button2[i].r.centerx - button2[i].r.width &&
-		x<= button2[i].r.centerx + button2[i].r.width &&
-		y>= button2[i].r.centery - button2[i].r.height &&
-		y <= button2[i].r.centery + button2[i].r.height) {
-	    button2[i].over=1;
-	    if (button2[i].over) {
-		if (lbutton) {
-		    switch (i) {
-			case 0:
-			    state_pause = 1;
-			    break;
-		    }
-		}
-	    }
-	}
+        button2[i].over=0;
+        if (x >= button2[i].r.centerx - button2[i].r.width &&
+                x<= button2[i].r.centerx + button2[i].r.width &&
+                y>= button2[i].r.centery - button2[i].r.height &&
+                y <= button2[i].r.centery + button2[i].r.height) {
+            button2[i].over=1;
+            if (button2[i].over) {
+                if (lbutton) {
+                    switch (i) {
+                        case 0:
+                            state_pause = 1;
+                            break;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -813,8 +813,8 @@ void Analy_init_pause1()
     int top3[4];
     int bottom3[4];
     for (int i=0; i<4; i++) {
-	bottom3[i]= 500 -i*set3 ;
-	top3[i] =  550 - i*set3 ; 
+        bottom3[i]= 500 -i*set3 ;
+        top3[i] =  550 - i*set3 ; 
     }
 
     int nbuttons=0;
@@ -892,54 +892,54 @@ void Analy_ev2(XEvent *e)
     if (lbutton) {};
     int rbutton=0;
     if (e->type == ButtonRelease) {
-	return;
+        return;
     }
     if (e->type == ButtonPress) {
-	if (e->xbutton.button==1) {
-	    lbutton =1;
-	}
-	if (e->xbutton.button==3) {
-	    rbutton = 1;
-	    if(rbutton) {}
-	}
+        if (e->xbutton.button==1) {
+            lbutton =1;
+        }
+        if (e->xbutton.button==3) {
+            rbutton = 1;
+            if(rbutton) {}
+        }
     } 
     x = e->xbutton.x;
     y = e->xbutton.y;
     if (savex != e->xbutton.x || savey != e->xbutton.y) {
-	savex = e->xbutton.x;
-	savey = e->xbutton.y;
+        savex = e->xbutton.x;
+        savey = e->xbutton.y;
     }
 
     int nbuttons = 4;
     for (int i=0; i<nbuttons; i++) {
-	button3[i].over=0;
-	if (x >= button3[i].r.centerx - button3[i].r.width &&
-		x <= button3[i].r.centerx + button3[i].r.width &&
-		y >= button3[i].r.centery - button3[i].r.height &&
-		y <= button3[i].r.centery + button3[i].r.height) {
-	    button3[i].over=1;
-	    if (button3[i].over) {
-		if (lbutton) {
-		    switch (i) {
-			case 0:
-			    state_pause=0;
-			    state_menu = 1;
-			    break;
-			case 1:
-			    state_pause=0;
-			    state_help=1;
-			    break;
-			case 2:
-			    state_pause=0;
-			    state_charsel=1;
-			    break;
-			case 3:
-			    state_pause=0;
-			    exit(0);
-			    break;
-		    }
-		}
-	    }
-	}
+        button3[i].over=0;
+        if (x >= button3[i].r.centerx - button3[i].r.width &&
+                x <= button3[i].r.centerx + button3[i].r.width &&
+                y >= button3[i].r.centery - button3[i].r.height &&
+                y <= button3[i].r.centery + button3[i].r.height) {
+            button3[i].over=1;
+            if (button3[i].over) {
+                if (lbutton) {
+                    switch (i) {
+                        case 0:
+                            state_pause=0;
+                            state_menu = 1;
+                            break;
+                        case 1:
+                            state_pause=0;
+                            state_help=1;
+                            break;
+                        case 2:
+                            state_pause=0;
+                            state_charsel=1;
+                            break;
+                        case 3:
+                            state_pause=0;
+                            exit(0);
+                            break;
+                    }
+                }
+            }
+        }
     }
 }
